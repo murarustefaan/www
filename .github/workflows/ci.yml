@@ -51,6 +51,9 @@ jobs:
         run: pnpm build
 
   build:
+    needs:
+      - check
+
     name: Build Docker image
     runs-on: ubuntu-latest
 
