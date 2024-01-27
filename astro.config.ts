@@ -6,12 +6,13 @@ import sitemap from "@astrojs/sitemap";
 import remarkUnwrapImages from "remark-unwrap-images";
 import rehypeExternalLinks from "rehype-external-links";
 import { remarkReadingTime } from "./src/utils/remark-reading-time";
-import icon from "astro-icon"
+import icon from "astro-icon";
 
-// https://astro.build/config
 export default defineConfig({
-	// ! Please remember to replace the following site property with your own domain
-	site: "https://astro-cactus.chriswilliams.dev/",
+	site: "https://v2.stefanmuraru.com/",
+	build: {
+		assets: "assets",
+	},
 	markdown: {
 		remarkPlugins: [remarkUnwrapImages, remarkReadingTime],
 		rehypePlugins: [
@@ -31,10 +32,9 @@ export default defineConfig({
 		sitemap(),
 		icon(),
 	],
-	image: {
-		domains: ["webmention.io"],
-	},
-	// https://docs.astro.build/en/guides/prefetch/
+	// image: {
+	// 	domains: ["webmention.io"],
+	// },
 	prefetch: true,
 	vite: {
 		plugins: [rawFonts([".ttf"])],

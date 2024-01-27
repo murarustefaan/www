@@ -1,48 +1,182 @@
 ---
-import { Image } from "astro:assets";
-
 import PageLayout from "@/layouts/Base";
-import aboutImg from "@/assets/about-astro.png";
+import SocialList from "../components/SocialList.astro";
+import Period from "../components/Period.astro";
 
 const meta = {
 	title: "About",
 	description: "I'm a starter theme for Astro.build",
 };
+
+const Work = [
+  {
+    name: "Monokle",
+    position: "Senior Cloud Engineer",
+    url: "https://app.monokle.com",
+    description: [
+      `Led the end-to-end architecture and development of the authentication framework, microservices, and GraphQL APIs for the Monokle Cloud application at Kubeshop.`,
+      "Cut existing cloud costs by over 60% while also implementing the industry security and reliability practices."
+    ],
+    period: {
+      start: new Date("12.1.2022"),
+      end: undefined,
+    },
+  },
+  {
+    name: "Bitdefender",
+    position: "Senior Cloud Engineer",
+    url: "https://www.bitdefender.com/company/",
+    description: [
+      "Worked on a multi-team platform that enables developers and testers to easily manage their code's lifecycle after development, from building, to deploying to multiple testing and staging environments before ultimately going to production.",
+      "Implemented multiple Kubernetes operators for technologies such as RabbitMQ, Prometheus and the Elastic Stack in order to facilitate the interaction between the engineers and the cloud platform.",
+      "Designed and implemented from scratch a hardware & software discovering and inventorying system.",
+      "Architected and implemented a highly-available, multi-region mail templating gateway trough which the client emails are sent on behalf of the products.",
+      "Participated in the design and implementation of infrastructure, Kubernetes deployment on multiple cloud providers as well as migration (VM to Kubernetes), replication, scaling and authentication of services like MongoDB, RabbitMQ, Redis and Elastic Stack components.",
+    ],
+    period: {
+      start: new Date("10.1.2018"),
+      end: new Date("12.1.2022"),
+    },
+  },
+  {
+    name: "Yonder",
+    position: "Software Engineer",
+    url: "https://tss-yonder.com/",
+    description: [
+      'Worked on a complex GIS-mapping project used by government entities. Responsibilities included developing frontend components using Angular as well as mapping GIS, JSON and XML data trough .NET apis.',
+      'Went beyond that and migrated all the development environments into Docker containers in order to facilitate local development and shorten build and release times.',
+    ],
+    period: {
+      start: new Date("03.1.2017"),
+      end: new Date("10.1.2018"),
+    },
+  },
+  {
+    name: "Maxcode",
+    position: "Junior Software Developer",
+    url: "https://www.maxcode.net/about-us/",
+    description: [
+      'Took part in designing and implementation of an employee-management solution.',
+    ],
+    period: {
+      start: new Date("11.1.2016"),
+      end: new Date("03.1.2017"),
+    },
+  },
+  {
+    name: "Yonder",
+    position: "Junior Software Developer",
+    url: "https://tss-yonder.com/",
+    description: [
+      'Internship program where I worked on a project that involved developing a web application meant to be used by the HR department.',
+    ],
+    period: {
+      start: new Date("04.1.2016"),
+      end: new Date("07.1.2016"),
+    },
+  },
+]
+
+function getBadgeColor(percentage: number) {
+  if (percentage > 70) {
+    return "border-green-500"
+  } else if (percentage > 50) {
+    return "border-yellow-500"
+  } else {
+    return "border-orange-500"
+  }
+}
+
 ---
 
 <PageLayout meta={meta}>
-	<div class="space-y-6">
-		<h1 class="title">About</h1>
-		<p>
-			Hi, I’m a starter Astro. I’m particularly great for getting you started with your own blogging
-			website.
-		</p>
-		<div class="flex justify-center">
-			<Image
-				src={aboutImg}
-				alt="A cartoon cactus looking at the 'Astro.build' logo"
-				loading="eager"
-				fetchpriority="high"
-			/>
-		</div>
-		<p>Here are my some of my awesome built in features:</p>
-		<ul class="list-inside list-disc">
-			<li>I'm ultra fast as I'm a static site</li>
-			<li>I'm fully responsive</li>
-			<li>I come with a light and dark mode</li>
-			<li>I'm easy to customise and add additional content</li>
-			<li>I have Tailwind CSS styling</li>
-			<li>Shiki code syntax highlighting</li>
-			<li>Satori for auto generating OG images for blog posts</li>
-		</ul>
-		<p>
-			Clone or fork my <a
-				class="cactus-link inline-block"
-				href="https://github.com/chrismwilliams/astro-cactus"
-				target="_blank"
-				rel="noopener noreferrer"
-				aria-label="github repository">repo</a
-			> if you like me!
-		</p>
+	<div class="space-y-16 b-ye">
+    <section class="space-y-6">
+      <h1 class="title">Who am I?</h1>
+      <p>
+        I'm a results-driven <span class="text-accent">Senior Software Engineer</span> with <span class="text-accent">7 years</span> of hands-on experience designing and building cloud-native projects.
+      </p>
+      <p>
+        Specialized in crafting high-throughput applications using modern technologies across the entire back-end stack, like <span class="text-accent">NodeJS</span>, <span class="text-accent">Typescript</span>, <span class="text-accent">MongoDB</span>, <span class="text-accent">PostgreSQL</span> and <span class="text-accent">Kubernetes</span>.
+      </p>
+      <p>
+        Throughout my career, I have consistently demonstrated the ability to successfully tackle and deliver impactful projects, leaving a distinct fingerprint on each endeavor.
+      </p>
+
+      <SocialList />
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="title text-xl">Projects & Experience</h2>
+
+      <ul class="space-y-8 sm:space-y-4">
+        {Work.map(project => {
+          return (
+            <li>
+              <div class="flex justify-between">
+                <a href={project.url} class="sm:hover:underline text-accent" data-astro-prefetch target="_blank">{project.name}</a>
+                <div class="text-gray-600 dark:text-gray-400"><Period start={project.period.start} end={project.period.end} /></div>
+              </div>
+              <div class="space-y-4 mt-4">
+                {project.description.map(desc => <p>{desc}</p>)}
+              </div>
+            </li>
+            <div class="border-b border-gray-200 dark:border-gray-800 pt-2"></div>
+          )
+        })}
+      </ul>
+    </section>
+
+    <section class="space-y-6">
+      <h2 class="title text-xl">Technologies</h2>
+
+      <section class="space-y-2">
+        <h4 class="text-lg font-bold">Development</h4>
+        <p class="space-x-3">
+          {Object.entries(
+            {'NodeJS': 100, 'Typescript': 90, 'MongoDB': 90, 'PostgreSQL': 70, 'MySQL': 50, 'Go': 30}
+          ).map((tech) => (
+            <span class={"border-b py-0.5 " + getBadgeColor(tech[1]) }>{tech[0]}</span>
+          ))}
+      </section>
+
+      <section class="space-y-2">
+        <h4 class="text-lg font-bold">Resources</h4>
+        <p class="space-x-3">
+          {Object.entries(
+            {'MongoDB': 100, 'Redis': 90, 'AMQP': 90, 'PostgreSQL': 70, 'Elasticsearch': 70}
+          ).map((tech) => (
+            <span class={"border-b py-0.5 " + getBadgeColor(tech[1]) }>{tech[0]}</span>
+          ))}
+      </section>
+
+      <section class="space-y-2">
+        <h4 class="text-lg font-bold">CI/CD</h4>
+        <p class="space-x-3">
+          {Object.entries(
+            {'Docker': 100, 'Github Actions': 90, 'ArgoCD': 70}
+          ).map((tech) => (
+            <span class={"border-b py-0.5 " + getBadgeColor(tech[1]) }>{tech[0]}</span>
+          ))}
+      </section>
+
+      <section class="space-y-2">
+        <h4 class="text-lg font-bold">Infrastructure</h4>
+        <p class="space-x-3">
+          {Object.entries(
+            {'Kubernetes': 100, 'Cloudflare': 90, 'Prometheus': 90, 'Grafana': 80, 'Loki': 70, 'Tempo': 70, 'Terraform': 70}
+          ).map((tech) => (
+            <span class={"border-b py-0.5 " + getBadgeColor(tech[1]) }>{tech[0]}</span>
+          ))}
+        <p class="space-x-3">
+          {Object.entries(
+            {'Google Cloud Platform': 100, 'Amazon Web Services': 90}
+          ).map((tech) => (
+            <span class={"border-b py-0.5 " + getBadgeColor(tech[1]) }>{tech[0]}</span>
+          ))}
+      </section>
+
+    </section>
+
 	</div>
 </PageLayout>
