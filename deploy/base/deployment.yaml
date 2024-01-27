@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: www
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      stefanmuraru.com/service: www
+  template:
+    metadata:
+      labels:
+        stefanmuraru.com/service: www
+    spec:
+      containers:
+        - name: nginx
+          image: murarustefaan/www:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
