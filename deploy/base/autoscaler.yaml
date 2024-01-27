@@ -2,6 +2,8 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: www
+  labels:
+      stefanmuraru.com/service: www
 spec:
   scaleTargetRef:
     apiVersion: apps/v1

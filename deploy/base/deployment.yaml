@@ -2,8 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: www
+  labels:
+    stefanmuraru.com/service: www
 spec:
-  replicas: 1
+  revisionHistoryLimit: 2
   selector:
     matchLabels:
       stefanmuraru.com/service: www
@@ -12,9 +14,30 @@ spec:
       labels:
         stefanmuraru.com/service: www
     spec:
+      imagePullSecrets:
+        - name: docker-io-credentials
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: stefanmuraru.com/service
+                      operator: In
+                      values: ["www"]
+                topologyKey: kubernetes.io/hostname
       containers:
-        - name: nginx
-          image: murarustefaan/www:latest
+        - name: dashboard
+          image: murarustefaan/www
           imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
           ports:
-            - containerPort: 8080
+            - name: http
+              containerPort: 8080

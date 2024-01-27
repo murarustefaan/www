@@ -1,3 +1,5 @@
 namespace: stm-public
 resources:
   - ../../base
+
+patches: []
