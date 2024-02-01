@@ -18,7 +18,7 @@
 		"astro": "4.2.6",
 		"astro-icon": "^1.0.3",
 		"rehype-external-links": "^3.0.0",
-		"satori": "0.10.11",
+		"satori": "0.10.13",
 		"satori-html": "^0.3.2",
 		"sharp": "^0.33.2"
 	},
