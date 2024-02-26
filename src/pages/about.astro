@@ -134,7 +134,7 @@ function getBadgeColor(percentage: number) {
         <h4 class="text-lg font-bold">Development</h4>
         <p class="space-x-3">
           {Object.entries(
-            {'NodeJS': 100, 'Typescript': 90, 'MongoDB': 90, 'PostgreSQL': 70, 'MySQL': 50, 'Go': 30}
+            {'NodeJS': 100, 'Typescript': 90, 'MongoDB': 90, 'Go': 70, 'PostgreSQL': 70, 'MySQL': 50}
           ).map((tech) => (
             <span class={"border-b py-0.5 " + getBadgeColor(tech[1]) }>{tech[0]}</span>
           ))}
@@ -154,7 +154,7 @@ function getBadgeColor(percentage: number) {
         <h4 class="text-lg font-bold">CI/CD</h4>
         <p class="space-x-3">
           {Object.entries(
-            {'Docker': 100, 'Github Actions': 90, 'ArgoCD': 70}
+            {'Docker': 100, 'Github Actions': 90, 'ArgoCD': 70, 'CircleCI': 60}
           ).map((tech) => (
             <span class={"border-b py-0.5 " + getBadgeColor(tech[1]) }>{tech[0]}</span>
           ))}
