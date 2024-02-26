@@ -2,6 +2,7 @@
 import ThemeToggle from "../ThemeToggle.astro";
 import Search from "../Search.astro";
 import { menuLinks } from "@/site-config";
+import { Icon } from "astro-icon/components";
 
 const url = new URL(Astro.request.url);
 ---
@@ -24,10 +25,22 @@ const url = new URL(Astro.request.url);
 				menuLinks.map((link) => (
 					<a
 						href={link.path}
-						class="px-4 py-4 sm:py-0 sm:hover:underline"
-						aria-current={url.pathname === link.path ? "page" : false}
+						class="px-4 py-4 sm:py-0 sm:hover:underline flex items-center gap-2"
+            class:list={[
+              (
+                link.path === '/' && link.path === url.pathname ||
+                link.path !== '/' && url.pathname.startsWith(link.path)
+              ) && "underline",
+            ]}
+            aria-current={url.pathname === link.path ? "page" : false}
 						data-astro-prefetch
 					>
+            {link.icon && <Icon
+              class="h-4 w-4"
+              name={link.icon}
+              aria-hidden="true"
+              focusable="false"
+            />}
 						{link.title}
 					</a>
 				))
