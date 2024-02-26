@@ -1,0 +1,19 @@
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: www
+spec:
+  parentRefs:
+    - name: private-gateway
+      namespace: istio-public
+  hostnames:
+    - stefanmuraru.local
+    - www.stefanmuraru.local
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: www
+          port: 80
