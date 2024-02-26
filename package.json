@@ -15,7 +15,7 @@
 		"@astrojs/rss": "4.0.4",
 		"@astrojs/sitemap": "3.0.5",
 		"@astrojs/tailwind": "5.1.0",
-		"astro": "4.2.6",
+		"astro": "4.3.0",
 		"astro-icon": "^1.0.4",
 		"rehype-external-links": "^3.0.0",
 		"satori": "0.10.13",
