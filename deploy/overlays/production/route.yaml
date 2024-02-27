@@ -8,7 +8,7 @@ spec:
       namespace: istio-public
   hostnames:
     - www.stefanmuraru.local
-    - www.stefanmuraru.com
+    - stefanmuraru.com
   rules:
     - matches:
         - path:
