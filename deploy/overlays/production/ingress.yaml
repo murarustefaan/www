@@ -1,0 +1,42 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: www-private
+spec:
+  ingressClassName: private
+  rules:
+    - host: stefanmuraru.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: www
+                port:
+                  number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: www-public
+  annotations:
+    cert-manager.io/cluster-issuer: "stefanmuraru-com-issuer"
+spec:
+  ingressClassName: public
+  tls:
+    - hosts:
+        - stefanmuraru.com
+        - '*.stefanmuraru.com'
+      secretName: star-stefanmuraru-com-tls
+  rules:
+    - host: stefanmuraru.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: www
+                port:
+                  number: 80

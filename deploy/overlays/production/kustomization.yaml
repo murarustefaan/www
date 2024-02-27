@@ -1,6 +1,5 @@
 namespace: stm-public
 resources:
   - ../../base
-  - route.yaml
-
+  - ingress.yaml
 patches: []
