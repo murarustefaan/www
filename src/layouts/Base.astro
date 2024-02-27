@@ -21,6 +21,38 @@ const {
 		<BaseHead title={title} description={description} ogImage={ogImage} articleDate={articleDate} />
 
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "590efb30049b45d99e45bb37886c178c"}'></script>
+    <script>
+      (function () {
+        var webSdkScript = document.createElement("script");
+        webSdkScript.src =
+          "https://unpkg.com/@grafana/faro-web-sdk@^1.0.0/dist/bundle/faro-web-sdk.iife.js";
+
+        webSdkScript.onload = () => {
+          window.GrafanaFaroWebSdk.initializeFaro({
+            url: "https://faro-collector-prod-eu-west-2.grafana.net/collect/b3811c349a48e4c380a534109f017dfd",
+            app: {
+              name: "stefanmuraru-com",
+              version: "1.0.0",
+              environment: "production",
+            },
+
+          });
+
+          var webTracingScript = document.createElement("script");
+          webTracingScript.src =
+            "https://unpkg.com/@grafana/faro-web-tracing@^1.0.0/dist/bundle/faro-web-tracing.iife.js";
+
+          webTracingScript.onload = () => {
+            window.GrafanaFaroWebSdk.faro.instrumentations.add(
+              new window.GrafanaFaroWebTracing.TracingInstrumentation()
+            );
+          };
+          document.head.appendChild(webTracingScript);
+        };
+
+        document.head.appendChild(webSdkScript);
+      })();
+    </script>
   </head>
 	<body>
 		<ThemeProvider />
