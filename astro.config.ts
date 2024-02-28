@@ -9,7 +9,7 @@ import { remarkReadingTime } from "./src/utils/remark-reading-time";
 import icon from "astro-icon";
 
 export default defineConfig({
-	site: "https://v2.stefanmuraru.com/",
+	site: "https://stefanmuraru.com/",
 	build: {
 		assets: "assets",
 	},
