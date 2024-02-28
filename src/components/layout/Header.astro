@@ -25,6 +25,7 @@ const url = new URL(Astro.request.url);
 				menuLinks.map((link) => (
 					<a
 						href={link.path}
+						target={link.target ?? "_self"}
 						class="px-4 py-4 sm:py-0 sm:hover:underline flex items-center gap-2"
             class:list={[
               (

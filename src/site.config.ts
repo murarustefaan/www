@@ -24,7 +24,7 @@ export const siteConfig: SiteConfig = {
 };
 
 // Used to generate links in both the Header & Footer.
-export const menuLinks: Array<{ title: string; path: string; icon?: string }> = [
+export const menuLinks: Array<{ title: string; path: string; icon?: string; target?: string }> = [
 	{
 		title: "Hello",
 		path: "/",
@@ -34,6 +34,12 @@ export const menuLinks: Array<{ title: string; path: string; icon?: string }> = 
 		title: "About me",
 		path: "/about/",
 		icon: "mdi:file-document-multiple-outline",
+	},
+	{
+		title: "Resume",
+		path: "/resume.pdf",
+		icon: "mdi:file-document-check",
+		target: "_blank",
 	},
 	{
 		title: "Blog",
