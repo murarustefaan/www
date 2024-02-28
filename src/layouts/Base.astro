@@ -28,7 +28,7 @@ const {
           "https://unpkg.com/@grafana/faro-web-sdk@^1.0.0/dist/bundle/faro-web-sdk.iife.js";
 
         webSdkScript.onload = () => {
-          window.GrafanaFaroWebSdk.initializeFaro({
+          (window as any).GrafanaFaroWebSdk.initializeFaro({
             url: "https://faro-collector-prod-eu-west-2.grafana.net/collect/b3811c349a48e4c380a534109f017dfd",
             app: {
               name: "stefanmuraru-com",
@@ -43,8 +43,8 @@ const {
             "https://unpkg.com/@grafana/faro-web-tracing@^1.0.0/dist/bundle/faro-web-tracing.iife.js";
 
           webTracingScript.onload = () => {
-            window.GrafanaFaroWebSdk.faro.instrumentations.add(
-              new window.GrafanaFaroWebTracing.TracingInstrumentation()
+            (window as any).GrafanaFaroWebSdk.faro.instrumentations.add(
+              new (window as any).GrafanaFaroWebTracing.TracingInstrumentation()
             );
           };
           document.head.appendChild(webTracingScript);
