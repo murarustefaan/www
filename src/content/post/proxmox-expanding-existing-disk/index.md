@@ -1,6 +1,6 @@
 ---
 title: "Proxmox Cheatsheet: Expanding Existing Disk"
-description: "Exapnding an existing, attached disk in Proxmox with no downtime"
+description: "Expanding an existing, attached disk in Proxmox with no downtime"
 publishDate: "29 Feb 2024"
 tags: ["homelab", "infrastructure"]
 draft: false
