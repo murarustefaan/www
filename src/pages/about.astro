@@ -3,6 +3,7 @@ import PageLayout from "@/layouts/Base";
 import SocialList from "../components/SocialList.astro";
 import Period from "../components/Period.astro";
 import { numberOfWorkingYears } from "../utils/date";
+import { Image } from "astro:assets";
 
 const meta = {
 	title: "About",
@@ -91,18 +92,32 @@ function getBadgeColor(percentage: number) {
 ---
 
 <PageLayout meta={meta}>
-	<div class="space-y-16 b-ye">
+	<div class="space-y-16">
     <section class="space-y-6">
-      <h1 class="title">Who am I?</h1>
-      <p>
-        I'm a results-driven <span class="text-accent">Senior Software Engineer</span> with <span class="text-accent">{numberOfWorkingYears()} years</span> of hands-on experience designing and building cloud-native projects.
-      </p>
-      <p>
-        Specialized in crafting high-throughput applications using modern technologies across the entire back-end stack, like <span class="text-accent">NodeJS</span>, <span class="text-accent">Typescript</span>, <span class="text-accent">MongoDB</span>, <span class="text-accent">PostgreSQL</span> and <span class="text-accent">Kubernetes</span>.
-      </p>
-      <p>
-        Throughout my career, I have consistently demonstrated the ability to successfully tackle and deliver impactful projects, leaving a distinct fingerprint on each endeavor.
-      </p>
+      <div class="flex flex-col sm:flex-row gap-x-0 gap-y-9 sm:gap-x-9 sm:gap-y-6 sm:space-x-3">
+        <Image
+          src="/me.jpeg"
+          alt="Photo of me having fun at a party."
+          class="object-cover rounded-full"
+          loading="eager"
+          fetchpriority="high"
+          width={200}
+          height={200}
+          style="border-radius: 50%"
+        />
+
+        <div class="flex gap-3 flex-col">
+          <p>
+            I'm a results-driven <span class="text-accent">Senior Software Engineer</span> with <span class="text-accent">{numberOfWorkingYears()} years</span> of hands-on experience designing and building cloud-native projects.
+          </p>
+          <p>
+            Specialized in crafting high-throughput applications using modern technologies across the entire back-end stack, like <span class="text-accent">NodeJS</span>, <span class="text-accent">Typescript</span>, <span class="text-accent">MongoDB</span>, <span class="text-accent">PostgreSQL</span> and <span class="text-accent">Kubernetes</span>.
+          </p>
+          <p>
+            Throughout my career, I have consistently demonstrated the ability to successfully tackle and deliver impactful projects, leaving a distinct fingerprint on each endeavor.
+          </p>
+        </div>
+      </div>
 
       <SocialList />
     </section>
