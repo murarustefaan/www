@@ -11,7 +11,7 @@ permissions:
 jobs:
   check:
     name: Check for build and type issues
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: checkout
@@ -55,7 +55,7 @@ jobs:
       - check
 
     name: Build Docker image
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: checkout
