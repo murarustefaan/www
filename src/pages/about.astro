@@ -16,12 +16,16 @@ const Work = [
     position: "Senior Cloud Engineer",
     url: "https://app.monokle.com",
     description: [
-      `Led the end-to-end architecture and development of the authentication framework, microservices, and GraphQL APIs for the Monokle Cloud application at Kubeshop.`,
-      "Cut existing cloud costs by over 60% while also implementing the industry security and reliability practices."
-    ],
+      "Led the infrastructure management as well as end-to-end architecture and development of the authentication framework, microservices and GraphQL APIs for the Monokle Cloud application at Kubeshop.",
+      "Cut existing cloud costs by over 60% while also implementing the industry security and reliability practices.",
+      "Implemented OAuth2.0 + OpenID Connect authentication by deploying and configuring an on-prem Authorization Server as well implementing and testing individual Authorization Code, Client Credentials and Device Code flows.",
+      "Implemented a high-throughput content streaming API for fetching repositories from multiple GIT providers by integrating provider APIs or leveraging SSH / HTTPS git authentication.",
+      "Created and maintained Github Actions configuration files for building and testing as well as Helm Charts & Kustomizations deployed on ArgoCD to sum up for an end-to-end CI/CD process.",
+      "Improved build times by more than 80% while also scaling down image sizes by an entire order of magnitude by leveraging Github Actions concurrency and caching as well as Docker multistage builds and distroless images.",
+],
     period: {
       start: new Date("12.1.2022"),
-      end: undefined,
+      end: new Date("3.15.2024"),
     },
   },
   {
@@ -29,11 +33,11 @@ const Work = [
     position: "Senior Cloud Engineer",
     url: "https://www.bitdefender.com/company/",
     description: [
-      "Worked on a multi-team platform that enables developers and testers to easily manage their code's lifecycle after development, from building, to deploying to multiple testing and staging environments before ultimately going to production.",
-      "Implemented multiple Kubernetes operators for technologies such as RabbitMQ, Prometheus and the Elastic Stack in order to facilitate the interaction between the engineers and the cloud platform.",
-      "Designed and implemented from scratch a hardware & software discovering and inventorying system.",
-      "Architected and implemented a highly-available, multi-region mail templating gateway trough which the client emails are sent on behalf of the products.",
-      "Participated in the design and implementation of infrastructure, Kubernetes deployment on multiple cloud providers as well as migration (VM to Kubernetes), replication, scaling and authentication of services like MongoDB, RabbitMQ, Redis and Elastic Stack components.",
+      "Worked on building an internal platform that enabled developers and ML researchers to easily manage their code's lifecycle after development, from building, to deploying to multiple testing and staging environments and ultimately going to production.",
+      "Implemented multiple Kubernetes operators for technologies such as RabbitMQ, Prometheus and the Elastic Stack (deep diving into operations like HA clustering, sharding, etc.) in order to be able to ship them as managed services.",
+      "Designed and implemented a hardware and software discovering and inventorying system that in only a couple of months helped the company pass a SOC2 audit while also saving on alternative paid solutions.",
+      "Designed and implemented a highly-available, multi-region mail templating gateway through which the client emails are being sent on behalf of the products. Built, managed and worked with multiple message brokers and SMTP gateways connected on a multi-region scale, on high-availability requirements.",
+      "Participated in the design and implementation of infrastructure, Kubernetes deployment on public and private cloud providers (Google Cloud Platform, Amazon AWS and on-premise infrastructure) as well as migration (Virtual Machines to Kubernetes), replication, scaling and authentication of services like MongoDB, RabbitMQ, Redis and Elastic Stack components using OAuth2.0 flows.",
     ],
     period: {
       start: new Date("10.1.2018"),
@@ -45,8 +49,10 @@ const Work = [
     position: "Software Engineer",
     url: "https://tss-yonder.com/",
     description: [
-      'Worked on a complex GIS-mapping project used by government entities. Responsibilities included developing frontend components using Angular as well as mapping GIS, JSON and XML data trough .NET apis.',
-      'Went beyond that and migrated all the development environments into Docker containers in order to facilitate local development and shorten build and release times.',
+      "Worked on a Data Warehouse & GIS mapping project used by government entities.",
+      "Developed frontend components using Angular, based on specific instructions & designs",
+      "Mapped GIS, JSON and XML data through .NET and NodeJS APIs.",
+      "Dockerized all the dev and staging environments in order to facilitate local development and shorten build and release times.",
     ],
     period: {
       start: new Date("03.1.2017"),
@@ -58,7 +64,7 @@ const Work = [
     position: "Junior Software Developer",
     url: "https://www.maxcode.net/about-us/",
     description: [
-      'Took part in designing and implementation of an employee-management solution.',
+      'Worked on designing and implementing an internal employee management application.',
     ],
     period: {
       start: new Date("11.1.2016"),
@@ -69,9 +75,7 @@ const Work = [
     name: "Yonder",
     position: "Junior Software Developer",
     url: "https://tss-yonder.com/",
-    description: [
-      'Internship program where I worked on a project that involved developing a web application meant to be used by the HR department.',
-    ],
+    description: [],
     period: {
       start: new Date("04.1.2016"),
       end: new Date("07.1.2016"),
