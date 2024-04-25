@@ -5,12 +5,14 @@ publishDate: "29 Nov 2023"
 tags: ["homelab", "infrastructure"]
 draft: false
 ---
+
 ![Expanding storage](./datacenter.jpeg)
 
 Almost my entire homelab being ran on Proxmox VE, I often run into VMs either requiring persistent storage or, worse, more disk space.
 Therefore, in this article we'll explore the process of adding a new disk to a Proxmox virtual machine and making it accessible within the VM.
 
 > The following steps assume that you
+>
 > - have a working installation of Proxmox
 > - have both a virtual machine and a Thinpool LVM on the same node
 > - you are able to access the virtual machine using SSH and have administrative permissions
@@ -21,6 +23,7 @@ In the **Hardware** settings of your VM, add a new **Hard Disk** from the existi
 ![Adding a new disk to a VM in Proxmox](./01-create-disk.png)
 
 Make sure the Backup option is either checked or not, based on your requirements. In my case, I follow a pattern where:
+
 - **if the disk will be storing configuration data** or data that is used by services that do not have backup capabilities, **I do enable Backups for the specific volume**
 - if the services storing data to the disk **have the ability to backup their data built-in**, **I prefer going that way** as it is generally more reliable and less error-prone and therefore disabling the Backups option in Proxmox
 

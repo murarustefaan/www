@@ -16,6 +16,7 @@ I've done a few times, but I always forget the steps. So, I decided to write a s
 for myself, and maybe for others that might find it useful.
 
 > The following steps assume that you
+>
 > - have a working installation of Proxmox
 > - have both a virtual machine and a disk attached to it
 > - you are able to access the virtual machine using SSH and have administrative permissions
@@ -36,6 +37,7 @@ After resizing the disk, the changes are not visible to the OS. To make them vis
 resize the partition and the filesystem.
 
 First, check the disks and partitions by running:
+
 ```shell
 $ lsblk
 NAME                      MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS

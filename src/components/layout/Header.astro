@@ -26,22 +26,18 @@ const url = new URL(Astro.request.url);
 					<a
 						href={link.path}
 						target={link.target ?? "_self"}
-						class="px-4 py-4 sm:py-0 sm:hover:underline flex items-center gap-2"
-            class:list={[
-              (
-                link.path === '/' && link.path === url.pathname ||
-                link.path !== '/' && url.pathname.startsWith(link.path)
-              ) && "underline",
-            ]}
-            aria-current={url.pathname === link.path ? "page" : false}
+						class="flex items-center gap-2 px-4 py-4 sm:py-0 sm:hover:underline"
+						class:list={[
+							((link.path === "/" && link.path === url.pathname) ||
+								(link.path !== "/" && url.pathname.startsWith(link.path))) &&
+								"underline",
+						]}
+						aria-current={url.pathname === link.path ? "page" : false}
 						data-astro-prefetch
 					>
-            {link.icon && <Icon
-              class="h-4 w-4"
-              name={link.icon}
-              aria-hidden="true"
-              focusable="false"
-            />}
+						{link.icon && (
+							<Icon class="h-4 w-4" name={link.icon} aria-hidden="true" focusable="false" />
+						)}
 						{link.title}
 					</a>
 				))

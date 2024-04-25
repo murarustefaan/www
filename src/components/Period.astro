@@ -3,18 +3,15 @@ import FormattedDate from "./FormattedDate.astro";
 
 type Props = {
 	start: Date;
-  end?: Date;
+	end?: Date;
 };
 
 const { start, end } = Astro.props;
-const options = { day: undefined, month: 'long', year: 'numeric' } as Intl.DateTimeFormatOptions;
+const options = { day: undefined, month: "long", year: "numeric" } as Intl.DateTimeFormatOptions;
 ---
-<p class="flex text-gray-600 dark:text-gray-400">
-  <FormattedDate date={start} dateTimeOptions={options} />
-  <span class="mx-4">-</span>
-  {end
-    ? <FormattedDate date={end} dateTimeOptions={options} />
-    : <span>Present</span>
-  }
-</p>
 
+<p class="flex text-gray-600 dark:text-gray-400">
+	<FormattedDate date={start} dateTimeOptions={options} />
+	<span class="mx-4">-</span>
+	{end ? <FormattedDate date={end} dateTimeOptions={options} /> : <span>Present</span>}
+</p>
