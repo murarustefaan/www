@@ -42,7 +42,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: run check
         run: pnpm astro check
