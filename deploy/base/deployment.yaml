@@ -26,7 +26,7 @@ spec:
                     - key: stefanmuraru.com/service
                       operator: In
                       values: ["www"]
-                topologyKey: kubernetes.io/hostname
+                topologyKey: stefanmuraru.com/host
       containers:
         - name: dashboard
           image: murarustefaan/www
