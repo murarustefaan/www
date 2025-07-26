@@ -1,0 +1,103 @@
+---
+import { siteConfig } from "@/site-config";
+
+interface Props {
+	type: "person" | "article" | "website" | "breadcrumb";
+	data?: any;
+}
+
+const { type, data } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+function generateStructuredData() {
+	const baseData = {
+		"@context": "https://schema.org",
+	};
+
+	switch (type) {
+		case "person":
+			return {
+				...baseData,
+				"@type": "Person",
+				name: siteConfig.author,
+				url: Astro.site,
+				sameAs: [
+					"https://github.com/murarustefaan",
+					"https://www.linkedin.com/in/murarustefan"
+				],
+				jobTitle: "Senior Cloud Engineer",
+				worksFor: {
+					"@type": "Organization",
+					name: "CloudQuery"
+				},
+				description: "Results-driven Senior Cloud Engineer with hands-on experience designing and building cloud-native projects.",
+				image: new URL("/me.jpg", Astro.site).href
+			};
+
+		case "article":
+			return {
+				...baseData,
+				"@type": "Article",
+				headline: data.title,
+				description: data.description,
+				author: {
+					"@type": "Person",
+					name: siteConfig.author,
+					url: Astro.site
+				},
+				publisher: {
+					"@type": "Person",
+					name: siteConfig.author,
+					url: Astro.site
+				},
+				datePublished: data.publishDate,
+				dateModified: data.updatedDate || data.publishDate,
+				url: canonicalURL,
+				image: data.ogImage || new URL("/social-card.png", Astro.site).href,
+				mainEntityOfPage: canonicalURL
+			};
+
+		case "website":
+			return {
+				...baseData,
+				"@type": "WebSite",
+				name: siteConfig.title,
+				description: siteConfig.description,
+				url: Astro.site,
+				author: {
+					"@type": "Person",
+					name: siteConfig.author
+				},
+				potentialAction: {
+					"@type": "SearchAction",
+					target: {
+						"@type": "EntryPoint",
+						urlTemplate: new URL("/search?q={search_term_string}", Astro.site).href
+					},
+					"query-input": "required name=search_term_string"
+				}
+			};
+
+		case "breadcrumb":
+			return {
+				...baseData,
+				"@type": "BreadcrumbList",
+				itemListElement: data.map((item: any, index: number) => ({
+					"@type": "ListItem",
+					position: index + 1,
+					name: item.name,
+					item: item.url
+				}))
+			};
+
+		default:
+			return null;
+	}
+}
+
+const structuredData = generateStructuredData();
+---
+
+{structuredData && (
+	<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+)}

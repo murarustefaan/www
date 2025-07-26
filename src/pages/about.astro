@@ -2,12 +2,13 @@
 import PageLayout from "@/layouts/Base";
 import SocialList from "../components/SocialList.astro";
 import Period from "../components/Period.astro";
+import StructuredData from "../components/StructuredData.astro";
 import { numberOfWorkingYears } from "../utils/date";
 import { Image } from "astro:assets";
 
 const meta = {
   title: "About",
-  description: "⚙️Team Lead | 💻 Senior Cloud Engineer | NodeJS, Kubernetes, Clouds, Go"
+  description: `Senior Cloud Engineer and Team Lead with ${numberOfWorkingYears()} years experience in Go, NodeJS, Kubernetes, and cloud-native architectures. Leading product teams at CloudQuery, formerly at Bitdefender and Kubeshop.`
 };
 
 const Work = [
@@ -126,6 +127,7 @@ function getBadgeColor(percentage: number) {
 ---
 
 <PageLayout meta={meta}>
+  <StructuredData type="person" />
   <div class="space-y-16">
     <section class="space-y-6">
       <div class="flex flex-col gap-x-0 gap-y-9 sm:flex-row sm:gap-x-9 sm:gap-y-6 sm:space-x-3">
@@ -272,12 +274,10 @@ function getBadgeColor(percentage: number) {
                   )
                 }
               </p>
-              </p>
             </section>
           </section>
         </section>
       </section>
     </section>
   </div>
-</PageLayout
->
+</PageLayout>

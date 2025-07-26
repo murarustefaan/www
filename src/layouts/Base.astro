@@ -5,6 +5,7 @@ import ThemeProvider from "@/components/ThemeProvider";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import SkipLink from "@/components/SkipLink";
+import StructuredData from "@/components/StructuredData";
 import { siteConfig } from "@/site-config";
 
 interface Props {
@@ -19,6 +20,7 @@ const {
 <html lang={siteConfig.lang}>
 	<head>
 		<BaseHead title={title} description={description} ogImage={ogImage} articleDate={articleDate} />
+		<StructuredData type="website" />
 
 		<script
 			is:inline

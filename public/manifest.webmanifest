@@ -1,10 +1,28 @@
 {
-	"name": "Stefan MURARU - Personal Blog",
-	"short_name": "Stefan MURARU",
-	"description": "Thoughts, stories and ideas for the engineering world.",
-	"icons": [],
+	"name": "Ștefan MURARU - Engineering Blog",
+	"short_name": "Ștefan MURARU",
+	"description": "Senior Cloud Engineer specializing in Go, NodeJS, Kubernetes and cloud-native architectures. Technical insights and engineering experiences.",
+	"icons": [
+		{
+			"src": "/favicon.ico",
+			"sizes": "any",
+			"type": "image/x-icon"
+		},
+		{
+			"src": "/icon.svg",
+			"sizes": "any",
+			"type": "image/svg+xml"
+		},
+		{
+			"src": "/apple-touch-icon.png",
+			"sizes": "180x180",
+			"type": "image/png"
+		}
+	],
 	"start_url": "/",
 	"background_color": "#1d1f21",
 	"theme_color": "#2bbc8a",
-	"display": "standalone"
+	"display": "standalone",
+	"categories": ["technology", "engineering", "blog"],
+	"lang": "en-GB"
 }

@@ -6,7 +6,7 @@ export const siteConfig: SiteConfig = {
 	// Meta property used to construct the meta title property, found in src/components/BaseHead.astro L:11
 	title: "Ștefan MURARU",
 	// Meta property used as the default description meta property
-	description: "Thoughts, stories and ideas from the engineering world.",
+	description: "Senior Cloud Engineer specializing in Go, NodeJS, Kubernetes and cloud-native architectures. Technical insights, tutorials, and engineering experiences.",
 	// HTML lang property, found in src/layouts/Base.astro L:18
 	lang: "en-GB",
 	// Meta property, found in src/components/BaseHead.astro L:42
