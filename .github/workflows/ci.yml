@@ -4,9 +4,12 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: read
+  packages: read
 
 jobs:
   check:
@@ -17,42 +20,63 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
+      - name: install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
       - name: install node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-
-      - name: install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-          run_install: false
+          node-version: 22
+          cache: 'pnpm'
 
       - name: get pnpm store directory
         shell: bash
         run: |
-          echo "PNPM_CACHE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
       - name: setup pnpm cache
         uses: actions/cache@v4
         with:
-          path: ${{ env.PNPM_CACHE_PATH }}
+          path: ${{ env.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
       - name: install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
-      - name: run check
+      - name: run type check
         run: pnpm astro check
+
+      - name: cache astro build
+        uses: actions/cache@v4
+        with:
+          path: |
+            dist
+            .astro
+          key: ${{ runner.os }}-astro-${{ hashFiles('src/**/*', 'public/**/*', 'astro.config.*', 'package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-astro-
 
       - name: run build
         run: pnpm build
 
+      - name: upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: |
+            dist
+            nginx.conf
+            Dockerfile
+          retention-days: 1
+
   build:
     needs:
       - check
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     name: Build Docker image
     runs-on: ubuntu-latest
@@ -60,6 +84,11 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+
+      - name: download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
 
       - name: Extract version from package.json
         uses: sergeysova/jq-action@v2
@@ -78,13 +107,19 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build image and push to Docker Hub
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
+          file: ./Dockerfile
           tags: |
             murarustefaan/www:latest
             murarustefaan/www:${{ steps.version.outputs.value }}
           platforms: linux/amd64,linux/arm64
           push: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: |
+            type=gha
+            type=registry,ref=murarustefaan/www:buildcache
+          cache-to: |
+            type=gha,mode=max
+            type=registry,ref=murarustefaan/www:buildcache,mode=max
+          provenance: false
