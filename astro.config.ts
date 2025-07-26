@@ -4,8 +4,11 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import rehypeUnwrapImages from "rehype-unwrap-images";
 import rehypeExternalLinks from "rehype-external-links";
-import { remarkReadingTime } from "./src/utils/remark-reading-time";
+import robotsTxt from "astro-robots-txt";
+import webmanifest from "astro-webmanifest";
+import { remarkReadingTime } from "./src/utils/remark-reading-time.ts";
 import icon from "astro-icon";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
 	site: "https://stefanmuraru.com/",
@@ -24,14 +27,10 @@ export default defineConfig({
 			wrap: true,
 		},
 	},
-	integrations: [
-		mdx({}),
-		sitemap(),
-		icon(),
-	],
+	integrations: [mdx({}), sitemap(), icon(), robotsTxt()],
 	prefetch: true,
 	vite: {
-		plugins: [rawFonts([".ttf"])],
+		plugins: [tailwindcss(), rawFonts([".ttf"])],
 		optimizeDeps: {
 			exclude: ["@resvg/resvg-js"],
 		},

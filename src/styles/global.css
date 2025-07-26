@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+@config "../../tailwind.config.ts";
+@variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @theme {
 	--color-bgColor: hsl(0deg 0% 98%);
 	--color-textColor: hsl(203deg 11% 15%);
@@ -29,7 +32,7 @@
 		--theme-accent: 159deg 64% 45%;
 		--theme-accent-2: 0deg 0% 93%;
 		--theme-quote: 102deg 100% 86%;
-		
+
 		--color-bgColor: hsl(210deg 6% 12%);
 		--color-textColor: hsl(220deg 3% 79%);
 		--color-link: hsl(330deg 49% 67%);
@@ -45,4 +48,26 @@
 	html body {
 		@apply mx-auto flex min-h-screen max-w-5xl flex-col bg-bgColor px-8 pt-16 font-mono text-sm font-normal leading-normal text-textColor antialiased;
 	}
+}
+
+@utility cactus {
+  .cactus-link {
+    @apply hover:decoration-link underline underline-offset-2 hover:decoration-2;
+  }
+
+  .title {
+    @apply text-accent-2 text-2xl font-semibold;
+  }
+}
+
+@utility prose {
+  --tw-prose-body: var(--color-textColor);
+  --tw-prose-bold: var(--color-textColor);
+  --tw-prose-bullets: var(--color-textColor);
+  --tw-prose-code: var(--color-textColor);
+  --tw-prose-headings: var(--color-accent-2);
+  --tw-prose-hr: 0.5px dashed #666;
+  --tw-prose-links: var(--color-textColor);
+  --tw-prose-quotes: var(--color-quote);
+  --tw-prose-th-borders: #666;
 }
