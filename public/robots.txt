@@ -1,4 +1,24 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://astro-cactus.chriswilliams.dev/sitemap-index.xml
+# Block common bot paths that waste crawl budget
+Disallow: /api/
+Disallow: /_astro/
+Disallow: /admin/
+Disallow: /private/
+Disallow: /.well-known/
+Disallow: /search?*
+
+# Allow important bots full access
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Crawl delay for general bots (optional)
+Crawl-delay: 1
+
+# Sitemaps
+Sitemap: https://stefanmuraru.com/sitemap-index.xml
+Sitemap: https://stefanmuraru.com/sitemap.xml
