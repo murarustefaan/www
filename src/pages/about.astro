@@ -7,20 +7,22 @@ import { Image } from "astro:assets";
 
 const meta = {
   title: "About",
-  description: "⚙️Tech Lead | 💻 Senior Engineer | NodeJS, Kubernetes, Clouds, Go"
+  description: "⚙️Team Lead | 💻 Senior Cloud Engineer | NodeJS, Kubernetes, Clouds, Go"
 };
 
 const Work = [
   {
     name: "CloudQuery",
-    position: "Senior Software Engineer",
+    position: "Team Lead",
     url: "https://cloudquery.io",
     description: [
-      "Team lead of the Plugins team, responsible with CloudQuery plugin development.",
-      "Leading a team of 4 engineers through the entire development and support lifecycle of different CloudQuery Plugins."
+      "Lead of the Integrations team, responsible with anything related to CloudQuery sync experience.",
+      "Leading a team of 7 engineers through the entire development and support lifecycle of different components, including source integrations, destination plugins, open-source SDK's and CLI, and an in-house Kubernetes operator.",
+      "Led partnerships and integration validation workflows with companies like Wiz, Tenable, Snowflake that resulted in CloudQuery integrations being validated and published on their respective marketplaces.",
+      "Built and nurtured a community across the CloudQuery ecosystem on Discourse."
     ],
     period: {
-      start: new Date("5.13.2024"),
+      start: new Date("5.1.2024"),
       end: undefined
     }
   },
@@ -36,8 +38,8 @@ const Work = [
 
     ],
     period: {
-      start: new Date("4.13.2024"),
-      end: undefined
+      start: new Date("4.1.2024"),
+      end: new Date("5.1.2024")
     }
   },
   {
@@ -140,7 +142,7 @@ function getBadgeColor(percentage: number) {
 
         <div class="flex flex-col gap-3">
           <p>
-            I'm a results-driven <span class="text-accent">Senior Software Engineer</span> with <span
+            I'm a results-driven <span class="text-accent">Senior Cloud Engineer</span> with <span
             class="text-accent">{numberOfWorkingYears()} years</span
           > of hands-on experience designing and building cloud-native projects.
           </p>
