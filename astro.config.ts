@@ -1,9 +1,8 @@
 import { defineConfig } from "astro/config";
 import fs from "fs";
 import mdx from "@astrojs/mdx";
-import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
-import remarkUnwrapImages from "remark-unwrap-images";
+import rehypeUnwrapImages from "rehype-unwrap-images";
 import rehypeExternalLinks from "rehype-external-links";
 import { remarkReadingTime } from "./src/utils/remark-reading-time";
 import icon from "astro-icon";
@@ -14,9 +13,10 @@ export default defineConfig({
 		assets: "assets",
 	},
 	markdown: {
-		remarkPlugins: [remarkUnwrapImages, remarkReadingTime],
+		remarkPlugins: [remarkReadingTime],
 		rehypePlugins: [
 			[rehypeExternalLinks, { target: "_blank", rel: ["nofollow, noopener, noreferrer"] }],
+			rehypeUnwrapImages,
 		],
 		remarkRehype: { footnoteLabelProperties: { className: [""] } },
 		shikiConfig: {
@@ -26,15 +26,9 @@ export default defineConfig({
 	},
 	integrations: [
 		mdx({}),
-		tailwind({
-			applyBaseStyles: false,
-		}),
 		sitemap(),
 		icon(),
 	],
-	// image: {
-	// 	domains: ["webmention.io"],
-	// },
 	prefetch: true,
 	vite: {
 		plugins: [rawFonts([".ttf"])],

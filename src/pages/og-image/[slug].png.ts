@@ -1,5 +1,5 @@
 import type { APIContext, GetStaticPaths } from "astro";
-import { getEntryBySlug } from "astro:content";
+import { getEntry } from "astro:content";
 import satori, { type SatoriOptions } from "satori";
 import { html } from "satori-html";
 import { Resvg } from "@resvg/resvg-js";
@@ -59,7 +59,7 @@ const markup = (title: string, pubDate: string) =>
 	</div>`;
 
 export async function GET({ params: { slug } }: APIContext) {
-	const post = await getEntryBySlug("post", slug!);
+	const post = await getEntry("post", slug!);
 	const title = post?.data.title ?? siteConfig.title;
 	const postDate = getFormattedDate(
 		post?.data.updatedDate ?? post?.data.publishDate ?? Date.now(),
