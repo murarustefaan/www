@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 import SkipLink from "@/components/SkipLink";
 import StructuredData from "@/components/StructuredData";
 import { siteConfig } from "@/site-config";
+import pkg from "../../package.json";
 
 interface Props {
 	meta: SiteMeta;
@@ -15,6 +16,19 @@ interface Props {
 const {
 	meta: { title, description = siteConfig.description, ogImage, articleDate },
 } = Astro.props;
+
+const faroConfig = {
+	url: "https://faro-collector-prod-eu-west-2.grafana.net/collect/b3811c349a48e4c380a534109f017dfd",
+	app: {
+		name: "stefanmuraru-com",
+		version: pkg.version,
+		environment: "production",
+	},
+	sessionTracking: {
+		samplingRate: 1,
+		persistent: true,
+	},
+};
 ---
 
 <html lang={siteConfig.lang}>
@@ -27,37 +41,10 @@ const {
 			defer
 			src="https://static.cloudflareinsights.com/beacon.min.js"
 			data-cf-beacon='{"token": "590efb30049b45d99e45bb37886c178c"}'></script>
-		<script>
-			(function () {
-				var webSdkScript = document.createElement("script");
-				webSdkScript.src =
-					"https://unpkg.com/@grafana/faro-web-sdk@^1.0.0/dist/bundle/faro-web-sdk.iife.js";
-
-				webSdkScript.onload = () => {
-					(window as any).GrafanaFaroWebSdk.initializeFaro({
-						url: "https://faro-collector-prod-eu-west-2.grafana.net/collect/b3811c349a48e4c380a534109f017dfd",
-						app: {
-							name: "stefanmuraru-com",
-							version: "1.0.0",
-							environment: "production",
-						},
-					});
-
-					var webTracingScript = document.createElement("script");
-					webTracingScript.src =
-						"https://unpkg.com/@grafana/faro-web-tracing@^1.0.0/dist/bundle/faro-web-tracing.iife.js";
-
-					webTracingScript.onload = () => {
-						(window as any).GrafanaFaroWebSdk.faro.instrumentations.add(
-							new (window as any).GrafanaFaroWebTracing.TracingInstrumentation(),
-						);
-					};
-					document.head.appendChild(webTracingScript);
-				};
-
-				document.head.appendChild(webSdkScript);
-			})();
+		<script define:vars={{ faroConfig }}>
+			window.faroConfig = faroConfig;
 		</script>
+		<script src="/src/scripts/faro.ts"></script>
 	</head>
 	<body>
 		<ThemeProvider />
