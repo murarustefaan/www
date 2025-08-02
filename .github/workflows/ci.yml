@@ -47,6 +47,9 @@ jobs:
       - name: install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: rebuild sharp for linux
+        run: pnpm rebuild sharp
+
       - name: run type check
         run: pnpm astro check
 
