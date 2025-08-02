@@ -5,7 +5,6 @@ import sitemap from "@astrojs/sitemap";
 import rehypeUnwrapImages from "rehype-unwrap-images";
 import rehypeExternalLinks from "rehype-external-links";
 import robotsTxt from "astro-robots-txt";
-import webmanifest from "astro-webmanifest";
 import { remarkReadingTime } from "./src/utils/remark-reading-time.ts";
 import icon from "astro-icon";
 import tailwindcss from "@tailwindcss/vite";

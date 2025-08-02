@@ -41,7 +41,7 @@ const faroConfig = {
 			defer
 			src="https://static.cloudflareinsights.com/beacon.min.js"
 			data-cf-beacon='{"token": "590efb30049b45d99e45bb37886c178c"}'></script>
-		<script define:vars={{ faroConfig }}>
+		<script is:inline define:vars={{ faroConfig }}>
 			window.faroConfig = faroConfig;
 		</script>
 		<script src="/src/scripts/faro.ts"></script>
