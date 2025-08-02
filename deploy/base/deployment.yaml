@@ -41,3 +41,19 @@ spec:
           ports:
             - name: http
               containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 2
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 2
+            timeoutSeconds: 2
+            failureThreshold: 2
