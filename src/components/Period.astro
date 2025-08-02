@@ -3,10 +3,10 @@ import FormattedDate from "./FormattedDate.astro";
 
 type Props = {
 	start: Date;
-	end?: Date;
+	end?: Date | undefined;
 };
 
-const { start, end } = Astro.props;
+const { start, end }: Props = Astro.props;
 const options = { day: undefined, month: "long", year: "numeric" } as Intl.DateTimeFormatOptions;
 ---
 
