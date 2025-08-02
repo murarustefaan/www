@@ -1,17 +1,23 @@
 {
+	"[javascript]": { "editor.defaultFormatter": "biomejs.biome" },
+	"[typescript]": { "editor.defaultFormatter": "biomejs.biome" },
+	"[javascriptreact]": { "editor.defaultFormatter": "biomejs.biome" },
+	"[typescriptreact]": { "editor.defaultFormatter": "biomejs.biome" },
+	"[json]": { "editor.defaultFormatter": "biomejs.biome" },
+	"[jsonc]": { "editor.defaultFormatter": "biomejs.biome" },
+	"[astro]": { "editor.defaultFormatter": "astro-build.astro-vscode" },
+	"[markdown]": { "editor.wordWrap": "on" },
 	"editor.formatOnSave": true,
-	"[markdown]": {
-		"editor.wordWrap": "on",
-		"editor.codeActionsOnSave": {
-			"source.fixAll.markdownlint": "explicit"
-		}
+	"editor.codeActionsOnSave": {
+		"quickFix.biome": "explicit",
+		"source.fixAll.biome": "explicit",
+		"source.organizeImports": "never",
+		"source.organizeImports.biome": "explicit"
 	},
-	"prettier.documentSelectors": ["**/*.astro"],
-	"eslint.validate": [
-		"javascript",
-		"javascriptreact",
-		"astro", // Enable .astro
-		"typescript", // Enable .ts
-		"typescriptreact"
-	]
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"astro.content-intellisense": true,
+	"files.associations": {
+		"*.css": "tailwindcss"
+	},
+	"tailwindCSS.experimental.configFile": "./src/styles/global.css"
 }
