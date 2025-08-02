@@ -204,20 +204,17 @@ function getBadgeColor(percentage: number) {
 				<p class="space-x-3">
 					{
 						Object.entries({
+							Go: 100,
 							NodeJS: 100,
 							Typescript: 90,
-							MongoDB: 90,
-							Go: 70,
-							PostgreSQL: 70,
-							MySQL: 50,
 						}).map((tech) => (
-							<span class={"border-b py-0.5" + getBadgeColor(tech[1])}>{tech[0]}</span>
+							<span class={"border-b py-0.5 " + getBadgeColor(tech[1])}>{tech[0]}</span>
 						))
 					}
 				</p>
 
 				<section class="space-y-2">
-					<h4 class="text-lg font-bold">Resources</h4>
+					<h4 class="text-lg font-bold">Databases / Storage</h4>
 					<p class="space-x-3">
 						{
 							Object.entries({
@@ -227,7 +224,7 @@ function getBadgeColor(percentage: number) {
 								PostgreSQL: 70,
 								Elasticsearch: 70,
 							}).map((tech) => (
-								<span class={"border-b py-0.5" + getBadgeColor(tech[1])}>{tech[0]}</span>
+								<span class={"border-b py-0.5 " + getBadgeColor(tech[1])}>{tech[0]}</span>
 							))
 						}
 					</p>
@@ -236,9 +233,9 @@ function getBadgeColor(percentage: number) {
 						<h4 class="text-lg font-bold">CI/CD</h4>
 						<p class="space-x-3">
 							{
-								Object.entries({ Docker: 100, "Github Actions": 90, ArgoCD: 70, CircleCI: 60 }).map(
+								Object.entries({ Docker: 100, "Github Actions": 90, ArgoCD: 70, CircleCI: 50 }).map(
 									(tech) => (
-										<span class={"border-b py-0.5" + getBadgeColor(tech[1])}>{tech[0]}</span>
+										<span class={"border-b py-0.5 " + getBadgeColor(tech[1])}>{tech[0]}</span>
 									),
 								)
 							}
@@ -257,14 +254,14 @@ function getBadgeColor(percentage: number) {
 										Tempo: 70,
 										Terraform: 70,
 									}).map((tech) => (
-										<span class={"border-b py-0.5" + getBadgeColor(tech[1])}>{tech[0]}</span>
+										<span class={"border-b py-0.5 " + getBadgeColor(tech[1])}>{tech[0]}</span>
 									))
 								}
 								<p class="space-x-3">
 									{
-										Object.entries({ "Google Cloud Platform": 100, "Amazon Web Services": 90 }).map(
+										Object.entries({ "Google Cloud Platform": 100, "Amazon Web Services": 70 }).map(
 											(tech) => (
-												<span class={"border-b py-0.5" + getBadgeColor(tech[1])}>{tech[0]}</span>
+												<span class={"border-b py-0.5 " + getBadgeColor(tech[1])}>{tech[0]}</span>
 											),
 										)
 									}
