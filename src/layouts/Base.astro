@@ -42,9 +42,24 @@ const faroConfig = {
 			src="https://static.cloudflareinsights.com/beacon.min.js"
 			data-cf-beacon='{"token": "590efb30049b45d99e45bb37886c178c"}'></script>
 		<script is:inline define:vars={{ faroConfig }}>
-			window.faroConfig = faroConfig;
+			(function () {
+				var webSdkScript = document.createElement("script");
+				webSdkScript.src =
+					"https://unpkg.com/@grafana/faro-web-sdk@latest/dist/bundle/faro-web-sdk.iife.js";
+				webSdkScript.onload = () => {
+					window.GrafanaFaroWebSdk.initializeFaro(faroConfig);
+					var webTracingScript = document.createElement("script");
+					webTracingScript.src = "https://unpkg.com/@grafana/faro-web-tracing@latest/dist/bundle/faro-web-tracing.iife.js";
+					webTracingScript.onload = () => {
+						window.GrafanaFaroWebSdk.faro.instrumentations.add(
+							new window.GrafanaFaroWebTracing.TracingInstrumentation(),
+						);
+					};
+					document.head.appendChild(webTracingScript);
+				};
+				document.head.appendChild(webSdkScript);
+			})();
 		</script>
-		<script src="/src/scripts/faro.ts"></script>
 	</head>
 	<body>
 		<ThemeProvider />
