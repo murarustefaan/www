@@ -1,9 +1,9 @@
 ---
+import { Icon } from "astro-icon/components";
 import Search from "@/components/Search.astro";
 import ThemeToggle from "@/components/ThemeToggle.astro";
 import { menuLinks } from "@/site.config";
 import { siteConfig } from "../../site.config";
-import { Icon } from "astro-icon/components";
 ---
 
 <header class="group relative mb-28 flex items-center" id="main-header">
@@ -24,7 +24,7 @@ import { Icon } from "astro-icon/components";
 				menuLinks.map((link) => (
 					<a
 						aria-current={Astro.url.pathname === link.path ? "page" : false}
-						class="flex items-center px-4 py-4 gap-2 underline-offset-2 hover:underline sm:py-0"
+						class="flex items-center gap-2 px-4 py-4 underline-offset-2 hover:underline sm:py-0"
 						data-astro-prefetch
 						href={link.path}
 					>

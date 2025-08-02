@@ -6,10 +6,24 @@ import SkipLink from "@/components/SkipLink.astro";
 import ThemeProvider from "@/components/ThemeProvider.astro";
 import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
+import pkg from "../../package.json";
 
 interface Props {
 	meta: SiteMeta;
 }
+
+const faroConfig = {
+	url: "https://faro-collector-prod-eu-west-2.grafana.net/collect/b3811c349a48e4c380a534109f017dfd",
+	app: {
+		name: "stefanmuraru-com",
+		version: pkg.version,
+		environment: "production",
+	},
+	sessionTracking: {
+		samplingRate: 1,
+		persistent: true,
+	},
+};
 
 const {
 	meta: { articleDate, description = siteConfig.description, ogImage, title },
@@ -24,6 +38,27 @@ const {
 			defer
 			src="https://static.cloudflareinsights.com/beacon.min.js"
 			data-cf-beacon='{"token": "590efb30049b45d99e45bb37886c178c"}'></script>
+
+		<script is:inline define:vars={{ faroConfig }}>
+			(function () {
+				var webSdkScript = document.createElement("script");
+				webSdkScript.src =
+					"https://unpkg.com/@grafana/faro-web-sdk@latest/dist/bundle/faro-web-sdk.iife.js";
+				webSdkScript.onload = () => {
+					window.GrafanaFaroWebSdk.initializeFaro(faroConfig);
+					var webTracingScript = document.createElement("script");
+					webTracingScript.src =
+						"https://unpkg.com/@grafana/faro-web-tracing@latest/dist/bundle/faro-web-tracing.iife.js";
+					webTracingScript.onload = () => {
+						window.GrafanaFaroWebSdk.faro.instrumentations.add(
+							new window.GrafanaFaroWebTracing.TracingInstrumentation(),
+						);
+					};
+					document.head.appendChild(webTracingScript);
+				};
+				document.head.appendChild(webSdkScript);
+			})();
+		</script>
 	</head>
 	<body
 		class="bg-global-bg text-global-text mx-auto flex min-h-screen max-w-3xl flex-col px-4 pt-16 font-mono text-sm font-normal antialiased sm:px-8"
