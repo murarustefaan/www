@@ -3,7 +3,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: www
   labels:
-      stefanmuraru.com/service: www
+    stefanmuraru.com/service: www
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -12,10 +12,9 @@ spec:
   minReplicas: 3
   maxReplicas: 8
   metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 80
-
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80

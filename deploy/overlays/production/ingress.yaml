@@ -12,7 +12,7 @@ spec:
   tls:
     - hosts:
         - stefanmuraru.com
-        - '*.stefanmuraru.com'
+        - "*.stefanmuraru.com"
       secretName: star-stefanmuraru-com-tls
   rules:
     - host: stefanmuraru.com

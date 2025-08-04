@@ -35,9 +35,21 @@ const {
 		<BaseHead title={title} description={description} ogImage={ogImage} articleDate={articleDate} />
 
 		<script
-			defer is:inline
+			defer
+			is:inline
 			src="https://static.cloudflareinsights.com/beacon.min.js"
 			data-cf-beacon='{"token": "590efb30049b45d99e45bb37886c178c"}'></script>
+
+		<!-- Google tag (gtag.js) -->
+		<script async is:inline src="https://www.googletagmanager.com/gtag/js?id=G-4RPMHK2VBK"></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
+			gtag("config", "G-4RPMHK2VBK");
+		</script>
 
 		<script is:inline define:vars={{ faroConfig }}>
 			(function () {

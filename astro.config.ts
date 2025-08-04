@@ -78,7 +78,12 @@ export default defineConfig({
 			],
 			rehypeUnwrapImages,
 		],
-		remarkPlugins: [remarkReadingTime, remarkDirective, remarkGithubCard as any, remarkAdmonitions as any],
+		remarkPlugins: [
+			remarkReadingTime,
+			remarkDirective,
+			remarkGithubCard as any,
+			remarkAdmonitions as any,
+		],
 		remarkRehype: {
 			footnoteLabelProperties: {
 				className: [""],
