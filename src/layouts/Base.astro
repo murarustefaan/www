@@ -7,6 +7,8 @@ import ThemeProvider from "@/components/ThemeProvider.astro";
 import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
 import pkg from "../../package.json";
+import Analytics from '@vercel/analytics/astro'
+
 
 interface Props {
 	meta: SiteMeta;
@@ -39,6 +41,8 @@ const {
 			is:inline
 			src="https://static.cloudflareinsights.com/beacon.min.js"
 			data-cf-beacon='{"token": "590efb30049b45d99e45bb37886c178c"}'></script>
+
+		<Analytics/>
 
 		<!-- Google tag (gtag.js) -->
 		<script async is:inline src="https://www.googletagmanager.com/gtag/js?id=G-4RPMHK2VBK"></script>
