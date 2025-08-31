@@ -86,5 +86,25 @@ const {
 			<slot />
 		</main>
 		<Footer />
+		<script is:inline type="speculationrules">
+			{
+				"prefetch": [
+					{
+						"where": {
+							"href_matches": "/*"
+						},
+						"eagerness": "immediate"
+					}
+				],
+				"prerender": [
+					{
+						"where": {
+							"href_matches": "/*"
+						},
+						"eagerness": "moderate"
+					}
+				]
+			}
+		</script>
 	</body>
 </html>

@@ -1,5 +1,6 @@
 {
 	"name": "www",
+	"type": "module",
 	"version": "2025.8.0",
 	"private": false,
 	"scripts": {
