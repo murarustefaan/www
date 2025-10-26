@@ -8,7 +8,8 @@ COPY . /service
 WORKDIR /service
 
 FROM base AS build
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install
+RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
+    pnpm install
 RUN pnpm build
 
 FROM nginx:1.29.2-alpine AS runtime
