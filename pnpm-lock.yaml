@@ -4309,7 +4309,7 @@ snapshots:
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 24.0.7
+      '@types/node': 24.9.1
 
   '@types/tar@6.1.13':
     dependencies:
