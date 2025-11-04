@@ -12,7 +12,7 @@ RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
     pnpm install
 RUN pnpm build
 
-FROM nginx:1.29.2-alpine AS runtime
+FROM nginx:1.29.3-alpine AS runtime
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /service/dist /usr/share/nginx/html
 EXPOSE 8080
