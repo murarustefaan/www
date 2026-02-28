@@ -49,15 +49,25 @@ const chipIcons: Record<string, string> = {
 				$ whoami
 			</div>
 
-			<h1 class="text-4xl sm:text-5xl lg:text-6xl mb-4 text-text flex items-center flex-wrap">
-				Ștefan Muraru
-				<span class="inline-block w-3 h-10 sm:h-12 bg-accent ml-1 animate-blink" aria-hidden="true"></span>
-			</h1>
+			<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-8 mb-6">
+				<div>
+					<h1 class="text-4xl sm:text-5xl lg:text-6xl mb-4 text-text flex items-center flex-wrap">
+						Ștefan Muraru
+						<span class="inline-block w-3 h-10 sm:h-12 bg-accent ml-1 animate-blink" aria-hidden="true"></span>
+					</h1>
 
-			<div class="text-xl sm:text-2xl mb-6 text-muted font-['JetBrains_Mono']">
-				<span class="text-primary">Senior Software Engineer</span>
-				<span class="text-text"> // </span>
-				<span class="text-accent">DevOps & Cloud-Native</span>
+					<div class="text-xl sm:text-2xl text-muted font-['JetBrains_Mono']">
+						<span class="text-primary">Senior Software Engineer</span>
+						<span class="text-text"> // </span>
+						<span class="text-accent">DevOps & Cloud-Native</span>
+					</div>
+				</div>
+
+				<img
+					src="/me.jpg"
+					alt="Ștefan Muraru"
+					class="w-28 h-28 sm:w-36 sm:h-36 rounded-full border-2 border-border object-cover flex-shrink-0"
+				/>
 			</div>
 
 			<div class="text-base sm:text-lg text-muted max-w-2xl leading-relaxed mb-8 space-y-4">
