@@ -1,27 +1,16 @@
 ---
-import { menuLinks, siteConfig } from "@/site.config";
+import { siteConfig } from "@/site.config";
 
 const year = new Date().getFullYear();
 ---
 
-<footer
-	class="mt-auto flex w-full flex-col items-center justify-center gap-y-2 pb-4 pt-20 text-center align-top font-semibold text-muted sm:flex-row sm:justify-between sm:text-xs"
->
-	<div class="me-0 sm:me-4">
-		&copy; {siteConfig.author}
-		{year}.<span class="inline-block">&nbsp;🚀&nbsp;{siteConfig.title}</span>
+<footer class="mt-auto border-t border-border py-8">
+	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted font-['JetBrains_Mono']">
+		<div>
+			&copy; {year} {siteConfig.author}
+		</div>
+		<div class="text-xs">
+			Built with <a href="https://astro.build" class="text-primary hover:text-accent transition-colors" target="_blank" rel="noreferrer noopener">Astro</a>
+		</div>
 	</div>
-	<nav
-		aria-labelledby="footer_links"
-		class="flex gap-x-2 sm:gap-x-0 sm:divide-x sm:divide-border"
-	>
-		<p id="footer_links" class="sr-only">More on this site</p>
-		{
-			menuLinks.map((link) => (
-				<a class="hover:text-text px-4 py-2 hover:underline sm:py-0" href={link.path}>
-					{link.title}
-				</a>
-			))
-		}
-	</nav>
 </footer>
