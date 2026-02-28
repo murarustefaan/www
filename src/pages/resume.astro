@@ -137,8 +137,12 @@ function getInitials(company: string): string {
 
 							<resume-card>
 								<div
-									class="bg-card border border-border rounded-lg p-6 hover:border-primary/30 transition-all cursor-pointer"
+									class="bg-card border border-border rounded-lg p-6 hover:border-primary/30 transition-all"
 									data-index={index}
+									role={exp.details.length > 0 ? "button" : undefined}
+									tabindex={exp.details.length > 0 ? 0 : undefined}
+									aria-expanded={exp.details.length > 0 ? "false" : undefined}
+									class:list={[exp.details.length > 0 && "cursor-pointer"]}
 								>
 									<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 gap-2">
 										<div class="flex items-center gap-3">
@@ -209,14 +213,20 @@ function getInitials(company: string): string {
 			const details = this.querySelector<HTMLDivElement>(".details");
 			const chevron = this.querySelector<SVGElement>(".chevron-icon");
 
-			if (!details || !chevron) {
-				card.style.cursor = "default";
-				return;
-			}
+			if (!details || !chevron) return;
 
-			card.addEventListener("click", () => {
+			const toggle = () => {
 				const isHidden = details.classList.toggle("hidden");
 				chevron.style.transform = isHidden ? "" : "rotate(180deg)";
+				card.setAttribute("aria-expanded", String(!isHidden));
+			};
+
+			card.addEventListener("click", toggle);
+			card.addEventListener("keydown", (e) => {
+				if (e.key === "Enter" || e.key === " ") {
+					e.preventDefault();
+					toggle();
+				}
 			});
 		}
 	}
