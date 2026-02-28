@@ -4,60 +4,57 @@ import PageLayout from "@/layouts/Base.astro";
 const experiences = [
 	{
 		company: "CloudQuery",
-		role: "Team Lead, Plugins",
+		role: "Senior Software Engineer",
 		period: "May 2024 – Present",
-		description: "Leading team of 4 through plugin development lifecycle.",
+		catPath: "~/experience/cloudquery/team-lead.plugins.txt",
+		description: "Team lead of the Plugins team, responsible with CloudQuery plugin development.",
 		details: [
-			"Managing sprint planning, code reviews, and team mentorship",
-			"Architecting plugin systems for scalability and maintainability",
-			"Coordinating cross-team efforts for feature releases",
-			"Establishing best practices and documentation standards",
+			"Leading a team of 4 engineers through the entire development and support lifecycle of different CloudQuery Plugins.",
 		],
 		logoColor: "#00d4aa",
 	},
 	{
 		company: "CloudQuery",
-		role: "Software Engineer, Framework",
+		role: "Senior Software Engineer",
 		period: "Apr 2024 – Present",
+		catPath: "~/experience/cloudquery/engineer.framework.txt",
 		description:
-			"Built plugins for Wiz, Tenable, Plaid. Core SDK contributions. GCP/AWS/GitHub/Snyk bugfixes.",
+			"Working on the Framework team, handling the open source software (CLI, SDKs, etc.) as well as the private plugins and internal software components.",
 		details: [
-			"Developed integration plugins for major security and fintech platforms",
-			"Contributed to core SDK improvements and framework enhancements",
-			"Fixed critical bugs across GCP, AWS, GitHub, and Snyk integrations",
-			"Improved testing coverage and CI/CD reliability",
+			"Implemented new source plugins based on demand for platforms like Wiz, Tenable and Plaid.",
+			"Implemented features in the Core SDK like tracking sync usage per-table and adding support for additional types.",
+			"Implemented resources and bugfixes to core plugins like GCP, AWS, Github & Snyk.",
 		],
 		logoColor: "#00d4aa",
 	},
 	{
 		company: "Monokle/Kubeshop",
-		role: "Senior Software Engineer",
+		role: "Senior Cloud Engineer",
 		period: "Dec 2022 – Mar 2024",
+		catPath: "~/experience/kubeshop/senior-cloud.monokle.txt",
 		description:
-			"Led infra & architecture for Monokle Cloud. Cut cloud costs 60%+. Implemented OAuth2/OIDC flows. High-throughput git streaming API. CI/CD via GitHub Actions, Helm, ArgoCD. Improved build times 80%+.",
+			"Led the infrastructure management as well as end-to-end architecture and development of the authentication framework, microservices and GraphQL APIs for the Monokle Cloud application at Kubeshop.",
 		details: [
-			"Architected and implemented cloud infrastructure reducing costs by 60%+",
-			"Built OAuth2/OIDC authentication flows for enterprise customers",
-			"Designed high-throughput git streaming API for real-time collaboration",
-			"Established CI/CD pipelines using GitHub Actions, Helm, and ArgoCD",
-			"Optimized build processes reducing build times by 80%+",
-			"Implemented monitoring and observability with Prometheus and Grafana",
+			"Cut existing cloud costs by over 60% while also implementing the industry security and reliability practices.",
+			"Implemented OAuth2.0 + OpenID Connect authentication by deploying and configuring an on-prem Authorization Server as well implementing and testing individual Authorization Code, Client Credentials and Device Code flows.",
+			"Implemented a high-throughput content streaming API for fetching repositories from multiple GIT providers by integrating provider APIs or leveraging SSH / HTTPS git authentication.",
+			"Created and maintained Github Actions configuration files for building and testing as well as Helm Charts & Kustomizations deployed on ArgoCD to sum up for an end-to-end CI/CD process.",
+			"Improved build times by more than 80% while also scaling down image sizes by an entire order of magnitude by leveraging Github Actions concurrency and caching as well as Docker multistage builds and distroless images.",
 		],
 		logoColor: "#58a6ff",
 	},
 	{
 		company: "Bitdefender",
-		role: "Software Engineer",
+		role: "Senior Cloud Engineer",
 		period: "Oct 2018 – Dec 2022",
+		catPath: "~/experience/bitdefender/senior-cloud.platform.txt",
 		description:
-			"Internal platform for code lifecycle management. Kubernetes operators for RabbitMQ, Prometheus, Elastic Stack. Hardware/software inventory system (SOC2). Multi-region mail gateway. K8s deployments on GCP, AWS, on-prem.",
+			"Worked on building an internal platform that enabled developers and ML researchers to easily manage their code's lifecycle after development, from building, to deploying to multiple testing and staging environments and ultimately going to production.",
 		details: [
-			"Built internal platform for code lifecycle management used by 500+ engineers",
-			"Developed Kubernetes operators for RabbitMQ, Prometheus, and Elastic Stack",
-			"Implemented SOC2-compliant hardware/software inventory system",
-			"Designed and deployed multi-region mail gateway handling millions of messages",
-			"Managed Kubernetes deployments across GCP, AWS, and on-premise infrastructure",
-			"Led migration from monolithic to microservices architecture",
+			"Implemented multiple Kubernetes operators for technologies such as RabbitMQ, Prometheus and the Elastic Stack (deep diving into operations like HA clustering, sharding, etc.) in order to be able to ship them as managed services.",
+			"Designed and implemented a hardware and software discovering and inventorying system that in only a couple of months helped the company pass a SOC2 audit while also saving on alternative paid solutions.",
+			"Designed and implemented a highly-available, multi-region mail templating gateway through which the client emails are being sent on behalf of the products.",
+			"Participated in the design and implementation of infrastructure, Kubernetes deployment on public and private cloud providers (Google Cloud Platform, Amazon AWS and on-premise infrastructure) as well as migration (Virtual Machines to Kubernetes), replication, scaling and authentication of services like MongoDB, RabbitMQ, Redis and Elastic Stack components using OAuth2.0 flows.",
 		],
 		logoColor: "#f85149",
 	},
@@ -65,39 +62,32 @@ const experiences = [
 		company: "Yonder",
 		role: "Software Engineer",
 		period: "Mar 2017 – Oct 2018",
+		catPath: "~/experience/yonder/engineer.gis-warehouse.txt",
 		description:
-			"GIS mapping & Data Warehouse for government. Angular, .NET, Node.js. Dockerized all environments.",
+			"Worked on a Data Warehouse & GIS mapping project used by government entities.",
 		details: [
-			"Built GIS mapping solution for government entity handling geospatial data",
-			"Developed Data Warehouse with Angular, .NET, and Node.js",
-			"Containerized all environments using Docker for consistency",
-			"Implemented ETL pipelines for large-scale data processing",
-			"Created RESTful APIs for data access and visualization",
+			"Developed frontend components using Angular, based on specific instructions & designs.",
+			"Mapped GIS, JSON and XML data through .NET and NodeJS APIs.",
+			"Dockerized all the dev and staging environments in order to facilitate local development and shorten build and release times.",
 		],
 		logoColor: "#ffa657",
 	},
 	{
 		company: "Maxcode",
-		role: "Junior Software Engineer",
+		role: "Junior Software Developer",
 		period: "Nov 2016 – Mar 2017",
-		description: "Full-stack development and DevOps support.",
-		details: [
-			"Developed web applications using PHP and JavaScript",
-			"Provided DevOps support for deployment and monitoring",
-			"Collaborated with senior engineers on architecture decisions",
-		],
+		catPath: "~/experience/maxcode/junior.internal-tools.txt",
+		description: "Worked on designing and implementing an internal employee management application.",
+		details: [],
 		logoColor: "#8b949e",
 	},
 	{
 		company: "Yonder",
-		role: "Software Engineering Intern",
+		role: "Junior Software Developer",
 		period: "Apr – Jul 2016",
-		description: "Introduction to professional software development practices.",
-		details: [
-			"Learned version control, code review, and agile methodologies",
-			"Contributed to front-end development tasks",
-			"Participated in team meetings and sprint planning",
-		],
+		catPath: "~/experience/yonder/intern.txt",
+		description: "",
+		details: [],
 		logoColor: "#ffa657",
 	},
 ];
@@ -113,12 +103,12 @@ function getInitials(company: string): string {
 ---
 
 <PageLayout meta={{ title: "Resume" }}>
-	<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
 		{/* Header */}
 		<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4">
 			<div>
 				<div class="font-['JetBrains_Mono'] text-sm text-muted mb-2">
-					$ cat ~/career.log
+					$ ls ~/experience
 				</div>
 				<h1 class="text-3xl sm:text-4xl text-text">Career Timeline</h1>
 			</div>
@@ -173,28 +163,30 @@ function getInitials(company: string): string {
 											<div class="font-['JetBrains_Mono'] text-xs sm:text-sm text-muted whitespace-nowrap">
 												{exp.period}
 											</div>
-											<svg class="chevron-icon text-muted w-[18px] h-[18px] transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+											{exp.details.length > 0 && <svg class="chevron-icon text-muted w-[18px] h-[18px] transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>}
 										</div>
 									</div>
 
-									<p class="text-muted leading-relaxed">
+									{exp.description && <p class="text-muted leading-relaxed">
 										{exp.description}
-									</p>
+									</p>}
 
 									{/* Expandable details */}
-									<div class="details hidden mt-4 pt-4 border-t border-border">
-										<div class="font-['JetBrains_Mono'] text-xs text-accent mb-3">
-											$ cat experience.txt
+									{exp.details.length > 0 && (
+										<div class="details hidden mt-4 pt-4 border-t border-border">
+											<div class="font-['JetBrains_Mono'] text-xs text-accent mb-3">
+												$ cat {exp.catPath}
+											</div>
+											<ul class="space-y-2">
+												{exp.details.map((detail) => (
+													<li class="text-muted leading-relaxed flex gap-2">
+														<span class="text-primary flex-shrink-0">›</span>
+														<span>{detail}</span>
+													</li>
+												))}
+											</ul>
 										</div>
-										<ul class="space-y-2">
-											{exp.details.map((detail) => (
-												<li class="text-muted leading-relaxed flex gap-2">
-													<span class="text-primary flex-shrink-0">›</span>
-													<span>{detail}</span>
-												</li>
-											))}
-										</ul>
-									</div>
+									)}
 								</div>
 							</resume-card>
 						</div>
@@ -214,8 +206,13 @@ function getInitials(company: string): string {
 	class ResumeCard extends HTMLElement {
 		connectedCallback() {
 			const card = this.querySelector<HTMLDivElement>("[data-index]")!;
-			const details = this.querySelector<HTMLDivElement>(".details")!;
-			const chevron = this.querySelector<SVGElement>(".chevron-icon")!;
+			const details = this.querySelector<HTMLDivElement>(".details");
+			const chevron = this.querySelector<SVGElement>(".chevron-icon");
+
+			if (!details || !chevron) {
+				card.style.cursor = "default";
+				return;
+			}
 
 			card.addEventListener("click", () => {
 				const isHidden = details.classList.toggle("hidden");

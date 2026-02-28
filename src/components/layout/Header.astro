@@ -47,12 +47,12 @@ const currentPath = Astro.url.pathname;
 			</div>
 
 			{/* Mobile hamburger */}
-			<mobile-button>
+			<mobile-button class="md:hidden">
 				<button
 					aria-expanded="false"
 					aria-haspopup="menu"
 					aria-label="Open main menu"
-					class="md:hidden p-2 text-muted hover:text-text transition-colors"
+					class="p-2 text-muted hover:text-text transition-colors"
 					id="toggle-nav"
 					type="button"
 				>
