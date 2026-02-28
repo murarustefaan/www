@@ -12,6 +12,7 @@ const experiences = [
 			"Leading a team of 4 engineers through the entire development and support lifecycle of different CloudQuery Plugins.",
 		],
 		logoColor: "#00d4aa",
+		logo: "/logos/cloudquery.svg",
 	},
 	{
 		company: "CloudQuery",
@@ -26,6 +27,7 @@ const experiences = [
 			"Implemented resources and bugfixes to core plugins like GCP, AWS, Github & Snyk.",
 		],
 		logoColor: "#00d4aa",
+		logo: "/logos/cloudquery.svg",
 	},
 	{
 		company: "Monokle/Kubeshop",
@@ -42,6 +44,7 @@ const experiences = [
 			"Improved build times by more than 80% while also scaling down image sizes by an entire order of magnitude by leveraging Github Actions concurrency and caching as well as Docker multistage builds and distroless images.",
 		],
 		logoColor: "#58a6ff",
+		logo: "/logos/kubeshop.png",
 	},
 	{
 		company: "Bitdefender",
@@ -57,6 +60,7 @@ const experiences = [
 			"Participated in the design and implementation of infrastructure, Kubernetes deployment on public and private cloud providers (Google Cloud Platform, Amazon AWS and on-premise infrastructure) as well as migration (Virtual Machines to Kubernetes), replication, scaling and authentication of services like MongoDB, RabbitMQ, Redis and Elastic Stack components using OAuth2.0 flows.",
 		],
 		logoColor: "#f85149",
+		logo: "/logos/bitdefender.jpg",
 	},
 	{
 		company: "Yonder",
@@ -71,6 +75,7 @@ const experiences = [
 			"Dockerized all the dev and staging environments in order to facilitate local development and shorten build and release times.",
 		],
 		logoColor: "#ffa657",
+		logo: "/logos/yonder.svg",
 	},
 	{
 		company: "Maxcode",
@@ -80,6 +85,7 @@ const experiences = [
 		description: "Worked on designing and implementing an internal employee management application.",
 		details: [],
 		logoColor: "#8b949e",
+		logo: "/logos/maxcode.svg",
 	},
 	{
 		company: "Yonder",
@@ -89,17 +95,10 @@ const experiences = [
 		description: "",
 		details: [],
 		logoColor: "#ffa657",
+		logo: "/logos/yonder.svg",
 	},
 ];
 
-function getInitials(company: string): string {
-	return company
-		.split(/[\s/]/)
-		.map((word) => word[0])
-		.join("")
-		.toUpperCase()
-		.slice(0, 2);
-}
 ---
 
 <PageLayout meta={{ title: "Resume" }}>
@@ -128,9 +127,7 @@ function getInitials(company: string): string {
 			<div class="absolute left-0 sm:left-4 top-0 bottom-0 w-px bg-border" />
 
 			<div class="space-y-8 sm:space-y-12">
-				{experiences.map((exp, index) => {
-					const initials = getInitials(exp.company);
-					return (
+				{experiences.map((exp, index) => (
 						<div class="relative pl-8 sm:pl-16">
 							{/* Dot marker */}
 							<div class="absolute left-0 sm:left-4 top-1 -translate-x-1/2 w-3 h-3 rounded-full bg-bg border-2 border-primary" />
@@ -148,10 +145,9 @@ function getInitials(company: string): string {
 										<div class="flex items-center gap-3">
 											{/* Company logo */}
 											<div
-												class="w-10 h-10 rounded-lg flex items-center justify-center font-['JetBrains_Mono'] text-sm font-bold flex-shrink-0"
-												style={`background-color: ${exp.logoColor}20; border: 1px solid ${exp.logoColor}; color: ${exp.logoColor}`}
+												class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 p-1.5 overflow-hidden"
 											>
-												{initials}
+												<img src={exp.logo} alt={`${exp.company} logo`} class="w-full h-full object-contain" />
 											</div>
 
 											<div>
@@ -194,8 +190,8 @@ function getInitials(company: string): string {
 								</div>
 							</resume-card>
 						</div>
-					);
-				})}
+					)
+				)}
 			</div>
 
 			{/* Terminal end marker */}
