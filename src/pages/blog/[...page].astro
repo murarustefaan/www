@@ -1,0 +1,175 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { GetStaticPaths, Page } from "astro";
+import { getAllPosts, getUniqueTags } from "@/data/post";
+import PageLayout from "@/layouts/Base.astro";
+import { collectionDateSort } from "@/utils/date";
+import { getFormattedDate } from "@/utils/date";
+
+export const getStaticPaths = (async ({ paginate }) => {
+	const allPosts = await getAllPosts();
+	const allPostsByDate = allPosts.sort(collectionDateSort);
+	const uniqueTags = getUniqueTags(allPosts);
+	return paginate(allPostsByDate, {
+		pageSize: 20,
+		props: { uniqueTags },
+	});
+}) satisfies GetStaticPaths;
+
+interface Props {
+	page: Page<CollectionEntry<"post">>;
+	uniqueTags: string[];
+}
+
+const { page, uniqueTags } = Astro.props;
+---
+
+<PageLayout meta={{ title: "Blog", description: "Technical writing on infrastructure, DevOps, and cloud-native engineering." }}>
+	<div class="max-w-4xl mx-auto py-12 sm:py-20">
+		{/* Header */}
+		<div class="mb-12 px-4 sm:px-6 lg:px-8">
+			<div class="font-['JetBrains_Mono'] text-sm text-muted mb-2">
+				$ ls ~/blog
+			</div>
+			<h1 class="text-3xl sm:text-4xl text-text mb-4">Blog Posts</h1>
+			<p class="text-muted">
+				Technical writing on infrastructure, DevOps, and cloud-native engineering.
+			</p>
+		</div>
+
+		{/* Tag Filter */}
+		<blog-filter>
+			<div class="mb-8 px-4 sm:px-6 lg:px-8">
+				<div class="font-['JetBrains_Mono'] text-sm text-muted mb-3 flex items-center gap-2">
+					<span class="text-accent">$</span> grep --tags
+					<button
+						class="clear-btn ml-2 text-xs px-2 py-0.5 bg-card border border-border text-muted rounded hover:border-primary/50 hover:text-text transition-colors items-center gap-1 hidden"
+						type="button"
+					>
+						<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+						clear
+					</button>
+				</div>
+				<div class="flex flex-wrap gap-2">
+					{uniqueTags.sort().map((tag) => (
+						<button
+							class="tag-btn text-xs px-3 py-1.5 rounded font-['JetBrains_Mono'] border transition-all bg-card border-border text-muted hover:border-primary/50 hover:text-text"
+							data-tag={tag}
+							type="button"
+						>
+							#{tag}
+						</button>
+					))}
+				</div>
+			</div>
+
+			{/* Posts list */}
+			<div class="mb-8 px-4 sm:px-6 lg:px-8 space-y-4" id="posts-list">
+				{page.data.map((post) => (
+					<a
+						href={`/blog/${post.id}/`}
+						class="post-card block group"
+						data-tags={post.data.tags.join(",")}
+					>
+						<article class="p-6 bg-card border border-border rounded-lg hover:border-primary/50 transition-all">
+							<div class="text-xs text-muted mb-2 font-['JetBrains_Mono']">
+								{getFormattedDate(post.data.publishDate)}
+							</div>
+							<h2 class="text-xl mb-3 text-text group-hover:text-primary transition-colors font-['JetBrains_Mono']">
+								{post.data.title}
+							</h2>
+							<div class="flex flex-wrap gap-2 mb-3">
+								{post.data.tags.map((tag) => (
+									<span class="text-xs px-2 py-0.5 bg-bg border border-border text-accent rounded font-['JetBrains_Mono']">
+										#{tag}
+									</span>
+								))}
+							</div>
+							<p class="text-muted leading-relaxed">
+								{post.data.description}
+							</p>
+						</article>
+					</a>
+				))}
+			</div>
+
+			{/* Empty state */}
+			<div id="empty-state" class="hidden text-center py-12 px-4">
+				<p class="text-muted font-['JetBrains_Mono']">
+					$ # No posts found matching the selected tags
+				</p>
+			</div>
+
+			{/* Post count */}
+			<div class="mt-12 px-4 sm:px-6 lg:px-8 font-['JetBrains_Mono'] text-sm text-muted">
+				$ wc -l ~/blog/*.md
+				<div class="text-accent ml-4" id="post-count">
+					{page.data.length} {page.data.length === 1 ? "post" : "posts"}
+				</div>
+			</div>
+		</blog-filter>
+	</div>
+</PageLayout>
+
+<script>
+	class BlogFilter extends HTMLElement {
+		#selectedTags: Set<string> = new Set();
+
+		connectedCallback() {
+			const tagBtns = this.querySelectorAll<HTMLButtonElement>(".tag-btn");
+			const clearBtn = this.querySelector<HTMLButtonElement>(".clear-btn")!;
+			const postCards = this.querySelectorAll<HTMLElement>(".post-card");
+			const emptyState = this.querySelector<HTMLElement>("#empty-state")!;
+			const postCount = this.querySelector<HTMLElement>("#post-count")!;
+
+			tagBtns.forEach((btn) => {
+				btn.addEventListener("click", () => {
+					const tag = btn.dataset.tag!;
+					if (this.#selectedTags.has(tag)) {
+						this.#selectedTags.delete(tag);
+						btn.classList.remove("bg-accent/10", "border-accent", "text-accent");
+						btn.classList.add("bg-card", "border-border", "text-muted");
+					} else {
+						this.#selectedTags.add(tag);
+						btn.classList.add("bg-accent/10", "border-accent", "text-accent");
+						btn.classList.remove("bg-card", "border-border", "text-muted");
+					}
+					this.#filter(postCards, emptyState, postCount, clearBtn);
+				});
+			});
+
+			clearBtn.addEventListener("click", () => {
+				this.#selectedTags.clear();
+				tagBtns.forEach((btn) => {
+					btn.classList.remove("bg-accent/10", "border-accent", "text-accent");
+					btn.classList.add("bg-card", "border-border", "text-muted");
+				});
+				this.#filter(postCards, emptyState, postCount, clearBtn);
+			});
+		}
+
+		#filter(
+			cards: NodeListOf<HTMLElement>,
+			emptyState: HTMLElement,
+			postCount: HTMLElement,
+			clearBtn: HTMLElement,
+		) {
+			let visible = 0;
+			cards.forEach((card) => {
+				const cardTags = (card.dataset.tags || "").split(",");
+				const show =
+					this.#selectedTags.size === 0 ||
+					[...this.#selectedTags].every((t) => cardTags.includes(t));
+				card.classList.toggle("hidden", !show);
+				if (show) visible++;
+			});
+
+			emptyState.classList.toggle("hidden", visible > 0);
+			postCount.textContent = `${visible} ${visible === 1 ? "post" : "posts"}`;
+			clearBtn.classList.toggle("hidden", this.#selectedTags.size === 0);
+			clearBtn.classList.toggle("flex", this.#selectedTags.size > 0);
+		}
+	}
+
+	customElements.define("blog-filter", BlogFilter);
+</script>

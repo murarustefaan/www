@@ -1,84 +1,147 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
-import PostPreview from "@/components/blog/PostPreview.astro";
-import Note from "@/components/note/Note.astro";
+import type { CollectionEntry } from "astro:content";
 import SocialList from "@/components/SocialList.astro";
 import { getAllPosts } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
-import { collectionDateSort, numberOfWorkingYears } from "@/utils/date";
+import { collectionDateSort } from "@/utils/date";
+import { getFormattedDate } from "@/utils/date";
 
-// Posts
-const MAX_POSTS = 10;
+const MAX_POSTS = 4;
 const allPosts = await getAllPosts();
-const allPostsByDate = allPosts
-	.sort(collectionDateSort)
-	.slice(0, MAX_POSTS) as CollectionEntry<"post">[];
+const recentPosts = allPosts.sort(collectionDateSort).slice(0, MAX_POSTS);
 
-// Pinned Posts, set to a max of 3;
-const MAX_PINNED_POSTS = 3;
-const pinnedPosts = allPostsByDate.filter((p) => p.data.pinned).slice(0, MAX_PINNED_POSTS);
+const techBadges = [
+	{ name: "Go", color: "#00ADD8" },
+	{ name: "Node.js", color: "#339933" },
+	{ name: "TypeScript", color: "#3178C6" },
+	{ name: "Kubernetes", color: "#326CE5" },
+	{ name: "MongoDB", color: "#47A248" },
+	{ name: "PostgreSQL", color: "#4169E1" },
+	{ name: "Redis", color: "#DC382D" },
+	{ name: "Terraform", color: "#7B42BC" },
+	{ name: "ArgoCD", color: "#EF7B4D" },
+	{ name: "Prometheus", color: "#E6522C" },
+	{ name: "Grafana", color: "#F46800" },
+	{ name: "Cloudflare", color: "#F38020" },
+];
 
-// Notes
-const MAX_NOTES = 5;
-const allNotes = await getCollection("note");
-const latestNotes = allNotes.sort(collectionDateSort).slice(0, MAX_NOTES);
+const expertiseChips = [
+	{ name: "Kubernetes & Containers", icon: "container" },
+	{ name: "Cloud Infra // AWS & GCP", icon: "cloud" },
+	{ name: "Go / Node.js Engineering", icon: "code" },
+	{ name: "Platform & OSS", icon: "box" },
+] as const;
+
+// SVG icons for expertise chips (Lucide-style)
+const chipIcons: Record<string, string> = {
+	container: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="14" rx="2"/><rect width="20" height="8" x="2" y="2" rx="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>`,
+	cloud: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>`,
+	code: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+	box: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>`,
+};
 ---
 
 <PageLayout meta={{ title: "Home" }}>
-	<section class="space-y-8">
-		<p>
-			I'm <span class="text-accent">Ştefan</span>, a results-driven <span class="text-accent"
-				>Senior Software Engineer</span
-			> with <span class="text-accent">{numberOfWorkingYears()} years</span> of hands-on experience designing
-			and building cloud-native projects.
-		</p>
-		<p>
-			Feel free to <a class="cactus-link" href="mailto:hello@stefanmuraru.com">reach out</a> with projects
-			or ideas for which you might need help (or just to say hello). I'll be upfront and let you know
-			if I'm not the right person for it.
-		</p>
-		<SocialList />
-	</section>
-	{
-		pinnedPosts.length > 0 && (
-			<section class="mt-16">
-				<h2 class="title mb-6 text-xl">Pinned Posts</h2>
-				<ul class="space-y-4" role="list">
-					{pinnedPosts.map((p) => (
-						<li class="grid gap-1 sm:grid-cols-[auto_1fr]">
-							<PostPreview post={p} />
-						</li>
-					))}
-				</ul>
-			</section>
-		)
-	}
-	<section class="mt-16">
-		<h2 class="title text-accent mb-6 text-xl"><a href="/posts/">Posts</a></h2>
-		<ul class="space-y-4" role="list">
-			{
-				allPostsByDate.map((p) => (
-					<li class="grid gap-1 sm:grid-cols-[auto_1fr]">
-						<PostPreview post={p} />
-					</li>
-				))
-			}
-		</ul>
-	</section>
-	{
-		latestNotes.length > 0 && (
-			<section class="mt-16">
-				<h2 class="title text-accent mb-6 text-xl">
-					<a href="/notes/">Notes</a>
-				</h2>
-				<ul class="space-y-6" role="list">
-					{latestNotes.map((note) => (
-						<li>
-							<Note note={note} as="h3" isPreview />
-						</li>
-					))}
-				</ul>
-			</section>
-		)
-	}
+	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+		{/* Hero Section */}
+		<section class="mb-16 sm:mb-24">
+			<div class="mb-4 font-['JetBrains_Mono'] text-sm text-muted">
+				$ whoami
+			</div>
+
+			<h1 class="text-4xl sm:text-5xl lg:text-6xl mb-4 text-text flex items-center flex-wrap">
+				Ștefan Muraru
+				<span class="inline-block w-3 h-10 sm:h-12 bg-accent ml-1 animate-blink" aria-hidden="true"></span>
+			</h1>
+
+			<div class="text-xl sm:text-2xl mb-6 text-muted font-['JetBrains_Mono']">
+				<span class="text-primary">Senior Software Engineer</span>
+				<span class="text-text"> // </span>
+				<span class="text-accent">DevOps & Cloud-Native</span>
+			</div>
+
+			<p class="text-base sm:text-lg text-muted max-w-2xl leading-relaxed mb-8">
+				Results-driven engineer with 10 years building cloud-native systems.
+				Specialized in high-throughput back-end applications.
+				Reach out with projects or ideas.
+			</p>
+
+			{/* Expertise chips */}
+			<div class="flex flex-wrap gap-2 mb-8">
+				{expertiseChips.map((skill) => (
+					<span class="px-3 py-1.5 bg-card border border-border text-text text-sm rounded font-['JetBrains_Mono'] hover:border-primary/50 transition-colors flex items-center gap-2">
+						<span class="text-primary" set:html={chipIcons[skill.icon]} />
+						{skill.name}
+					</span>
+				))}
+			</div>
+
+			{/* Tech badges */}
+			<div class="flex flex-wrap gap-2 mb-10">
+				{techBadges.map((tech) => (
+					<span
+						class="px-2.5 py-1 bg-bg border border-border text-xs rounded font-['JetBrains_Mono'] hover:scale-105 transition-transform"
+						style={`color: ${tech.color}`}
+					>
+						{tech.name}
+					</span>
+				))}
+			</div>
+
+			{/* Socials */}
+			<SocialList />
+		</section>
+
+		{/* Recent Posts */}
+		<section>
+			<div class="mb-6 font-['JetBrains_Mono'] text-sm text-muted flex items-center gap-2">
+				<span class="text-accent">$</span> ls ~/blog/recent
+				<span class="text-border ml-2">{"{"} {recentPosts.length} items {"}"}</span>
+			</div>
+
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+				{recentPosts.map((post) => (
+					<a
+						href={`/blog/${post.id}/`}
+						class="group p-6 bg-card border border-border rounded-lg hover:border-primary/50 transition-all relative overflow-hidden"
+					>
+						{/* Bracket decorators */}
+						<div class="absolute top-2 right-2 text-border text-xs font-['JetBrains_Mono'] group-hover:text-primary/30 transition-colors">
+							{"{"}
+						</div>
+						<div class="absolute bottom-2 right-2 text-border text-xs font-['JetBrains_Mono'] group-hover:text-primary/30 transition-colors">
+							{"}"}
+						</div>
+
+						<div class="text-xs text-muted mb-2 font-['JetBrains_Mono']">
+							{getFormattedDate(post.data.publishDate)}
+						</div>
+						<h3 class="text-lg mb-3 text-text group-hover:text-primary transition-colors">
+							{post.data.title}
+						</h3>
+						<div class="flex flex-wrap gap-2 mb-3">
+							{post.data.tags.map((tag) => (
+								<span class="text-xs px-2 py-0.5 bg-bg border border-border text-accent rounded font-['JetBrains_Mono']">
+									#{tag}
+								</span>
+							))}
+						</div>
+						<p class="text-sm text-muted leading-relaxed">
+							{post.data.description}
+						</p>
+					</a>
+				))}
+			</div>
+		</section>
+	</div>
 </PageLayout>
+
+<style>
+	@keyframes blink {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0; }
+	}
+	.animate-blink {
+		animation: blink 1.06s step-end infinite;
+	}
+</style>

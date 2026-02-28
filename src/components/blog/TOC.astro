@@ -8,14 +8,15 @@ interface Props {
 }
 
 const { headings } = Astro.props;
-
 const toc = generateToc(headings);
 ---
 
-<details open class="lg:sticky lg:top-12 lg:order-2 lg:-me-32 lg:basis-64">
-	<summary class="title hover:marker:text-accent cursor-pointer text-lg">Table of Contents</summary>
-	<nav class="ms-4 lg:w-full">
-		<ol class="mt-4">
+<details open class="lg:sticky lg:top-20 lg:order-2 lg:-me-32 lg:basis-64">
+	<summary class="cursor-pointer text-sm font-['JetBrains_Mono'] text-muted hover:text-text transition-colors">
+		<span class="text-accent">$</span> cat TOC
+	</summary>
+	<nav class="ms-4 mt-3 border-l border-border pl-4">
+		<ol class="space-y-1">
 			{toc.map((heading) => <TOCHeading heading={heading} />)}
 		</ol>
 	</nav>
