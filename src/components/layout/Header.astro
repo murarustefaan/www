@@ -51,6 +51,7 @@ const currentPath = Astro.url.pathname;
 				<button
 					aria-expanded="false"
 					aria-haspopup="menu"
+					aria-controls="mobile-menu"
 					aria-label="Open main menu"
 					class="p-2 text-muted hover:text-text transition-colors"
 					id="toggle-nav"
@@ -112,7 +113,9 @@ const currentPath = Astro.url.pathname;
 			btn.addEventListener("click", () => {
 				const isOpen = menu.classList.toggle("hidden");
 				// isOpen is true when "hidden" was added (= menu closed)
-				btn.setAttribute("aria-expanded", (!isOpen).toString());
+				const expanded = !isOpen;
+				btn.setAttribute("aria-expanded", expanded.toString());
+				btn.setAttribute("aria-label", expanded ? "Close main menu" : "Open main menu");
 				hamburger.classList.toggle("hidden");
 				close.classList.toggle("hidden");
 			});
