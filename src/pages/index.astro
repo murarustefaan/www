@@ -44,7 +44,24 @@ const chipIcons: Record<string, string> = {
 <PageLayout meta={{ title: "Home" }}>
 	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
 		{/* Hero Section */}
-		<section class="mb-16 sm:mb-24">
+		<section class="mb-16 sm:mb-24 relative">
+			{/* Decorative terminal block */}
+			<div class="absolute -top-8 -right-12 w-[400px] h-[480px] opacity-[0.05] hidden lg:block select-none pointer-events-none overflow-hidden" aria-hidden="true">
+				<div class="font-['JetBrains_Mono'] text-[10px] text-primary leading-tight whitespace-pre">
+					<div>$ kubectl get pods -n svc-www</div>
+					<div>NAME                          READY   STATUS    RESTARTS   AGE</div>
+					<div>api-gateway-7d9f8c6-xk2pq    2/2     Running   0          14d</div>
+					<div>auth-svc-5bc4d8f-m9vzl       1/1     Running   0          14d</div>
+					<div>worker-pool-6f8a3b2-abc12     3/3     Running   0          7d</div>
+					<div>worker-pool-6f8a3b2-def34     3/3     Running   0          7d</div>
+					<div>worker-pool-6f8a3b2-ghi56     3/3     Running   0          7d</div>
+					<div>cache-redis-primary-0         1/1     Running   0          42d</div>
+					<div>cache-redis-replica-0         1/1     Running   0          42d</div>
+					<div>postgres-primary-0            1/1     Running   0          42d</div>
+					<div>postgres-replica-0            1/1     Running   0          42d</div>
+				</div>
+			</div>
+
 			<div class="mb-4 font-['JetBrains_Mono'] text-sm text-muted">
 				$ whoami
 			</div>

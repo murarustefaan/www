@@ -71,7 +71,13 @@ const {
 			})();
 		</script>
 	</head>
-	<body class="bg-bg text-text min-h-screen font-['Inter',sans-serif] antialiased">
+	<body class="bg-bg text-text min-h-screen font-['Inter',sans-serif] antialiased relative overflow-x-hidden">
+		{/* Subtle grid background */}
+		<div
+			class="fixed inset-0 opacity-[0.015] pointer-events-none"
+			style="background-image: linear-gradient(var(--color-primary) 1px, transparent 1px), linear-gradient(90deg, var(--color-primary) 1px, transparent 1px); background-size: 40px 40px;"
+			aria-hidden="true"
+		/>
 		<SkipLink />
 		<Header />
 		<main id="main">
