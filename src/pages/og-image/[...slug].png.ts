@@ -2,8 +2,8 @@ import { Resvg } from "@resvg/resvg-js";
 import type { APIContext, InferGetStaticPropsType } from "astro";
 import satori, { type SatoriOptions } from "satori";
 import { html } from "satori-html";
-import RobotoMonoBold from "@/assets/roboto-mono-700.ttf";
-import RobotoMono from "@/assets/roboto-mono-regular.ttf";
+import JetBrainsMonoBold from "@/assets/jetbrains-mono-700.ttf";
+import JetBrainsMono from "@/assets/jetbrains-mono-regular.ttf";
 import { getAllPosts } from "@/data/post";
 import { siteConfig } from "@/site.config";
 import { getFormattedDate } from "@/utils/date";
@@ -11,14 +11,14 @@ import { getFormattedDate } from "@/utils/date";
 const ogOptions: SatoriOptions = {
 	fonts: [
 		{
-			data: Buffer.from(RobotoMono),
-			name: "Roboto Mono",
+			data: Buffer.from(JetBrainsMono),
+			name: "JetBrains Mono",
 			style: "normal",
 			weight: 400,
 		},
 		{
-			data: Buffer.from(RobotoMonoBold),
-			name: "Roboto Mono",
+			data: Buffer.from(JetBrainsMonoBold),
+			name: "JetBrains Mono",
 			style: "normal",
 			weight: 700,
 		},
