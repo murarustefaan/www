@@ -3,7 +3,6 @@ import { type CollectionEntry, render } from "astro:content";
 
 import Masthead from "@/components/blog/Masthead.astro";
 import TOC from "@/components/blog/TOC.astro";
-import WebMentions from "@/components/blog/webmentions/index.astro";
 
 import BaseLayout from "./Base.astro";
 
@@ -27,27 +26,51 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
 		title,
 	}}
 >
-	<article class="grow break-words" data-pagefind-body>
-		<div id="blog-hero" class="mb-12"><Masthead content={post} readingTime={readingTime} /></div>
-		<div class="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
-			{!!headings.length && <TOC headings={headings} />}
-			<div
-				class="prose-headings:text-accent-2 prose-headings:hover:before:text-accent prose prose-sm prose-headings:font-semibold prose-headings:before:absolute prose-headings:before:-ms-4 prose-headings:before:text-gray-600 sm:prose-headings:before:content-['#'] sm:prose-th:before:content-none"
-			>
-				<slot />
-				<WebMentions />
+	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+		{/* Back link */}
+		<a
+			href="/blog/"
+			class="inline-flex items-center gap-2 text-muted hover:text-primary transition-colors mb-8 font-['JetBrains_Mono'] text-sm"
+		>
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+			<span>$ cd ../blog</span>
+		</a>
+
+		<article class="grow break-words">
+			<div id="blog-hero" class="mb-12">
+				<Masthead content={post} readingTime={readingTime} />
 			</div>
+
+			<div class="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
+				{!!headings.length && <TOC headings={headings} />}
+				<div class="prose max-w-none">
+					<slot />
+				</div>
+			</div>
+		</article>
+
+		{/* Bottom navigation */}
+		<div class="mt-16 pt-8 border-t border-border">
+			<a
+				href="/blog/"
+				class="inline-flex items-center gap-2 text-muted hover:text-primary transition-colors font-['JetBrains_Mono'] text-sm"
+			>
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+				<span>$ cd ../blog</span>
+			</a>
 		</div>
-	</article>
+	</div>
+
+	{/* Scroll to top */}
 	<button
-		class="hover:border-link z-90 transition-discrete fixed bottom-8 end-4 flex h-10 w-10 translate-y-28 cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-zinc-200 text-3xl opacity-0 transition-all duration-300 data-[show=true]:translate-y-0 data-[show=true]:opacity-100 sm:end-8 sm:h-12 sm:w-12 dark:bg-zinc-700"
+		class="z-90 fixed bottom-8 end-4 flex h-10 w-10 translate-y-28 cursor-pointer items-center justify-center rounded-full border border-border bg-card text-muted opacity-0 transition-all duration-300 hover:border-primary hover:text-primary data-[show=true]:translate-y-0 data-[show=true]:opacity-100 sm:end-8 sm:h-12 sm:w-12"
 		data-show="false"
 		id="to-top-btn"
 	>
 		<span class="sr-only">Back to top</span>
 		<svg
 			aria-hidden="true"
-			class="h-6 w-6"
+			class="h-5 w-5"
 			fill="none"
 			focusable="false"
 			stroke="currentColor"
@@ -66,7 +89,6 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
 
 	function callback(entries: IntersectionObserverEntry[]) {
 		entries.forEach((entry) => {
-			// only show the scroll to top button when the heading is out of view
 			scrollBtn.dataset.show = (!entry.isIntersecting).toString();
 		});
 	}

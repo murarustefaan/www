@@ -2,12 +2,26 @@
 import PageLayout from "@/layouts/Base.astro";
 
 const meta = {
-	description: "Oops! It looks like this page is lost in space!",
-	title: "Oops! You found a missing page!",
+	description: "Page not found",
+	title: "404 - Not Found",
 };
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="title mb-12">404 | Oops something went wrong</h1>
-	<p class="mb-8">Please use the navigation to find your way back</p>
+	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+		<div class="font-['JetBrains_Mono'] text-sm text-muted mb-4">
+			$ cat /dev/null
+		</div>
+		<h1 class="text-6xl sm:text-8xl mb-6 font-['JetBrains_Mono'] text-text">404</h1>
+		<p class="text-xl text-muted mb-8">
+			The page you're looking for doesn't exist.
+		</p>
+		<a
+			href="/"
+			class="inline-flex items-center gap-2 font-['JetBrains_Mono'] text-sm text-primary hover:text-accent transition-colors"
+		>
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+			$ cd ~/home
+		</a>
+	</div>
 </PageLayout>

@@ -8,31 +8,31 @@ export default {
 				DEFAULT: {
 					css: {
 						a: {
+							color: "var(--color-primary)",
 							textUnderlineOffset: "2px",
 							"&:hover": {
-								"@media (hover: hover)": {
-									textDecorationColor: "var(--color-link)",
-									textDecorationThickness: "2px",
-								},
+								color: "var(--color-accent)",
+								textDecorationThickness: "2px",
 							},
 						},
 						blockquote: {
-							borderLeftWidth: "0",
+							borderLeftColor: "var(--color-primary)",
+							backgroundColor: "var(--color-card)",
+							padding: "1rem",
+							borderRadius: "0 0.375rem 0.375rem 0",
 						},
 						code: {
-							border: "1px dotted #666",
-							borderRadius: "2px",
-						},
-						kbd: {
-							"&:where([data-theme='dark'], [data-theme='dark'] *)": {
-								background: "var(--color-global-text)",
-							},
+							backgroundColor: "var(--color-card)",
+							border: "1px solid var(--color-border)",
+							borderRadius: "4px",
+							padding: "0.125rem 0.25rem",
 						},
 						hr: {
-							borderTopStyle: "dashed",
+							borderColor: "var(--color-border)",
 						},
 						strong: {
 							fontWeight: "700",
+							color: "var(--color-text)",
 						},
 						sup: {
 							marginInlineStart: "calc(var(--spacing) * 0.5)",
@@ -44,25 +44,23 @@ export default {
 									content: "'['",
 								},
 								"&:hover": {
-									"@media (hover: hover)": {
-										color: "var(--color-link)",
-									},
+									color: "var(--color-accent)",
 								},
 							},
 						},
-						/* Table */
 						"tbody tr": {
-							borderBottomWidth: "none",
+							borderBottomColor: "var(--color-border)",
 						},
 						tfoot: {
-							borderTop: "1px dashed #666",
+							borderTop: "1px solid var(--color-border)",
 						},
 						thead: {
 							borderBottomWidth: "none",
 						},
 						"thead th": {
-							borderBottom: "1px dashed #666",
+							borderBottom: "1px solid var(--color-border)",
 							fontWeight: "700",
+							color: "var(--color-text)",
 						},
 						'th[align="center"], td[align="center"]': {
 							"text-align": "center",
@@ -72,6 +70,10 @@ export default {
 						},
 						'th[align="left"], td[align="left"]': {
 							"text-align": "left",
+						},
+						"img": {
+							borderRadius: "0.5rem",
+							border: "1px solid var(--color-border)",
 						},
 						".expressive-code, .admonition, .github-card": {
 							marginTop: "calc(var(--spacing)*4)",

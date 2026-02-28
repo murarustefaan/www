@@ -37,17 +37,6 @@ const post = defineCollection({
 		}),
 });
 
-const note = defineCollection({
-	loader: glob({ base: "./src/content/note", pattern: "**/*.{md,mdx}" }),
-	schema: baseSchema.extend({
-		description: z.string().optional(),
-		publishDate: z
-			.string()
-			.datetime({ offset: true }) // Ensures ISO 8601 format with offsets allowed (e.g. "2024-01-01T00:00:00Z" and "2024-01-01T00:00:00+02:00")
-			.transform((val) => new Date(val)),
-	}),
-});
-
 const tag = defineCollection({
 	loader: glob({ base: "./src/content/tag", pattern: "**/*.{md,mdx}" }),
 	schema: z.object({
@@ -56,4 +45,4 @@ const tag = defineCollection({
 	}),
 });
 
-export const collections = { post, note, tag };
+export const collections = { post, tag };

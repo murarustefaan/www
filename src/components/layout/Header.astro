@@ -1,99 +1,123 @@
 ---
-import { Icon } from "astro-icon/components";
-import Search from "@/components/Search.astro";
-import ThemeToggle from "@/components/ThemeToggle.astro";
 import { menuLinks } from "@/site.config";
-import { siteConfig } from "../../site.config";
+
+const currentPath = Astro.url.pathname;
 ---
 
-<header class="group relative mb-28 flex items-center" id="main-header">
-	<div class="flex sm:flex-col">
-		<a
-			href="/"
-			class="inline-flex items-center grayscale hover:filter-none sm:relative sm:inline-block"
-			aria-current={Astro.url.pathname === "/" ? "page" : false}
-		>
-			<span class="text-xl font-bold sm:text-2xl">{siteConfig.title}</span>
-		</a>
-		<nav
-			aria-label="Main menu"
-			class="bg-global-bg absolute -inset-x-4 top-12 hidden flex-col divide-y px-2 py-4 group-[.menu-open]:z-50 group-[.menu-open]:flex sm:static sm:z-auto sm:-ms-4 sm:mt-1 sm:flex sm:flex-row sm:divide-x sm:divide-y-0 sm:bg-transparent sm:p-0"
-			id="navigation-menu"
-		>
-			{
-				menuLinks.map((link) => (
-					<a
-						aria-current={Astro.url.pathname === link.path ? "page" : false}
-						class="flex items-center gap-2 px-4 py-4 underline-offset-2 hover:underline sm:py-0"
-						data-astro-prefetch
-						href={link.path}
-					>
-						{link.icon && (
-							<Icon class="h-4 w-4" name={link.icon} aria-hidden="true" focusable="false" />
-						)}
-						{link.title}
-					</a>
-				))
-			}
-		</nav>
+<nav class="sticky top-0 z-50 bg-bg/95 backdrop-blur-sm border-b border-border">
+	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="flex items-center justify-between h-14">
+			{/* Logo */}
+			<a
+				href="/"
+				class="font-['JetBrains_Mono'] text-sm text-accent hover:text-[#00ffcc] transition-colors"
+			>
+				~/stefan
+			</a>
+
+			{/* Desktop Navigation */}
+			<div class="hidden md:flex items-center gap-6 text-sm">
+				{menuLinks.map((link) => (
+					link.style === "button" ? (
+						<a
+							href={link.path}
+							class:list={[
+								"font-['JetBrains_Mono'] px-3 py-1 rounded transition-colors",
+								currentPath === link.path
+									? "bg-secondary text-primary border border-primary/50"
+									: "bg-card text-muted border border-border hover:border-primary/30 hover:text-text",
+							]}
+						>
+							{link.title}
+						</a>
+					) : (
+						<a
+							href={link.path}
+							class:list={[
+								"transition-colors",
+								currentPath === link.path || (link.path !== "/" && currentPath.startsWith(link.path))
+									? "text-text"
+									: "text-muted hover:text-text",
+							]}
+						>
+							{link.title}
+						</a>
+					)
+				))}
+			</div>
+
+			{/* Mobile hamburger */}
+			<mobile-button class="md:hidden">
+				<button
+					aria-expanded="false"
+					aria-haspopup="menu"
+					aria-controls="mobile-menu"
+					aria-label="Open main menu"
+					class="p-2 text-muted hover:text-text transition-colors"
+					id="toggle-nav"
+					type="button"
+				>
+					<svg class="hamburger-icon w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path d="M3.75 9h16.5m-16.5 6.75h16.5" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+					<svg class="close-icon hidden w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+				</button>
+			</mobile-button>
+		</div>
+
+		{/* Mobile Navigation (hidden by default, toggled via script) */}
+		<div id="mobile-menu" class="hidden md:hidden pb-4 pt-2 border-t border-border mt-2">
+			<div class="flex flex-col gap-3 text-sm">
+				{menuLinks.map((link) => (
+					link.style === "button" ? (
+						<a
+							href={link.path}
+							class:list={[
+								"font-['JetBrains_Mono'] px-3 py-1 rounded transition-colors inline-block w-fit",
+								currentPath === link.path
+									? "bg-secondary text-primary border border-primary/50"
+									: "bg-card text-muted border border-border hover:border-primary/30 hover:text-text",
+							]}
+						>
+							{link.title}
+						</a>
+					) : (
+						<a
+							href={link.path}
+							class:list={[
+								"transition-colors",
+								currentPath === link.path || (link.path !== "/" && currentPath.startsWith(link.path))
+									? "text-text"
+									: "text-muted hover:text-text",
+							]}
+						>
+							{link.title}
+						</a>
+					)
+				))}
+			</div>
+		</div>
 	</div>
-	<Search />
-	<ThemeToggle />
-	<mobile-button>
-		<button
-			aria-expanded="false"
-			aria-haspopup="menu"
-			class="group relative ms-4 h-7 w-7 sm:invisible sm:hidden"
-			id="toggle-navigation-menu"
-			type="button"
-		>
-			<span class="sr-only">Open main menu</span>
-			<svg
-				aria-hidden="true"
-				class="absolute start-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 transition-all group-aria-expanded:scale-0 group-aria-expanded:opacity-0"
-				fill="none"
-				focusable="false"
-				id="line-svg"
-				stroke="currentColor"
-				stroke-width="1.5"
-				viewBox="0 0 24 24"
-				xmlns="http://www.w3.org/2000/svg"
-			>
-				<path d="M3.75 9h16.5m-16.5 6.75h16.5" stroke-linecap="round" stroke-linejoin="round"
-				></path>
-			</svg>
-			<svg
-				aria-hidden="true"
-				class="text-accent absolute start-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all group-aria-expanded:scale-100 group-aria-expanded:opacity-100"
-				class="text-accent"
-				fill="none"
-				focusable="false"
-				id="cross-svg"
-				stroke="currentColor"
-				stroke-width="1.5"
-				viewBox="0 0 24 24"
-				xmlns="http://www.w3.org/2000/svg"
-			>
-				<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"></path>
-			</svg>
-		</button>
-	</mobile-button>
-</header>
+</nav>
 
 <script>
-	import { toggleClass } from "@/utils/domElement";
-
 	class MobileNavBtn extends HTMLElement {
-		#menuOpen: boolean = false;
-
 		connectedCallback() {
-			const headerEl = document.getElementById("main-header")!;
-			const mobileButtonEl = this.querySelector<HTMLButtonElement>("button");
+			const btn = this.querySelector<HTMLButtonElement>("button")!;
+			const menu = document.getElementById("mobile-menu")!;
+			const hamburger = btn.querySelector(".hamburger-icon")!;
+			const close = btn.querySelector(".close-icon")!;
 
-			mobileButtonEl?.addEventListener("click", () => {
-				if (headerEl) toggleClass(headerEl, "menu-open");
-				this.#menuOpen = !this.#menuOpen;
-				mobileButtonEl.setAttribute("aria-expanded", this.#menuOpen.toString());
+			btn.addEventListener("click", () => {
+				const isOpen = menu.classList.toggle("hidden");
+				// isOpen is true when "hidden" was added (= menu closed)
+				const expanded = !isOpen;
+				btn.setAttribute("aria-expanded", expanded.toString());
+				btn.setAttribute("aria-label", expanded ? "Close main menu" : "Open main menu");
+				hamburger.classList.toggle("hidden");
+				close.classList.toggle("hidden");
 			});
 		}
 	}

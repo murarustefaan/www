@@ -1,0 +1,231 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+
+const experiences = [
+	{
+		company: "CloudQuery",
+		role: "Senior Software Engineer",
+		period: "May 2024 – Present",
+		catPath: "~/experience/cloudquery/team-lead.plugins.txt",
+		description: "Team lead of the Plugins team, responsible with CloudQuery plugin development.",
+		details: [
+			"Leading a team of 4 engineers through the entire development and support lifecycle of different CloudQuery Plugins.",
+		],
+		logoColor: "#00d4aa",
+		logo: "/logos/cloudquery.svg",
+	},
+	{
+		company: "CloudQuery",
+		role: "Senior Software Engineer",
+		period: "Apr 2024 – Present",
+		catPath: "~/experience/cloudquery/engineer.framework.txt",
+		description:
+			"Working on the Framework team, handling the open source software (CLI, SDKs, etc.) as well as the private plugins and internal software components.",
+		details: [
+			"Implemented new source plugins based on demand for platforms like Wiz, Tenable and Plaid.",
+			"Implemented features in the Core SDK like tracking sync usage per-table and adding support for additional types.",
+			"Implemented resources and bugfixes to core plugins like GCP, AWS, Github & Snyk.",
+		],
+		logoColor: "#00d4aa",
+		logo: "/logos/cloudquery.svg",
+	},
+	{
+		company: "Monokle/Kubeshop",
+		role: "Senior Cloud Engineer",
+		period: "Dec 2022 – Mar 2024",
+		catPath: "~/experience/kubeshop/senior-cloud.monokle.txt",
+		description:
+			"Led the infrastructure management as well as end-to-end architecture and development of the authentication framework, microservices and GraphQL APIs for the Monokle Cloud application at Kubeshop.",
+		details: [
+			"Cut existing cloud costs by over 60% while also implementing the industry security and reliability practices.",
+			"Implemented OAuth2.0 + OpenID Connect authentication by deploying and configuring an on-prem Authorization Server as well implementing and testing individual Authorization Code, Client Credentials and Device Code flows.",
+			"Implemented a high-throughput content streaming API for fetching repositories from multiple GIT providers by integrating provider APIs or leveraging SSH / HTTPS git authentication.",
+			"Created and maintained Github Actions configuration files for building and testing as well as Helm Charts & Kustomizations deployed on ArgoCD to sum up for an end-to-end CI/CD process.",
+			"Improved build times by more than 80% while also scaling down image sizes by an entire order of magnitude by leveraging Github Actions concurrency and caching as well as Docker multistage builds and distroless images.",
+		],
+		logoColor: "#58a6ff",
+		logo: "/logos/kubeshop.png",
+	},
+	{
+		company: "Bitdefender",
+		role: "Senior Cloud Engineer",
+		period: "Oct 2018 – Dec 2022",
+		catPath: "~/experience/bitdefender/senior-cloud.platform.txt",
+		description:
+			"Worked on building an internal platform that enabled developers and ML researchers to easily manage their code's lifecycle after development, from building, to deploying to multiple testing and staging environments and ultimately going to production.",
+		details: [
+			"Implemented multiple Kubernetes operators for technologies such as RabbitMQ, Prometheus and the Elastic Stack (deep diving into operations like HA clustering, sharding, etc.) in order to be able to ship them as managed services.",
+			"Designed and implemented a hardware and software discovering and inventorying system that in only a couple of months helped the company pass a SOC2 audit while also saving on alternative paid solutions.",
+			"Designed and implemented a highly-available, multi-region mail templating gateway through which the client emails are being sent on behalf of the products.",
+			"Participated in the design and implementation of infrastructure, Kubernetes deployment on public and private cloud providers (Google Cloud Platform, Amazon AWS and on-premise infrastructure) as well as migration (Virtual Machines to Kubernetes), replication, scaling and authentication of services like MongoDB, RabbitMQ, Redis and Elastic Stack components using OAuth2.0 flows.",
+		],
+		logoColor: "#f85149",
+		logo: "/logos/bitdefender.jpg",
+	},
+	{
+		company: "Yonder",
+		role: "Software Engineer",
+		period: "Mar 2017 – Oct 2018",
+		catPath: "~/experience/yonder/engineer.gis-warehouse.txt",
+		description:
+			"Worked on a Data Warehouse & GIS mapping project used by government entities.",
+		details: [
+			"Developed frontend components using Angular, based on specific instructions & designs.",
+			"Mapped GIS, JSON and XML data through .NET and NodeJS APIs.",
+			"Dockerized all the dev and staging environments in order to facilitate local development and shorten build and release times.",
+		],
+		logoColor: "#ffa657",
+		logo: "/logos/yonder.svg",
+	},
+	{
+		company: "Maxcode",
+		role: "Junior Software Developer",
+		period: "Nov 2016 – Mar 2017",
+		catPath: "~/experience/maxcode/junior.internal-tools.txt",
+		description: "Worked on designing and implementing an internal employee management application.",
+		details: [],
+		logoColor: "#8b949e",
+		logo: "/logos/maxcode.svg",
+	},
+	{
+		company: "Yonder",
+		role: "Junior Software Developer",
+		period: "Apr – Jul 2016",
+		catPath: "~/experience/yonder/intern.txt",
+		description: "",
+		details: [],
+		logoColor: "#ffa657",
+		logo: "/logos/yonder.svg",
+	},
+];
+
+---
+
+<PageLayout meta={{ title: "Resume" }}>
+	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+		{/* Header */}
+		<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4">
+			<div>
+				<div class="font-['JetBrains_Mono'] text-sm text-muted mb-2">
+					$ ls ~/experience
+				</div>
+				<h1 class="text-3xl sm:text-4xl text-text">Career Timeline</h1>
+			</div>
+
+			<a
+				href="/resume.pdf"
+				class="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded text-accent hover:border-accent/50 transition-colors font-['JetBrains_Mono'] text-sm"
+			>
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+				<span>$ wget resume.pdf</span>
+			</a>
+		</div>
+
+		{/* Timeline */}
+		<div class="relative">
+			{/* Vertical line */}
+			<div class="absolute left-0 sm:left-4 top-0 bottom-0 w-px bg-border" />
+
+			<div class="space-y-8 sm:space-y-12">
+				{experiences.map((exp, index) => (
+						<div class="relative pl-8 sm:pl-16">
+							{/* Dot marker */}
+							<div class="absolute left-0 sm:left-4 top-1 -translate-x-1/2 w-3 h-3 rounded-full bg-bg border-2 border-primary" />
+
+							<resume-card>
+								<div
+									class="bg-card border border-border rounded-lg p-6 hover:border-primary/30 transition-all"
+									data-index={index}
+									role={exp.details.length > 0 ? "button" : undefined}
+									tabindex={exp.details.length > 0 ? 0 : undefined}
+									aria-expanded={exp.details.length > 0 ? "false" : undefined}
+									class:list={[exp.details.length > 0 && "cursor-pointer"]}
+								>
+									<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 gap-2">
+										<div class="flex items-center gap-3">
+											{/* Company logo */}
+											<div
+												class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 p-1.5 overflow-hidden"
+											>
+												<img src={exp.logo} alt={`${exp.company} logo`} class="w-full h-full object-contain" />
+											</div>
+
+											<div>
+												<h3 class="text-lg text-text">
+													<span class="text-primary">{exp.company}</span>
+													<span class="text-muted"> · </span>
+													<span class="text-text">{exp.role}</span>
+												</h3>
+											</div>
+										</div>
+
+										<div class="flex items-center gap-2">
+											<div class="font-['JetBrains_Mono'] text-xs sm:text-sm text-muted whitespace-nowrap">
+												{exp.period}
+											</div>
+											{exp.details.length > 0 && <svg class="chevron-icon text-muted w-[18px] h-[18px] transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>}
+										</div>
+									</div>
+
+									{exp.description && <p class="text-muted leading-relaxed">
+										{exp.description}
+									</p>}
+
+									{/* Expandable details */}
+									{exp.details.length > 0 && (
+										<div class="details hidden mt-4 pt-4 border-t border-border">
+											<div class="font-['JetBrains_Mono'] text-xs text-accent mb-3">
+												$ cat {exp.catPath}
+											</div>
+											<ul class="space-y-2">
+												{exp.details.map((detail) => (
+													<li class="text-muted leading-relaxed flex gap-2">
+														<span class="text-primary flex-shrink-0">›</span>
+														<span>{detail}</span>
+													</li>
+												))}
+											</ul>
+										</div>
+									)}
+								</div>
+							</resume-card>
+						</div>
+					)
+				)}
+			</div>
+
+			{/* Terminal end marker */}
+			<div class="mt-12 pl-8 sm:pl-16 font-['JetBrains_Mono'] text-sm text-muted">
+				$ # End of timeline
+			</div>
+		</div>
+	</div>
+</PageLayout>
+
+<script>
+	class ResumeCard extends HTMLElement {
+		connectedCallback() {
+			const card = this.querySelector<HTMLDivElement>("[data-index]")!;
+			const details = this.querySelector<HTMLDivElement>(".details");
+			const chevron = this.querySelector<SVGElement>(".chevron-icon");
+
+			if (!details || !chevron) return;
+
+			const toggle = () => {
+				const isHidden = details.classList.toggle("hidden");
+				chevron.style.transform = isHidden ? "" : "rotate(180deg)";
+				card.setAttribute("aria-expanded", String(!isHidden));
+			};
+
+			card.addEventListener("click", toggle);
+			card.addEventListener("keydown", (e) => {
+				if (e.key === "Enter" || e.key === " ") {
+					e.preventDefault();
+					toggle();
+				}
+			});
+		}
+	}
+
+	customElements.define("resume-card", ResumeCard);
+</script>
