@@ -1,5 +1,47 @@
 ---
 import PageLayout from "@/layouts/Base.astro";
+import JsonLd from "@/components/JsonLd.astro";
+import { siteConfig } from "@/site.config";
+
+const personSchema = {
+	"@context": "https://schema.org",
+	"@type": "Person",
+	name: siteConfig.author,
+	url: siteConfig.url,
+	jobTitle: "Senior Software Engineer",
+	email: "hello@stefanmuraru.com",
+	worksFor: {
+		"@type": "Organization",
+		name: "CloudQuery",
+		url: "https://www.cloudquery.io",
+	},
+	knowsAbout: [
+		"Kubernetes",
+		"Go",
+		"TypeScript",
+		"Cloud Infrastructure",
+		"Platform Engineering",
+		"Observability",
+		"Docker",
+		"AWS",
+		"Google Cloud Platform",
+		"GraphQL",
+		"OAuth2.0",
+		"OpenID Connect",
+		"ArgoCD",
+		"Helm",
+		"Kustomize",
+		"GitHub Actions",
+		"CI/CD",
+		"Kubernetes Operators",
+		"RabbitMQ",
+		"Prometheus",
+		"Elastic Stack",
+		"MongoDB",
+		"Redis",
+		"Node.js",
+	],
+};
 
 const experiences = [
 	{
@@ -102,6 +144,8 @@ const experiences = [
 ---
 
 <PageLayout meta={{ title: "Resume" }}>
+	<JsonLd schema={personSchema} />
+
 	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
 		{/* Header */}
 		<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4">

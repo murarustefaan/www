@@ -1,6 +1,7 @@
 ---
 import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
+import JsonLd from "@/components/JsonLd.astro";
 import "@/styles/global.css";
 
 type Props = SiteMeta;
@@ -11,6 +12,20 @@ const titleSeparator = "•";
 const siteTitle = `${title} ${titleSeparator} ${siteConfig.title}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url).href;
+
+const websiteSchema = {
+	"@context": "https://schema.org",
+	"@type": "WebSite",
+	name: siteConfig.title,
+	url: siteConfig.url,
+	description: siteConfig.description,
+	inLanguage: siteConfig.lang,
+	author: {
+		"@type": "Person",
+		name: siteConfig.author,
+		url: siteConfig.url,
+	},
+};
 ---
 
 <meta charset="utf-8" />
@@ -62,3 +77,6 @@ const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url
 <link href="/rss.xml" title="Blog" rel="alternate" type="application/rss+xml" />
 
 <meta content={Astro.generator} name="generator" />
+
+{/* JSON-LD */}
+<JsonLd schema={websiteSchema} />
