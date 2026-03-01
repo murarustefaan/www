@@ -13,4 +13,5 @@ spec:
           commonUpdateSettings:
             updateStrategy: digest
           manifestTargets:
-            kustomize: {}
+            kustomize:
+              name: murarustefaan/www
