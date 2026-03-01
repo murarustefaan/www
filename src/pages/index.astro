@@ -1,7 +1,9 @@
 ---
 import SocialList from "@/components/SocialList.astro";
+import JsonLd from "@/components/JsonLd.astro";
 import { getAllPosts } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
+import { siteConfig } from "@/site.config";
 import { collectionDateSort, numberOfWorkingYears } from "@/utils/date";
 import { getFormattedDate } from "@/utils/date";
 
@@ -38,9 +40,23 @@ const chipIcons: Record<string, string> = {
 	code: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
 	box: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>`,
 };
+
+const profilePageSchema = {
+	"@context": "https://schema.org",
+	"@type": "ProfilePage",
+	url: siteConfig.url,
+	mainEntity: {
+		"@type": "Person",
+		name: siteConfig.author,
+		url: siteConfig.url,
+		jobTitle: "Senior Software Engineer",
+		knowsAbout: ["Kubernetes", "Go", "TypeScript", "Cloud Infrastructure", "Platform Engineering", "Observability"],
+	},
+};
 ---
 
 <PageLayout meta={{ title: "Home" }}>
+	<JsonLd schema={profilePageSchema} />
 	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
 		{/* Hero Section */}
 		<section class="mb-16 sm:mb-24 relative">
