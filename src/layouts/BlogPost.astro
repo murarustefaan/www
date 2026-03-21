@@ -10,9 +10,11 @@ import BaseLayout from "./Base.astro";
 
 interface Props {
 	post: CollectionEntry<"post">;
+	prevPost?: CollectionEntry<"post">;
+	nextPost?: CollectionEntry<"post">;
 }
 
-const { post } = Astro.props;
+const { post, prevPost, nextPost } = Astro.props;
 const { ogImage, title, description, updatedDate, publishDate, tags } = post.data;
 const socialImage = ogImage ?? `/og-image/${post.id}.png`;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
@@ -84,16 +86,36 @@ const blogPostingSchema = {
 			</div>
 		</article>
 
-		{/* Bottom navigation */}
-		<div class="mt-16 pt-8 border-t border-border">
+		{/* Post navigation */}
+		<nav class="mt-16 pt-8 border-t border-border">
+			<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+				{prevPost ? (
+					<a
+						href={`/blog/${prevPost.id}/`}
+						class="group p-4 bg-card border border-border rounded-lg hover:border-primary/30 transition-all"
+					>
+						<div class="font-['JetBrains_Mono'] text-xs text-muted mb-2">$ cd ../prev</div>
+						<div class="text-text group-hover:text-primary transition-colors">{prevPost.data.title}</div>
+					</a>
+				) : <div />}
+				{nextPost && (
+					<a
+						href={`/blog/${nextPost.id}/`}
+						class="group p-4 bg-card border border-border rounded-lg hover:border-primary/30 transition-all sm:text-right"
+					>
+						<div class="font-['JetBrains_Mono'] text-xs text-muted mb-2">$ cd ../next</div>
+						<div class="text-text group-hover:text-primary transition-colors">{nextPost.data.title}</div>
+					</a>
+				)}
+			</div>
 			<a
 				href="/blog/"
-				class="inline-flex items-center gap-2 text-muted hover:text-primary transition-colors font-['JetBrains_Mono'] text-sm"
+				class="inline-flex items-center gap-2 text-muted hover:text-primary transition-colors font-['JetBrains_Mono'] text-sm mt-6"
 			>
 				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
 				<span>$ cd ../blog</span>
 			</a>
-		</div>
+		</nav>
 	</div>
 
 	{/* Scroll to top */}
