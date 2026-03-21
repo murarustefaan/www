@@ -2,15 +2,55 @@
 import { siteConfig } from "@/site.config";
 
 const year = new Date().getFullYear();
+
+const navLinks = [
+	{ label: "home", href: "/" },
+	{ label: "blog", href: "/blog" },
+	{ label: "resume", href: "/resume" },
+	{ label: "rss", href: "/rss.xml" },
+];
+
+const socialLinks = [
+	{ label: "GitHub", href: "https://github.com/murarustefaan" },
+	{ label: "LinkedIn", href: "https://www.linkedin.com/in/murarustefan/" },
+	{ label: "Email", href: "mailto:hello@stefanmuraru.com" },
+];
 ---
 
-<footer class="mt-auto border-t border-border py-8">
-	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted font-['JetBrains_Mono']">
-		<div>
-			&copy; {year} {siteConfig.author}
+<footer class="mt-auto border-t border-border py-10">
+	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 font-['JetBrains_Mono'] text-sm">
+		<div class="flex flex-col sm:flex-row gap-8 sm:gap-12 mb-8">
+			{/* Navigation */}
+			<div>
+				<div class="text-muted mb-3">$ ls ~/</div>
+				<ul class="space-y-1.5">
+					{navLinks.map((link) => (
+						<li>
+							<a href={link.href} class="text-text hover:text-primary transition-colors">{link.label}</a>
+						</li>
+					))}
+				</ul>
+			</div>
+
+			{/* Social */}
+			<div>
+				<div class="text-muted mb-3">$ cat contacts.txt</div>
+				<ul class="space-y-1.5">
+					{socialLinks.map((link) => (
+						<li>
+							<a href={link.href} target="_blank" rel="noreferrer noopener" class="text-text hover:text-primary transition-colors">{link.label}</a>
+						</li>
+					))}
+				</ul>
+			</div>
 		</div>
-		<div class="text-xs">
-			Built with <a href="https://astro.build" class="text-primary hover:text-accent transition-colors" target="_blank" rel="noreferrer noopener">Astro</a>
+
+		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pt-6 border-t border-border text-xs text-muted">
+			<div>&copy; {year} {siteConfig.author}</div>
+			<div>
+				Built with <a href="https://astro.build" class="text-primary hover:text-accent transition-colors" target="_blank" rel="noreferrer noopener">Astro</a>
+				<span class="ml-2 text-border">$ exit 0</span>
+			</div>
 		</div>
 	</div>
 </footer>

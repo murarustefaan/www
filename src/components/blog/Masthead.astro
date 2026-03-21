@@ -29,6 +29,18 @@ const {
 			updated {getFormattedDate(data.updatedDate)}
 		</span>
 	)}
+	<span class="text-border">•</span>
+	<copy-url>
+		<button
+			type="button"
+			class="flex items-center gap-1 text-muted hover:text-primary transition-colors font-['JetBrains_Mono'] cursor-pointer"
+			aria-label="Copy link to post"
+		>
+			<svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+			<svg class="check-icon hidden" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+			<span class="copy-text">copy link</span>
+		</button>
+	</copy-url>
 </div>
 
 <h1 class="text-3xl sm:text-4xl lg:text-5xl mb-6 text-text">
@@ -44,3 +56,31 @@ const {
 		))}
 	</div>
 )}
+
+<script>
+	class CopyUrl extends HTMLElement {
+		connectedCallback() {
+			const btn = this.querySelector("button")!;
+			const copyIcon = this.querySelector(".copy-icon")!;
+			const checkIcon = this.querySelector(".check-icon")!;
+			const copyText = this.querySelector(".copy-text")!;
+
+			btn.addEventListener("click", async () => {
+				await navigator.clipboard.writeText(window.location.href);
+				copyIcon.classList.add("hidden");
+				checkIcon.classList.remove("hidden");
+				copyText.textContent = "copied!";
+				btn.classList.add("!text-accent");
+
+				setTimeout(() => {
+					copyIcon.classList.remove("hidden");
+					checkIcon.classList.add("hidden");
+					copyText.textContent = "copy link";
+					btn.classList.remove("!text-accent");
+				}, 2000);
+			});
+		}
+	}
+
+	customElements.define("copy-url", CopyUrl);
+</script>
