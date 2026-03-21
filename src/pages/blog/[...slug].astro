@@ -1,23 +1,29 @@
 ---
+import type { CollectionEntry } from "astro:content";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import { render } from "astro:content";
 import { getAllPosts } from "@/data/post";
+import { collectionDateSort } from "@/utils/date";
 import BlogPost from "@/layouts/BlogPost.astro";
 
 export const getStaticPaths = (async () => {
-	const posts = await getAllPosts();
-	return posts.map((post) => ({
+	const posts = (await getAllPosts()).sort(collectionDateSort);
+	return posts.map((post, index) => ({
 		params: { slug: post.id },
-		props: { post },
+		props: {
+			post,
+			prevPost: index > 0 ? posts[index - 1] : undefined,
+			nextPost: index < posts.length - 1 ? posts[index + 1] : undefined,
+		},
 	}));
 }) satisfies GetStaticPaths;
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
-const { post } = Astro.props;
+const { post, prevPost, nextPost } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BlogPost post={post}>
+<BlogPost post={post} prevPost={prevPost} nextPost={nextPost}>
 	<Content />
 </BlogPost>
