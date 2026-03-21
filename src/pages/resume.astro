@@ -178,12 +178,12 @@ const experiences = [
 
 							<resume-card>
 								<div
-									class="bg-card border border-border rounded-lg p-6 hover:border-primary/30 transition-all"
+									class="group bg-card border border-border rounded-lg p-6 hover:border-primary/30 transition-all"
 									data-index={index}
 									role={exp.details.length > 0 ? "button" : undefined}
 									tabindex={exp.details.length > 0 ? 0 : undefined}
 									aria-expanded={exp.details.length > 0 ? "false" : undefined}
-									class:list={[exp.details.length > 0 && "cursor-pointer"]}
+									class:list={[exp.details.length > 0 && "cursor-pointer select-none"]}
 								>
 									<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 gap-2">
 										<div class="flex items-center gap-3">
@@ -215,9 +215,17 @@ const experiences = [
 										{exp.description}
 									</p>}
 
+									{/* Expand hint */}
+									{exp.details.length > 0 && (
+										<div class="expand-hint mt-6 flex items-center gap-2 font-['JetBrains_Mono'] text-xs text-muted/70 group-hover:text-muted transition-colors">
+											<span>$ cat {exp.catPath}</span>
+											<span class="px-1.5 py-0.5 bg-secondary border border-border rounded text-[10px] text-muted leading-none group-hover:border-primary/30 group-hover:text-text transition-colors">enter</span>
+										</div>
+									)}
+
 									{/* Expandable details */}
 									{exp.details.length > 0 && (
-										<div class="details hidden mt-4 pt-4 border-t border-border">
+										<div class="details hidden mt-3 pt-3 border-t border-border">
 											<div class="font-['JetBrains_Mono'] text-xs text-accent mb-3">
 												$ cat {exp.catPath}
 											</div>
@@ -252,6 +260,7 @@ const experiences = [
 			const card = this.querySelector<HTMLDivElement>("[data-index]")!;
 			const details = this.querySelector<HTMLDivElement>(".details");
 			const chevron = this.querySelector<SVGElement>(".chevron-icon");
+			const hint = this.querySelector<HTMLDivElement>(".expand-hint");
 
 			if (!details || !chevron) return;
 
@@ -259,6 +268,7 @@ const experiences = [
 				const isHidden = details.classList.toggle("hidden");
 				chevron.style.transform = isHidden ? "" : "rotate(180deg)";
 				card.setAttribute("aria-expanded", String(!isHidden));
+				if (hint) hint.classList.toggle("hidden", !isHidden);
 			};
 
 			card.addEventListener("click", toggle);
