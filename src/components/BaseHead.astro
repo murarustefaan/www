@@ -24,6 +24,10 @@ const websiteSchema = {
 		"@type": "Person",
 		name: siteConfig.author,
 		url: siteConfig.url,
+		sameAs: [
+			"https://github.com/murarustefaan",
+			"https://www.linkedin.com/in/murarustefan/",
+		],
 	},
 };
 ---
@@ -31,6 +35,10 @@ const websiteSchema = {
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 <title>{siteTitle}</title>
+
+{/* Font preconnect */}
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
 {/* Icons */}
 <link rel="icon" href="/favicon-32x32.png" type="image/png" />
