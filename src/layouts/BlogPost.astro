@@ -63,6 +63,11 @@ const blogPostingSchema = {
 >
 	<JsonLd schema={blogPostingSchema} />
 
+	{/* Reading progress bar */}
+	<div class="sticky top-14 z-40 h-0.5 bg-border/30">
+		<div id="reading-progress" class="h-full bg-primary transition-[width] duration-150 ease-out" style="width: 0%" />
+	</div>
+
 	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
 		{/* Back link */}
 		<a
@@ -139,6 +144,21 @@ const blogPostingSchema = {
 		</svg>
 	</button>
 </BaseLayout>
+
+<script>
+	const progressBar = document.getElementById("reading-progress") as HTMLDivElement;
+	const article = document.querySelector("article") as HTMLElement;
+
+	function updateProgress() {
+		const rect = article.getBoundingClientRect();
+		const total = article.scrollHeight - window.innerHeight;
+		const progress = Math.min(100, Math.max(0, (-rect.top / total) * 100));
+		progressBar.style.width = `${progress}%`;
+	}
+
+	window.addEventListener("scroll", updateProgress, { passive: true });
+	updateProgress();
+</script>
 
 <script>
 	const scrollBtn = document.getElementById("to-top-btn") as HTMLButtonElement;
