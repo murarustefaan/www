@@ -55,10 +55,8 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
       - name: Extract version from package.json
-        uses: sergeysova/jq-action@v2
         id: version
-        with:
-          cmd: "jq .version package.json -r"
+        run: echo "value=$(jq -r .version package.json)" >> "$GITHUB_OUTPUT"
       - name: Setup Depot CLI
         uses: depot/setup-action@v1
       - name: Login to DockerHub
