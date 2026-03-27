@@ -12,6 +12,7 @@ on:
 permissions:
   contents: read
   actions: write
+  id-token: write
 jobs:
   check:
     name: Check for build and type issues
@@ -58,16 +59,15 @@ jobs:
         id: version
         with:
           cmd: "jq .version package.json -r"
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Setup Depot CLI
+        uses: depot/setup-action@v1
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build image and push to Docker Hub
-        uses: docker/build-push-action@v5
+        uses: depot/build-push-action@v1
         with:
           context: .
           tags: |
@@ -75,5 +75,3 @@ jobs:
             murarustefaan/www:${{ steps.version.outputs.value }}
           platforms: linux/amd64,linux/arm64
           push: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
