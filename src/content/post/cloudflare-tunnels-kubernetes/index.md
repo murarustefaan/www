@@ -1,5 +1,5 @@
 ---
-title: "Zero-Port Setup: Cloudflare Tunnels on Kubernetes"
+title: "Zero-port setup: Cloudflare tunnels on Kubernetes"
 description: "Running Cloudflare Tunnels as a Kubernetes DaemonSet with health probes, secrets management, and no exposed ports. Production setup and configuration."
 publishDate: "27 Oct 2025"
 tags: ["kubernetes", "cloudflare", "security", "infrastructure"]
