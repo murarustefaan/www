@@ -1,9 +1,9 @@
 ---
 title: "CanisterWorm: the self-spreading npm worm"
 description: "Breaking down the CanisterWorm supply chain attack — how a misconfigured GitHub Actions workflow led to a self-propagating npm worm, and what it means for CI/CD security going forward."
-publishDate: "28 Mar 2026"
-tags: ["security", "supply-chain", "npm", "ci-cd"]
-draft: true
+publishDate: "27 Mar 2026"
+tags: ["security", "npm", "ci"]
+draft: false
 ---
 
 A couple of weeks ago, Aqua Security's Trivy, one of the most widely used open-source vulnerability scanners, got compromised. Not a minor CVE-in-a-dependency kind of compromise. A full-blown supply chain attack that turned the scanner itself into a distribution mechanism for credential-stealing malware.
