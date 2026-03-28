@@ -1,5 +1,5 @@
 ---
-title: "Proxmox Cheatsheet: Expanding Storage"
+title: "Proxmox cheatsheet: expanding storage"
 description: "This post covers the steps to expand storage by adding an addition disk to a Ubuntu VM in a Proxmox VE server"
 publishDate: "29 Nov 2023"
 tags: ["homelab", "infrastructure"]

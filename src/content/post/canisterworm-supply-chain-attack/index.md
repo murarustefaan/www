@@ -1,5 +1,5 @@
 ---
-title: "CanisterWorm: The Self-Spreading npm Worm"
+title: "CanisterWorm: the self-spreading npm worm"
 description: "Breaking down the CanisterWorm supply chain attack — how a misconfigured GitHub Actions workflow led to a self-propagating npm worm, and what it means for CI/CD security going forward."
 publishDate: "28 Mar 2026"
 tags: ["security", "supply-chain", "npm", "ci-cd"]
