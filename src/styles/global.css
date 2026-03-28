@@ -65,6 +65,7 @@
 @layer components {
 	@import "./components/admonition.css";
 	@import "./components/github-card.css";
+	@import "./components/mermaid.css";
 
 	.terminal-prompt {
 		font-family: "JetBrains Mono", ui-monospace, monospace;

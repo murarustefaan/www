@@ -5,6 +5,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwind from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import expressiveCode from "astro-expressive-code";
+import mermaid from "astro-mermaid";
 import robotsTxt from "astro-robots-txt";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
@@ -27,6 +28,32 @@ export default defineConfig({
 		sitemap(),
 		mdx(),
 		robotsTxt(),
+		mermaid({
+			mermaidConfig: {
+				theme: "base",
+				themeVariables: {
+					// Background
+					primaryColor: "#161b22",
+					primaryBorderColor: "#58a6ff",
+					primaryTextColor: "#c9d1d9",
+					// Lines & arrows
+					lineColor: "#8b949e",
+					// Edge labels
+					edgeLabelBackground: "#0d1117",
+					tertiaryTextColor: "#c9d1d9",
+					// Secondary/tertiary nodes
+					secondaryColor: "#161b22",
+					secondaryBorderColor: "#58a6ff",
+					secondaryTextColor: "#c9d1d9",
+					tertiaryColor: "#161b22",
+					tertiaryBorderColor: "#58a6ff",
+					// General
+					fontFamily: "JetBrains Mono, monospace",
+					fontSize: "13px",
+					nodePadding: "8",
+				},
+			},
+		}),
 	],
 	markdown: {
 		rehypePlugins: [
