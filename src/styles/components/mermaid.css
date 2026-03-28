@@ -1,0 +1,41 @@
+.mermaid {
+	background: var(--color-bg);
+	border-radius: 8px;
+	padding: 1rem;
+	margin: 1.5rem 0;
+}
+
+.mermaid .node rect,
+.mermaid .node polygon {
+	rx: 4;
+	ry: 4;
+}
+
+.mermaid .edgeLabel {
+	background: none !important;
+	background-color: transparent !important;
+	color: var(--color-text) !important;
+}
+
+.mermaid .edgeLabel rect,
+.mermaid .edgeLabel .label {
+	fill: none !important;
+	stroke: none !important;
+	background: none !important;
+}
+
+.mermaid .edgeLabel span,
+.mermaid .edgeLabel p {
+	color: var(--color-text) !important;
+	background: none !important;
+	font-size: 12px;
+}
+
+.mermaid .flowchart-link {
+	stroke: var(--color-muted) !important;
+	stroke-width: 1.5px;
+}
+
+.mermaid marker path {
+	fill: var(--color-muted) !important;
+}
