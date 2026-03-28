@@ -5,7 +5,8 @@
     ".": {
       "changelog-path": "CHANGELOG.md",
       "include-component-in-tag": false,
-      "include-v-in-tag": true
+      "include-v-in-tag": true,
+      "last-release-sha": "bdae91f71ad3612bd8486b0353b6bc384dda92c3"
     }
   }
 }
