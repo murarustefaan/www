@@ -1,5 +1,19 @@
 # Changelog
 
+## [2026.4.0](https://github.com/murarustefaan/www/compare/v2026.3.0...v2026.4.0) (2026-03-28)
+
+
+### Features
+
+* Add mermaid for diagram building ([0349900](https://github.com/murarustefaan/www/commit/03499006ac8b924074782974acf22ed33efbf967))
+* Blog post on CanisterWorm ([e1b40e4](https://github.com/murarustefaan/www/commit/e1b40e45f7c7db2c4c2f222ff9a6e1e05676f378))
+* Increase the width of TOC container ([9ad10df](https://github.com/murarustefaan/www/commit/9ad10dfe9271871808b70ac2c48e0ee36b3d28ff))
+
+
+### Bug Fixes
+
+* Update post titles ([38be20f](https://github.com/murarustefaan/www/commit/38be20fc4ea608cbc3fd0e8fd6eaec9ba3df1af9))
+
 ## [2026.3.0](https://github.com/murarustefaan/www/compare/v2026.2.1...v2026.3.0) (2026-03-28)
 
 
