@@ -39,7 +39,7 @@ spec:
       containers:
         - name: dashboard
           image: murarustefaan/www
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           resources:
             requests:
               cpu: 50m

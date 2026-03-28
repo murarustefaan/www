@@ -2,3 +2,6 @@ resources:
   - ../../base
   - ingress.yaml
 patches: []
+images:
+  - name: murarustefaan/www
+    newTag: "2026.2.1"
