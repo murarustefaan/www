@@ -1,5 +1,4 @@
 resources:
   - ../../base
   - ingress.yaml
-  - image-updater.yaml
 patches: []
