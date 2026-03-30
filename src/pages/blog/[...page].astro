@@ -72,7 +72,7 @@ const { page, uniqueTags } = Astro.props;
 						class="post-card block group"
 						data-tags={post.data.tags.join(",")}
 					>
-						<article class="p-6 bg-card border border-border rounded-lg hover:border-primary/50 transition-all">
+						<article class="p-6 bg-card border border-border rounded-lg hover:border-primary/50 transition-all card-hover">
 							<div class="text-xs text-muted mb-2 font-['JetBrains_Mono']">
 								{getFormattedDate(post.data.publishDate)}
 							</div>
@@ -113,67 +113,92 @@ const { page, uniqueTags } = Astro.props;
 </PageLayout>
 
 <script>
-	class BlogFilter extends HTMLElement {
-		#selectedTags: Set<string> = new Set();
+	function initBlogFilter() {
+		const filterEl = document.querySelector("blog-filter");
+		if (!filterEl) return;
 
-		connectedCallback() {
-			const tagBtns = this.querySelectorAll<HTMLButtonElement>(".tag-btn");
-			const clearBtn = this.querySelector<HTMLButtonElement>(".clear-btn")!;
-			const postCards = this.querySelectorAll<HTMLElement>(".post-card");
-			const emptyState = this.querySelector<HTMLElement>("#empty-state")!;
-			const postCount = this.querySelector<HTMLElement>("#post-count")!;
+		const selectedTags = new Set<string>();
+		const tagBtns = filterEl.querySelectorAll<HTMLButtonElement>(".tag-btn");
+		const clearBtn = filterEl.querySelector<HTMLButtonElement>(".clear-btn")!;
+		const postCards = filterEl.querySelectorAll<HTMLElement>(".post-card");
+		const emptyState = filterEl.querySelector<HTMLElement>("#empty-state")!;
+		const postCount = filterEl.querySelector<HTMLElement>("#post-count")!;
 
-			tagBtns.forEach((btn) => {
-				btn.addEventListener("click", () => {
-					const tag = btn.dataset.tag!;
-					if (this.#selectedTags.has(tag)) {
-						this.#selectedTags.delete(tag);
-						btn.classList.remove("bg-accent/10", "border-accent", "text-accent");
-						btn.classList.add("bg-card", "border-border", "text-muted");
-						btn.setAttribute("aria-pressed", "false");
-					} else {
-						this.#selectedTags.add(tag);
-						btn.classList.add("bg-accent/10", "border-accent", "text-accent");
-						btn.classList.remove("bg-card", "border-border", "text-muted");
-						btn.setAttribute("aria-pressed", "true");
-					}
-					this.#filter(postCards, emptyState, postCount, clearBtn);
-				});
-			});
-
-			clearBtn.addEventListener("click", () => {
-				this.#selectedTags.clear();
-				tagBtns.forEach((btn) => {
-					btn.classList.remove("bg-accent/10", "border-accent", "text-accent");
-					btn.classList.add("bg-card", "border-border", "text-muted");
-					btn.setAttribute("aria-pressed", "false");
-				});
-				this.#filter(postCards, emptyState, postCount, clearBtn);
-			});
+		function updateUrl() {
+			const path = window.location.pathname;
+			const qs = selectedTags.size ? `?tag=${[...selectedTags].join(",")}` : "";
+			history.replaceState(null, "", path + qs);
 		}
 
-		#filter(
-			cards: NodeListOf<HTMLElement>,
-			emptyState: HTMLElement,
-			postCount: HTMLElement,
-			clearBtn: HTMLElement,
-		) {
+		function filter() {
 			let visible = 0;
-			cards.forEach((card) => {
+			postCards.forEach((card) => {
 				const cardTags = (card.dataset.tags || "").split(",");
 				const show =
-					this.#selectedTags.size === 0 ||
-					[...this.#selectedTags].every((t) => cardTags.includes(t));
+					selectedTags.size === 0 ||
+					[...selectedTags].every((t) => cardTags.includes(t));
 				card.classList.toggle("hidden", !show);
 				if (show) visible++;
 			});
-
 			emptyState.classList.toggle("hidden", visible > 0);
 			postCount.textContent = `${visible} ${visible === 1 ? "post" : "posts"}`;
-			clearBtn.classList.toggle("hidden", this.#selectedTags.size === 0);
-			clearBtn.classList.toggle("flex", this.#selectedTags.size > 0);
+			clearBtn.classList.toggle("hidden", selectedTags.size === 0);
+			clearBtn.classList.toggle("flex", selectedTags.size > 0);
+			updateUrl();
 		}
+
+		function selectTag(btn: HTMLButtonElement) {
+			const tag = btn.dataset.tag!;
+			selectedTags.add(tag);
+			btn.classList.add("bg-accent/10", "border-accent", "text-accent");
+			btn.classList.remove("bg-card", "border-border", "text-muted");
+			btn.setAttribute("aria-pressed", "true");
+		}
+
+		function deselectTag(btn: HTMLButtonElement) {
+			const tag = btn.dataset.tag!;
+			selectedTags.delete(tag);
+			btn.classList.remove("bg-accent/10", "border-accent", "text-accent");
+			btn.classList.add("bg-card", "border-border", "text-muted");
+			btn.setAttribute("aria-pressed", "false");
+		}
+
+		// Reset all visual state first (handles View Transitions re-use)
+		tagBtns.forEach((btn) => deselectTag(btn));
+
+		// Pre-select tags from URL query params (e.g. ?tag=kubernetes,infrastructure)
+		const tagParam = new URLSearchParams(window.location.search).get("tag");
+		const preselected = tagParam ? tagParam.split(",") : [];
+		for (const tag of preselected) {
+			const btn = filterEl.querySelector<HTMLButtonElement>(`.tag-btn[data-tag="${tag}"]`);
+			if (btn) selectTag(btn);
+		}
+		if (preselected.length) filter();
+
+		// Clone+replace buttons to remove any stale event listeners
+		tagBtns.forEach((btn) => {
+			const fresh = btn.cloneNode(true) as HTMLButtonElement;
+			btn.replaceWith(fresh);
+			fresh.addEventListener("click", () => {
+				if (selectedTags.has(fresh.dataset.tag!)) {
+					deselectTag(fresh);
+				} else {
+					selectTag(fresh);
+				}
+				filter();
+			});
+		});
+
+		const freshClear = clearBtn.cloneNode(true) as HTMLButtonElement;
+		clearBtn.replaceWith(freshClear);
+		freshClear.addEventListener("click", () => {
+			selectedTags.clear();
+			filterEl.querySelectorAll<HTMLButtonElement>(".tag-btn").forEach((btn) => deselectTag(btn));
+			filter();
+		});
 	}
 
-	customElements.define("blog-filter", BlogFilter);
+	// Run on initial load and on every View Transition navigation
+	initBlogFilter();
+	document.addEventListener("astro:page-load", initBlogFilter);
 </script>

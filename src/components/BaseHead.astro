@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
 import JsonLd from "@/components/JsonLd.astro";
@@ -88,3 +89,6 @@ const websiteSchema = {
 
 {/* JSON-LD */}
 <JsonLd schema={websiteSchema} />
+
+{/* View Transitions */}
+<ClientRouter />

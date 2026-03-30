@@ -73,7 +73,7 @@
 }
 
 @utility prose {
-	color: var(--color-muted);
+	color: var(--color-text);
 	line-height: 1.75;
 	max-width: 65ch;
 
@@ -208,4 +208,49 @@
 		text-align: center;
 		margin-top: 0.75em;
 	}
+
+	/* Code block wrapper for copy button + language label */
+	& :where(pre):not(:where([class~="not-prose"] *)) {
+		position: relative;
+	}
+}
+
+/* Scroll-triggered entrance animations */
+@keyframes fade-up {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.animate-fade-up {
+	opacity: 0;
+	animation: fade-up 0.5s ease-out forwards;
+}
+
+.stagger-1 { animation-delay: 50ms; }
+.stagger-2 { animation-delay: 100ms; }
+.stagger-3 { animation-delay: 150ms; }
+.stagger-4 { animation-delay: 200ms; }
+.stagger-5 { animation-delay: 250ms; }
+.stagger-6 { animation-delay: 300ms; }
+
+@media (prefers-reduced-motion: reduce) {
+	.animate-fade-up {
+		opacity: 1;
+		animation: none;
+	}
+}
+
+/* Card hover lift effect */
+.card-hover {
+	transition: transform 0.2s ease-out, border-color 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+.card-hover:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 4px 24px rgba(88, 166, 255, 0.06);
 }

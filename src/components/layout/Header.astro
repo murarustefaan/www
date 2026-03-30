@@ -4,7 +4,7 @@ import { menuLinks } from "@/site.config";
 const currentPath = Astro.url.pathname;
 ---
 
-<nav class="sticky top-0 z-50 bg-bg/95 backdrop-blur-sm border-b border-border">
+<nav class="sticky top-0 z-50 bg-bg/95 backdrop-blur-sm border-b border-border" transition:persist>
 	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 		<div class="flex items-center justify-between h-14">
 			{/* Logo */}
