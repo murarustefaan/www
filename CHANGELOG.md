@@ -1,5 +1,12 @@
 # Changelog
 
+## [2026.5.0](https://github.com/murarustefaan/www/compare/v2026.4.0...v2026.5.0) (2026-03-30)
+
+
+### Features
+
+* Improve UX and add blog tags to footer ([ae3dd34](https://github.com/murarustefaan/www/commit/ae3dd349f854bfc93014cb1f8e611793ae0355bf))
+
 ## [2026.4.0](https://github.com/murarustefaan/www/compare/v2026.3.0...v2026.4.0) (2026-03-28)
 
 
