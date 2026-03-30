@@ -37,7 +37,7 @@ export const menuLinks: Array<{ title: string; path: string; style?: "button" }>
 
 export const expressiveCodeOptions: AstroExpressiveCodeOptions = {
 	styleOverrides: {
-		borderRadius: "4px",
+		borderRadius: "8px",
 		codeFontFamily:
 			'"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
 		codeFontSize: "0.875rem",
@@ -45,6 +45,7 @@ export const expressiveCodeOptions: AstroExpressiveCodeOptions = {
 		codePaddingInline: "1rem",
 		frames: {
 			frameBoxShadowCssValue: "none",
+			tooltipSuccessBackground: "#00d4aa",
 		},
 		uiLineHeight: "inherit",
 	},

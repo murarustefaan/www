@@ -88,11 +88,11 @@ const profilePageSchema = {
 				</div>
 			</div>
 
-			<div class="mb-4 font-['JetBrains_Mono'] text-sm text-muted">
+			<div class="mb-4 font-['JetBrains_Mono'] text-sm text-muted animate-fade-up">
 				$ whoami
 			</div>
 
-			<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-8 mb-6">
+			<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-8 mb-6 animate-fade-up stagger-1">
 				<div>
 					<h1 class="text-4xl sm:text-5xl lg:text-6xl mb-4 text-text flex items-center flex-wrap">
 						Ștefan Muraru
@@ -109,11 +109,11 @@ const profilePageSchema = {
 				<img
 					src="/me.jpg"
 					alt="Ștefan Muraru"
-					class="w-28 h-28 sm:w-36 sm:h-36 rounded-full border-2 border-border object-cover flex-shrink-0"
+					class="w-28 h-28 sm:w-36 sm:h-36 rounded-full border-2 border-border object-cover flex-shrink-0 hover:border-accent transition-colors duration-300"
 				/>
 			</div>
 
-			<div class="text-base sm:text-lg text-muted max-w-2xl leading-relaxed mb-8 space-y-4">
+			<div class="text-base sm:text-lg text-muted max-w-2xl leading-relaxed mb-8 space-y-4 animate-fade-up stagger-2">
 				<p>
 					I'm <span class="text-accent">Ștefan</span>, a results-driven <span class="text-accent">Senior Software Engineer</span> with <span class="text-accent">{numberOfWorkingYears()} years</span> of hands-on experience designing and building cloud-native projects.
 				</p>
@@ -126,7 +126,7 @@ const profilePageSchema = {
 			</div>
 
 			{/* Expertise chips */}
-			<div class="flex flex-wrap gap-2 mb-8">
+			<div class="flex flex-wrap gap-2 mb-8 animate-fade-up stagger-3">
 				{expertiseChips.map((skill) => (
 					<span class="px-3 py-1.5 bg-card border border-border text-text text-sm rounded font-['JetBrains_Mono'] hover:border-primary/50 transition-colors flex items-center gap-2">
 						<span class="text-primary" set:html={chipIcons[skill.icon]} />
@@ -136,7 +136,7 @@ const profilePageSchema = {
 			</div>
 
 			{/* Tech badges */}
-			<div class="flex flex-wrap gap-2 mb-10">
+			<div class="flex flex-wrap gap-2 mb-10 animate-fade-up stagger-4">
 				{techBadges.map((tech) => (
 					<span
 						class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-bg border border-border text-xs rounded font-['JetBrains_Mono'] hover:scale-105 transition-transform"
@@ -149,7 +149,9 @@ const profilePageSchema = {
 			</div>
 
 			{/* Socials */}
-			<SocialList />
+			<div class="animate-fade-up stagger-5">
+				<SocialList />
+			</div>
 		</section>
 
 		{/* Recent Posts */}
@@ -160,10 +162,10 @@ const profilePageSchema = {
 			</div>
 
 			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-				{recentPosts.map((post) => (
+				{recentPosts.map((post, i) => (
 					<a
 						href={`/blog/${post.id}/`}
-						class="group p-6 bg-card border border-border rounded-lg hover:border-primary/50 transition-all relative overflow-hidden"
+						class={`group p-6 bg-card border border-border rounded-lg hover:border-primary/50 transition-all relative overflow-hidden card-hover scroll-reveal stagger-${i + 1}`}
 					>
 						{/* Bracket decorators */}
 						<div class="absolute top-2 right-2 text-border text-xs font-['JetBrains_Mono'] group-hover:text-primary/30 transition-colors">
@@ -192,9 +194,35 @@ const profilePageSchema = {
 					</a>
 				))}
 			</div>
+			{/* View all link */}
+			<div class="mt-8 text-center">
+				<a
+					href="/blog/"
+					class="inline-flex items-center gap-2 text-muted hover:text-primary transition-colors font-['JetBrains_Mono'] text-sm group"
+				>
+					$ ls ~/blog/*
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+				</a>
+			</div>
 		</section>
 	</div>
 </PageLayout>
+
+<script>
+	const observer = new IntersectionObserver(
+		(entries) => {
+			for (const entry of entries) {
+				if (entry.isIntersecting) {
+					entry.target.classList.add("animate-fade-up");
+					observer.unobserve(entry.target);
+				}
+			}
+		},
+		{ threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
+	);
+
+	document.querySelectorAll(".scroll-reveal").forEach((el) => observer.observe(el));
+</script>
 
 <style>
 	@keyframes blink {
@@ -203,5 +231,12 @@ const profilePageSchema = {
 	}
 	.animate-blink {
 		animation: blink 1.06s step-end infinite;
+	}
+	.scroll-reveal {
+		opacity: 0;
+	}
+	.scroll-reveal.animate-fade-up {
+		opacity: 0;
+		animation: fade-up 0.5s ease-out forwards;
 	}
 </style>

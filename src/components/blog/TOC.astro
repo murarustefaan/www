@@ -15,7 +15,11 @@ const toc = generateToc(headings);
 	<summary class="cursor-pointer text-sm font-['JetBrains_Mono'] text-muted hover:text-text transition-colors">
 		<span class="text-accent">$</span> cat TOC
 	</summary>
-	<nav class="ms-4 mt-3 border-l border-border pl-4" id="toc-nav">
+	<nav class="ms-4 mt-3 relative pl-4" id="toc-nav">
+		{/* Static border */}
+		<div class="absolute left-0 top-0 bottom-0 w-px bg-border" aria-hidden="true" />
+		{/* Sliding active indicator */}
+		<div id="toc-indicator" class="absolute left-0 w-0.5 bg-primary rounded-full transition-all duration-200 ease-out" style="top: 0; height: 0; opacity: 0;" aria-hidden="true" />
 		<ol class="space-y-1">
 			{toc.map((heading) => <TOCHeading heading={heading} />)}
 		</ol>
@@ -26,10 +30,19 @@ const toc = generateToc(headings);
 	const tocNav = document.getElementById("toc-nav");
 	if (tocNav) {
 		const tocLinks = tocNav.querySelectorAll<HTMLAnchorElement>("a[href^='#']");
+		const indicator = document.getElementById("toc-indicator") as HTMLDivElement;
 		const headingIds = [...tocLinks].map((a) => a.getAttribute("href")!.slice(1));
 		const headingEls = headingIds
 			.map((id) => document.getElementById(id))
 			.filter(Boolean) as HTMLElement[];
+
+		function updateIndicator(activeLink: HTMLAnchorElement) {
+			const navRect = tocNav!.getBoundingClientRect();
+			const linkRect = activeLink.getBoundingClientRect();
+			indicator.style.top = `${linkRect.top - navRect.top}px`;
+			indicator.style.height = `${linkRect.height}px`;
+			indicator.style.opacity = "1";
+		}
 
 		const observer = new IntersectionObserver(
 			(entries) => {
@@ -38,6 +51,7 @@ const toc = generateToc(headings);
 						tocLinks.forEach((link) => {
 							const isActive = link.getAttribute("href") === `#${entry.target.id}`;
 							link.classList.toggle("!text-primary", isActive);
+							if (isActive) updateIndicator(link);
 						});
 					}
 				}

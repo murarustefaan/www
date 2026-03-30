@@ -97,7 +97,7 @@ const blogPostingSchema = {
 				{prevPost ? (
 					<a
 						href={`/blog/${prevPost.id}/`}
-						class="group p-4 bg-card border border-border rounded-lg hover:border-primary/30 transition-all"
+						class="group p-4 bg-card border border-border rounded-lg hover:border-primary/30 transition-all card-hover"
 					>
 						<div class="font-['JetBrains_Mono'] text-xs text-muted mb-2">$ cd ../prev</div>
 						<div class="text-text group-hover:text-primary transition-colors">{prevPost.data.title}</div>
@@ -106,7 +106,7 @@ const blogPostingSchema = {
 				{nextPost && (
 					<a
 						href={`/blog/${nextPost.id}/`}
-						class="group p-4 bg-card border border-border rounded-lg hover:border-primary/30 transition-all sm:text-right"
+						class="group p-4 bg-card border border-border rounded-lg hover:border-primary/30 transition-all card-hover sm:text-right"
 					>
 						<div class="font-['JetBrains_Mono'] text-xs text-muted mb-2">$ cd ../next</div>
 						<div class="text-text group-hover:text-primary transition-colors">{nextPost.data.title}</div>

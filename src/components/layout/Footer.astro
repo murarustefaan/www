@@ -8,41 +8,69 @@ const navLinks = [
 	{ label: "home", href: "/" },
 	{ label: "blog", href: "/blog" },
 	{ label: "resume", href: "/resume" },
-	{ label: "rss", href: "/rss.xml" },
+];
+
+const topics = [
+	{ label: "#infrastructure", tag: "infrastructure" },
+	{ label: "#homelab", tag: "homelab" },
+	{ label: "#kubernetes", tag: "kubernetes" },
+	{ label: "#security", tag: "security" },
+	{ label: "#docker", tag: "docker" },
 ];
 ---
 
-<footer class="mt-auto border-t border-border py-10">
+<footer class="mt-auto border-t border-border py-12">
 	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 font-['JetBrains_Mono'] text-sm">
-		<div class="flex flex-col sm:flex-row justify-between gap-8 mb-8">
+		{/* Gradient separator */}
+		<div class="h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent mb-10" aria-hidden="true" />
+
+		<div class="grid grid-cols-1 sm:grid-cols-3 gap-10 mb-10">
 			{/* Navigation */}
 			<div>
 				<div class="text-muted mb-3">$ ls ~/</div>
-				<div class="flex flex-wrap gap-4">
+				<div class="flex flex-col gap-2">
 					{navLinks.map((link) => (
-						<a href={link.href} class="text-text hover:text-primary transition-colors">{link.label}</a>
+						<a href={link.href} class="text-text hover:text-primary transition-colors w-fit">{link.label}</a>
 					))}
 				</div>
 			</div>
 
-			{/* Social */}
-			<div class="sm:text-right">
+			{/* Topics */}
+			<div>
+				<div class="text-muted mb-3">$ grep --topics</div>
+				<div class="flex flex-col gap-2">
+					{topics.map((topic) => (
+						<a href={`/blog/?tag=${topic.tag}`} class="text-accent hover:text-primary transition-colors w-fit">{topic.label}</a>
+					))}
+				</div>
+			</div>
+
+			{/* Connect */}
+			<div>
 				<div class="text-muted mb-3">$ cat contacts.txt</div>
-				<div class="flex flex-wrap gap-4 sm:justify-end">
+				<div class="flex flex-col gap-2">
 					{socialLinks.map((link) => (
-						<a href={link.href} target="_blank" rel="noreferrer noopener" class="flex items-center gap-1.5 text-text hover:text-primary transition-colors">
+						<a href={link.href} target="_blank" rel="noreferrer noopener" class="flex items-center gap-1.5 text-text hover:text-primary transition-colors w-fit">
 							<span class="w-3.5 h-3.5"><Fragment set:html={link.icon} /></span>
 							{link.label}
 						</a>
 					))}
+					<a href="/rss.xml" class="flex items-center gap-1.5 text-text hover:text-primary transition-colors w-fit">
+						<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+						rss
+					</a>
 				</div>
 			</div>
 		</div>
 
 		<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pt-6 border-t border-border text-xs text-muted">
 			<div>&copy; {year} {siteConfig.author}</div>
-			<div>
-				Built with <a href="https://astro.build" class="text-primary hover:text-accent transition-colors" target="_blank" rel="noreferrer noopener">Astro</a>
+			<div class="flex items-center gap-3">
+				<span>
+					Built with <a href="https://astro.build" class="text-primary hover:text-accent transition-colors" target="_blank" rel="noreferrer noopener">Astro</a>
+				</span>
+				<span class="text-border">•</span>
+				<span class="text-muted/50">$ exit 0</span>
 			</div>
 		</div>
 	</div>
