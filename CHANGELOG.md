@@ -1,5 +1,19 @@
 # Changelog
 
+## [2026.6.0](https://github.com/murarustefaan/www/compare/v2026.5.0...v2026.6.0) (2026-03-31)
+
+
+### Features
+
+* Add Cmd + K shortcut for searching blog posts ([8296ee3](https://github.com/murarustefaan/www/commit/8296ee38cb0a0ca3c7b40fd7b55a15902479a5b4))
+* Add interactive terminal and improve hero layout ([ca345b8](https://github.com/murarustefaan/www/commit/ca345b83ad89b70f315dceb83d079bd25c040778))
+* Add related posts at the end of each blog post ([e64d1e8](https://github.com/murarustefaan/www/commit/e64d1e867d1ef3f6c7df3afa1a27750016318316))
+
+
+### Bug Fixes
+
+* Remove unused code fragments ([09a659e](https://github.com/murarustefaan/www/commit/09a659e1c1b412d31bcdf6a462949b68865e8b42))
+
 ## [2026.5.0](https://github.com/murarustefaan/www/compare/v2026.4.0...v2026.5.0) (2026-03-30)
 
 
