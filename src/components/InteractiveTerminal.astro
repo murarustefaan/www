@@ -1,0 +1,171 @@
+---
+/**
+ * Interactive terminal component for the homepage hero.
+ * All command output is hardcoded at build time — no user input is rendered as HTML.
+ * Post data comes from Astro content collections at build time, not runtime input.
+ */
+interface Props {
+	posts: { title: string; url: string; date: string }[];
+}
+
+const { posts } = Astro.props;
+---
+
+<interactive-terminal class="block mb-8" data-posts={JSON.stringify(posts)}>
+	<div class="bg-card border border-border rounded-lg overflow-hidden">
+		{/* Title bar */}
+		<div class="flex items-center gap-2 px-4 py-2 border-b border-border bg-secondary/30">
+			<div class="flex gap-1.5">
+				<div class="w-3 h-3 rounded-full bg-destructive/60" />
+				<div class="w-3 h-3 rounded-full bg-warn/60" />
+				<div class="w-3 h-3 rounded-full bg-accent/60" />
+			</div>
+			<span class="text-xs text-muted font-['JetBrains_Mono'] ml-2">~/stefan</span>
+		</div>
+
+		{/* Terminal body */}
+		<div class="p-4 font-['JetBrains_Mono'] text-sm min-h-[160px] max-h-[320px] overflow-y-auto" id="terminal-body">
+			<div class="text-muted mb-1">Welcome! Type <span class="text-accent">help</span> to see available commands.</div>
+			<div id="terminal-output" />
+			<div class="flex items-center gap-2">
+				<span class="text-accent shrink-0">$</span>
+				<input
+					id="terminal-input"
+					type="text"
+					class="flex-1 bg-transparent text-text outline-none caret-accent"
+					autocomplete="off"
+					spellcheck="false"
+					aria-label="Terminal input"
+				/>
+			</div>
+		</div>
+	</div>
+</interactive-terminal>
+
+<script>
+	class Terminal extends HTMLElement {
+		connectedCallback() {
+			const input = this.querySelector<HTMLInputElement>("#terminal-input")!;
+			const output = this.querySelector<HTMLElement>("#terminal-output")!;
+			const body = this.querySelector<HTMLElement>("#terminal-body")!;
+			const posts: { title: string; url: string; date: string }[] = JSON.parse(this.dataset.posts || "[]");
+
+			// All command responses are static/build-time content — safe to render as HTML.
+			// No user input ever flows into these strings.
+			const commands: Record<string, () => string | null> = {
+				help: () =>
+					[
+						"<span class='text-accent'>Available commands:</span>",
+						"  <span class='text-primary'>whoami</span>     — about me",
+						"  <span class='text-primary'>ls blog</span>   — recent posts",
+						"  <span class='text-primary'>skills</span>    — tech stack",
+						"  <span class='text-primary'>socials</span>   — find me online",
+						"  <span class='text-primary'>contact</span>   — get in touch",
+						"  <span class='text-primary'>clear</span>     — clear terminal",
+					].join("\n"),
+				whoami: () =>
+					[
+						"<span class='text-accent'>Ștefan Muraru</span>",
+						"Senior Software Engineer @ CloudQuery",
+						"Specialized in cloud infrastructure, Kubernetes,",
+						"and platform engineering.",
+					].join("\n"),
+				"ls blog": () =>
+					posts.length
+						? posts
+								.map(
+									(p) =>
+										`<a href="${p.url}" class="text-primary hover:underline">${p.date}  ${p.title}</a>`,
+								)
+								.join("\n")
+						: "No posts found.",
+				skills: () =>
+					[
+						"<span class='text-accent'>Languages:</span>  Go, TypeScript, Node.js",
+						"<span class='text-accent'>Infra:</span>      Kubernetes, Terraform, Docker",
+						"<span class='text-accent'>Data:</span>       PostgreSQL, MongoDB, Redis",
+						"<span class='text-accent'>Cloud:</span>      AWS, GCP, Cloudflare",
+						"<span class='text-accent'>Monitor:</span>    Prometheus, Grafana, ArgoCD",
+					].join("\n"),
+				socials: () =>
+					[
+						"<a href='https://github.com/murarustefaan' class='text-primary hover:underline'>github.com/murarustefaan</a>",
+						"<a href='https://www.linkedin.com/in/murarustefan/' class='text-primary hover:underline'>linkedin.com/in/murarustefan</a>",
+					].join("\n"),
+				contact: () =>
+					"<a href='mailto:hello@stefanmuraru.com' class='text-primary hover:underline'>hello@stefanmuraru.com</a>",
+				clear: () => null,
+			};
+
+			const history: string[] = [];
+			let historyIndex = -1;
+
+			input.addEventListener("keydown", (e) => {
+				if (e.key === "Enter") {
+					const cmd = input.value.trim().toLowerCase();
+					if (!cmd) return;
+
+					history.unshift(cmd);
+					historyIndex = -1;
+
+					// Echo the command
+					const line = document.createElement("div");
+					line.className = "flex items-center gap-2";
+					const prompt = document.createElement("span");
+					prompt.className = "text-accent";
+					prompt.textContent = "$";
+					const cmdText = document.createElement("span");
+					cmdText.className = "text-text";
+					cmdText.textContent = cmd;
+					line.appendChild(prompt);
+					line.appendChild(cmdText);
+					output.appendChild(line);
+
+					// Execute
+					const handler = commands[cmd];
+					if (handler) {
+						const result = handler();
+						if (result === null) {
+							// clear command
+							output.replaceChildren();
+						} else {
+							const resultEl = document.createElement("div");
+							resultEl.className = "text-muted mb-2 whitespace-pre";
+							// Safe: result is entirely from hardcoded build-time strings above
+							resultEl.innerHTML = result;
+							output.appendChild(resultEl);
+						}
+					} else {
+						const errEl = document.createElement("div");
+						errEl.className = "text-destructive mb-2";
+						errEl.textContent = `command not found: ${cmd}. Type 'help' for available commands.`;
+						output.appendChild(errEl);
+					}
+
+					input.value = "";
+					body.scrollTop = body.scrollHeight;
+				} else if (e.key === "ArrowUp") {
+					e.preventDefault();
+					if (historyIndex < history.length - 1) {
+						historyIndex++;
+						input.value = history[historyIndex];
+					}
+				} else if (e.key === "ArrowDown") {
+					e.preventDefault();
+					if (historyIndex > 0) {
+						historyIndex--;
+						input.value = history[historyIndex];
+					} else {
+						historyIndex = -1;
+						input.value = "";
+					}
+				}
+			});
+
+			// Click anywhere in terminal to focus input
+			body.addEventListener("click", () => input.focus());
+		}
+	}
+
+	customElements.define("interactive-terminal", Terminal);
+</script>
