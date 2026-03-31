@@ -1,5 +1,6 @@
 ---
 import BaseHead from "@/components/BaseHead.astro";
+import CommandPalette from "@/components/CommandPalette.astro";
 import Footer from "@/components/layout/Footer.astro";
 import Header from "@/components/layout/Header.astro";
 import SkipLink from "@/components/SkipLink.astro";
@@ -80,6 +81,7 @@ const {
 		/>
 		<SkipLink />
 		<Header />
+		<CommandPalette />
 		<main id="main" transition:animate="fade">
 			<slot />
 		</main>
