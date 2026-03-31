@@ -1,0 +1,211 @@
+---
+import { getAllPosts } from "@/data/post";
+import { collectionDateSort } from "@/utils/date";
+
+const allPosts = (await getAllPosts()).sort(collectionDateSort);
+const searchData = allPosts.map((post) => ({
+	title: post.data.title,
+	description: post.data.description,
+	tags: post.data.tags,
+	url: `/blog/${post.id}/`,
+}));
+---
+
+<div
+	id="command-palette"
+	class="fixed inset-0 z-[100] hidden"
+	role="dialog"
+	aria-modal="true"
+	aria-label="Search posts"
+>
+	{/* Backdrop */}
+	<div class="absolute inset-0 bg-bg/80 backdrop-blur-sm" data-backdrop />
+
+	{/* Panel */}
+	<div class="relative max-w-xl mx-auto mt-[20vh] px-4">
+		<div class="bg-card border border-border rounded-lg shadow-2xl shadow-primary/5 overflow-hidden">
+			{/* Input */}
+			<div class="flex items-center gap-3 px-4 border-b border-border">
+				<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted shrink-0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+				<input
+					id="cmd-input"
+					type="text"
+					placeholder="Search posts..."
+					class="w-full py-3.5 bg-transparent text-text placeholder:text-muted outline-none font-['JetBrains_Mono'] text-sm"
+					autocomplete="off"
+					spellcheck="false"
+				/>
+				<kbd class="hidden sm:inline-flex items-center px-1.5 py-0.5 text-xs text-muted bg-bg border border-border rounded font-['JetBrains_Mono']">esc</kbd>
+			</div>
+
+			{/* Results */}
+			<div id="cmd-results" class="max-h-80 overflow-y-auto" />
+
+			{/* Footer */}
+			<div class="px-4 py-2 border-t border-border flex items-center gap-4 text-xs text-muted font-['JetBrains_Mono']">
+				<span class="flex items-center gap-1">
+					<kbd class="px-1 py-0.5 bg-bg border border-border rounded">↑↓</kbd>
+					navigate
+				</span>
+				<span class="flex items-center gap-1">
+					<kbd class="px-1 py-0.5 bg-bg border border-border rounded">↵</kbd>
+					open
+				</span>
+				<span class="flex items-center gap-1">
+					<kbd class="px-1 py-0.5 bg-bg border border-border rounded">esc</kbd>
+					close
+				</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script define:vars={{ searchData }}>
+	function initCommandPalette() {
+		const palette = document.getElementById("command-palette");
+		const input = document.getElementById("cmd-input");
+		const resultsContainer = document.getElementById("cmd-results");
+		const trigger = document.getElementById("search-trigger");
+		const backdrop = palette?.querySelector("[data-backdrop]");
+		if (!palette || !input || !resultsContainer) return;
+
+		let activeIndex = -1;
+		const posts = searchData;
+
+		function open() {
+			palette.classList.remove("hidden");
+			input.value = "";
+			input.focus();
+			renderResults("");
+			document.body.style.overflow = "hidden";
+		}
+
+		function close() {
+			palette.classList.add("hidden");
+			document.body.style.overflow = "";
+		}
+
+		function createResultElement(post, index, query, isActive) {
+			const link = document.createElement("a");
+			link.href = post.url;
+			link.className = "cmd-result block px-4 py-3 hover:bg-secondary/50 transition-colors" + (isActive ? " bg-secondary/50" : "");
+			link.dataset.index = String(index);
+
+			const titleDiv = document.createElement("div");
+			titleDiv.className = "text-sm text-text font-['JetBrains_Mono'] mb-1";
+
+			// Safe highlight: use text nodes + span for match
+			const q = query.toLowerCase();
+			const titleText = post.title;
+			const matchIdx = q ? titleText.toLowerCase().indexOf(q) : -1;
+			if (matchIdx >= 0) {
+				titleDiv.appendChild(document.createTextNode(titleText.slice(0, matchIdx)));
+				const mark = document.createElement("span");
+				mark.className = "text-primary";
+				mark.textContent = titleText.slice(matchIdx, matchIdx + query.length);
+				titleDiv.appendChild(mark);
+				titleDiv.appendChild(document.createTextNode(titleText.slice(matchIdx + query.length)));
+			} else {
+				titleDiv.textContent = titleText;
+			}
+			link.appendChild(titleDiv);
+
+			const descDiv = document.createElement("div");
+			descDiv.className = "text-xs text-muted line-clamp-1";
+			descDiv.textContent = post.description;
+			link.appendChild(descDiv);
+
+			const tagsDiv = document.createElement("div");
+			tagsDiv.className = "flex gap-1.5 mt-1.5";
+			for (const t of post.tags) {
+				const tag = document.createElement("span");
+				tag.className = "text-xs px-1.5 py-0.5 bg-bg border border-border text-accent rounded font-['JetBrains_Mono']";
+				tag.textContent = "#" + t;
+				tagsDiv.appendChild(tag);
+			}
+			link.appendChild(tagsDiv);
+
+			return link;
+		}
+
+		function renderResults(query) {
+			const q = query.toLowerCase().trim();
+			const filtered = q
+				? posts.filter(
+						(p) =>
+							p.title.toLowerCase().includes(q) ||
+							p.description.toLowerCase().includes(q) ||
+							p.tags.some((t) => t.includes(q)),
+					)
+				: posts;
+
+			activeIndex = filtered.length > 0 ? 0 : -1;
+			resultsContainer.replaceChildren();
+
+			if (filtered.length === 0) {
+				const empty = document.createElement("div");
+				empty.className = "px-4 py-8 text-center text-muted font-['JetBrains_Mono'] text-sm";
+				empty.textContent = "$ # No results found";
+				resultsContainer.appendChild(empty);
+				return;
+			}
+
+			for (let i = 0; i < filtered.length; i++) {
+				resultsContainer.appendChild(createResultElement(filtered[i], i, q, i === 0));
+			}
+		}
+
+		function updateActive() {
+			const items = resultsContainer.querySelectorAll(".cmd-result");
+			items.forEach((el, i) => {
+				el.classList.toggle("bg-secondary/50", i === activeIndex);
+			});
+			items[activeIndex]?.scrollIntoView({ block: "nearest" });
+		}
+
+		function navigateToActive() {
+			const items = resultsContainer.querySelectorAll(".cmd-result");
+			const active = items[activeIndex];
+			if (active) {
+				close();
+				window.location.href = active.getAttribute("href");
+			}
+		}
+
+		input.addEventListener("input", () => renderResults(input.value));
+
+		input.addEventListener("keydown", (e) => {
+			const items = resultsContainer.querySelectorAll(".cmd-result");
+			if (e.key === "ArrowDown") {
+				e.preventDefault();
+				activeIndex = Math.min(activeIndex + 1, items.length - 1);
+				updateActive();
+			} else if (e.key === "ArrowUp") {
+				e.preventDefault();
+				activeIndex = Math.max(activeIndex - 1, 0);
+				updateActive();
+			} else if (e.key === "Enter") {
+				e.preventDefault();
+				navigateToActive();
+			}
+		});
+
+		backdrop?.addEventListener("click", close);
+
+		document.addEventListener("keydown", (e) => {
+			if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+				e.preventDefault();
+				palette.classList.contains("hidden") ? open() : close();
+			}
+			if (e.key === "Escape" && !palette.classList.contains("hidden")) {
+				close();
+			}
+		});
+
+		trigger?.addEventListener("click", open);
+	}
+
+	initCommandPalette();
+	document.addEventListener("astro:page-load", initCommandPalette);
+</script>
