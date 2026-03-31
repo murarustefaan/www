@@ -148,13 +148,13 @@ const { posts } = Astro.props;
 					e.preventDefault();
 					if (historyIndex < history.length - 1) {
 						historyIndex++;
-						input.value = history[historyIndex];
+						input.value = history[historyIndex] ?? "";
 					}
 				} else if (e.key === "ArrowDown") {
 					e.preventDefault();
 					if (historyIndex > 0) {
 						historyIndex--;
-						input.value = history[historyIndex];
+						input.value = history[historyIndex] ?? "";
 					} else {
 						historyIndex = -1;
 						input.value = "";
