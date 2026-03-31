@@ -2,6 +2,7 @@
 import { type CollectionEntry, render } from "astro:content";
 
 import Masthead from "@/components/blog/Masthead.astro";
+import RelatedPosts from "@/components/blog/RelatedPosts.astro";
 import TOC from "@/components/blog/TOC.astro";
 import JsonLd from "@/components/JsonLd.astro";
 import { siteConfig } from "@/site.config";
@@ -90,6 +91,9 @@ const blogPostingSchema = {
 				</div>
 			</div>
 		</article>
+
+		{/* Related posts */}
+		<RelatedPosts currentPost={post} />
 
 		{/* Post navigation */}
 		<nav class="mt-16 pt-8 border-t border-border">
