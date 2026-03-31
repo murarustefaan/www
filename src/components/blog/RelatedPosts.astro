@@ -1,0 +1,60 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getAllPosts } from "@/data/post";
+import { getFormattedDate } from "@/utils/date";
+
+interface Props {
+	currentPost: CollectionEntry<"post">;
+	limit?: number;
+}
+
+const { currentPost, limit = 3 } = Astro.props;
+const currentTags = new Set(currentPost.data.tags);
+
+const allPosts = await getAllPosts();
+const related = allPosts
+	.filter((p) => p.id !== currentPost.id)
+	.map((post) => ({
+		post,
+		score: post.data.tags.filter((t) => currentTags.has(t)).length,
+	}))
+	.filter((r) => r.score > 0)
+	.sort((a, b) => b.score - a.score)
+	.slice(0, limit)
+	.map((r) => r.post);
+---
+
+{related.length > 0 && (
+	<section class="mt-16 pt-8 border-t border-border">
+		<div class="font-['JetBrains_Mono'] text-sm text-muted mb-6 flex items-center gap-2">
+			<span class="text-accent">$</span> find ~/blog --related
+		</div>
+		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+			{related.map((post) => (
+				<a
+					href={`/blog/${post.id}/`}
+					class="group p-5 bg-card border border-border rounded-lg hover:border-primary/50 transition-all card-hover"
+				>
+					<div class="text-xs text-muted mb-2 font-['JetBrains_Mono']">
+						{getFormattedDate(post.data.publishDate)}
+					</div>
+					<h3 class="text-sm font-medium mb-2 text-text group-hover:text-primary transition-colors font-['JetBrains_Mono']">
+						{post.data.title}
+					</h3>
+					<div class="flex flex-wrap gap-1.5">
+						{post.data.tags.map((tag) => (
+							<span class:list={[
+								"text-xs px-1.5 py-0.5 rounded font-['JetBrains_Mono']",
+								currentTags.has(tag)
+									? "bg-accent/10 border border-accent/30 text-accent"
+									: "bg-bg border border-border text-muted",
+							]}>
+								#{tag}
+							</span>
+						))}
+					</div>
+				</a>
+			))}
+		</div>
+	</section>
+)}
