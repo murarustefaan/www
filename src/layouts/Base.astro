@@ -1,0 +1,100 @@
+---
+import BaseHead from "@/components/BaseHead.astro";
+import Header from "@/components/layout/Header.astro";
+import SkipLink from "@/components/SkipLink.astro";
+import { siteConfig } from "@/site.config";
+import type { SiteMeta } from "@/types";
+import pkg from "../../package.json";
+
+interface Props {
+	meta: SiteMeta;
+}
+
+const faroConfig = {
+	url: "https://faro-collector-prod-eu-west-2.grafana.net/collect/b3811c349a48e4c380a534109f017dfd",
+	app: {
+		name: "stefanmuraru-com",
+		version: pkg.version,
+		environment: "production",
+	},
+	sessionTracking: {
+		samplingRate: 1,
+		persistent: true,
+	},
+};
+
+const {
+	meta: { articleDate, description = siteConfig.description, ogImage, title },
+} = Astro.props;
+---
+
+<html class="scroll-smooth" lang={siteConfig.lang}>
+	<head>
+		<BaseHead title={title} description={description} ogImage={ogImage} articleDate={articleDate} />
+
+		<script
+			defer
+			is:inline
+			src="https://static.cloudflareinsights.com/beacon.min.js"
+			data-cf-beacon='{"token": "590efb30049b45d99e45bb37886c178c"}'></script>
+
+		<!-- Google tag (gtag.js) -->
+		<script async is:inline src="https://www.googletagmanager.com/gtag/js?id=G-4RPMHK2VBK"></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
+			gtag("config", "G-4RPMHK2VBK");
+		</script>
+
+		<script is:inline define:vars={{ faroConfig }}>
+			(function () {
+				var webSdkScript = document.createElement("script");
+				webSdkScript.src =
+					"https://unpkg.com/@grafana/faro-web-sdk@latest/dist/bundle/faro-web-sdk.iife.js";
+				webSdkScript.onload = () => {
+					window.GrafanaFaroWebSdk.initializeFaro(faroConfig);
+					var webTracingScript = document.createElement("script");
+					webTracingScript.src =
+						"https://unpkg.com/@grafana/faro-web-tracing@latest/dist/bundle/faro-web-tracing.iife.js";
+					webTracingScript.onload = () => {
+						window.GrafanaFaroWebSdk.faro.instrumentations.add(
+							new window.GrafanaFaroWebTracing.TracingInstrumentation(),
+						);
+					};
+					document.head.appendChild(webTracingScript);
+				};
+				document.head.appendChild(webSdkScript);
+			})();
+		</script>
+	</head>
+	<body class="bg-bg text-text min-h-screen font-['Inter',sans-serif] antialiased">
+		<SkipLink />
+		<Header />
+		<main id="main">
+			<slot />
+		</main>
+		<script is:inline type="speculationrules">
+			{
+				"prefetch": [
+					{
+						"where": {
+							"href_matches": "/*"
+						},
+						"eagerness": "immediate"
+					}
+				],
+				"prerender": [
+					{
+						"where": {
+							"href_matches": "/*"
+						},
+						"eagerness": "moderate"
+					}
+				]
+			}
+		</script>
+	</body>
+</html>

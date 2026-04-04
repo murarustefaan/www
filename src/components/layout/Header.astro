@@ -1,0 +1,123 @@
+---
+import { menuLinks } from "@/site.config";
+
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="sticky top-0 z-50 bg-bg/95 backdrop-blur-sm border-b border-border">
+	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="flex items-center justify-between h-14">
+			{/* Logo */}
+			<a
+				href="/"
+				class="font-['JetBrains_Mono'] text-sm text-accent hover:text-[#00ffcc] transition-colors"
+			>
+				~/stefan
+			</a>
+
+			{/* Desktop Navigation */}
+			<div class="hidden md:flex items-center gap-6 text-sm">
+				{menuLinks.map((link) => (
+					link.style === "button" ? (
+						<a
+							href={link.path}
+							class:list={[
+								"font-['JetBrains_Mono'] px-3 py-1 rounded transition-colors",
+								currentPath === link.path
+									? "bg-secondary text-primary border border-primary/50"
+									: "bg-card text-muted border border-border hover:border-primary/30 hover:text-text",
+							]}
+						>
+							{link.title}
+						</a>
+					) : (
+						<a
+							href={link.path}
+							class:list={[
+								"transition-colors",
+								currentPath === link.path || (link.path !== "/" && currentPath.startsWith(link.path))
+									? "text-text"
+									: "text-muted hover:text-text",
+							]}
+						>
+							{link.title}
+						</a>
+					)
+				))}
+			</div>
+
+			{/* Mobile hamburger */}
+			<mobile-button>
+				<button
+					aria-expanded="false"
+					aria-haspopup="menu"
+					aria-label="Open main menu"
+					class="md:hidden p-2 text-muted hover:text-text transition-colors"
+					id="toggle-nav"
+					type="button"
+				>
+					<svg class="hamburger-icon w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path d="M3.75 9h16.5m-16.5 6.75h16.5" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+					<svg class="close-icon hidden w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+				</button>
+			</mobile-button>
+		</div>
+
+		{/* Mobile Navigation (hidden by default, toggled via script) */}
+		<div id="mobile-menu" class="hidden md:hidden pb-4 pt-2 border-t border-border mt-2">
+			<div class="flex flex-col gap-3 text-sm">
+				{menuLinks.map((link) => (
+					link.style === "button" ? (
+						<a
+							href={link.path}
+							class:list={[
+								"font-['JetBrains_Mono'] px-3 py-1 rounded transition-colors inline-block w-fit",
+								currentPath === link.path
+									? "bg-secondary text-primary border border-primary/50"
+									: "bg-card text-muted border border-border hover:border-primary/30 hover:text-text",
+							]}
+						>
+							{link.title}
+						</a>
+					) : (
+						<a
+							href={link.path}
+							class:list={[
+								"transition-colors",
+								currentPath === link.path || (link.path !== "/" && currentPath.startsWith(link.path))
+									? "text-text"
+									: "text-muted hover:text-text",
+							]}
+						>
+							{link.title}
+						</a>
+					)
+				))}
+			</div>
+		</div>
+	</div>
+</nav>
+
+<script>
+	class MobileNavBtn extends HTMLElement {
+		connectedCallback() {
+			const btn = this.querySelector<HTMLButtonElement>("button")!;
+			const menu = document.getElementById("mobile-menu")!;
+			const hamburger = btn.querySelector(".hamburger-icon")!;
+			const close = btn.querySelector(".close-icon")!;
+
+			btn.addEventListener("click", () => {
+				const isOpen = menu.classList.toggle("hidden");
+				// isOpen is true when "hidden" was added (= menu closed)
+				btn.setAttribute("aria-expanded", (!isOpen).toString());
+				hamburger.classList.toggle("hidden");
+				close.classList.toggle("hidden");
+			});
+		}
+	}
+
+	customElements.define("mobile-button", MobileNavBtn);
+</script>

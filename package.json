@@ -1,0 +1,64 @@
+{
+	"name": "www",
+	"type": "module",
+	"version": "2025.10.1",
+	"private": false,
+	"scripts": {
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"lint": "biome lint .",
+		"format": "pnpm run format:code && pnpm run format:imports",
+		"format:code": "biome format . --write && prettier -w \"**/*\" \"!**/*.{md,mdx}\" --ignore-unknown --cache",
+		"format:imports": "biome check --formatter-enabled=false --write",
+		"check": "astro check"
+	},
+	"dependencies": {
+		"@astrojs/markdown-remark": "^6.3.8",
+		"@astrojs/mdx": "4.3.7",
+		"@astrojs/rss": "4.0.12",
+		"@astrojs/sitemap": "3.6.0",
+		"@tailwindcss/vite": "4.1.15",
+		"astro": "5.14.8",
+		"astro-expressive-code": "^0.41.3",
+		"astro-robots-txt": "^1.0.0",
+		"cssnano": "^7.1.1",
+		"hastscript": "^9.0.0",
+		"mdast-util-directive": "^3.0.0",
+		"mdast-util-to-markdown": "^2.1.2",
+		"mdast-util-to-string": "^4.0.0",
+		"rehype-autolink-headings": "^7.1.0",
+		"rehype-external-links": "^3.0.0",
+		"rehype-unwrap-images": "^1.0.0",
+		"remark-directive": "^4.0.0",
+		"satori": "0.18.3",
+		"satori-html": "^0.3.2",
+		"sharp": "^0.34.4",
+		"unified": "^11.0.5",
+		"unist-util-visit": "^5.0.0"
+	},
+	"devDependencies": {
+		"@astrojs/check": "^0.9.5",
+		"@biomejs/biome": "^2.2.6",
+		"@resvg/resvg-js": "^2.6.2",
+		"@tailwindcss/typography": "^0.5.19",
+		"@types/hast": "^3.0.4",
+		"@types/mdast": "^4.0.4",
+		"autoprefixer": "^10.4.21",
+		"prettier": "^3.6.2",
+		"prettier-plugin-astro": "0.14.1",
+		"prettier-plugin-tailwindcss": "^0.7.1",
+		"reading-time": "^1.5.0",
+		"tailwindcss": "4.1.15",
+		"typescript": "^5.9.3"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"@biomejs/biome",
+			"@tailwindcss/oxide",
+			"esbuild",
+			"sharp"
+		]
+	}
+}

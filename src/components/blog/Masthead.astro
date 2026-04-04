@@ -1,0 +1,46 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getFormattedDate } from "@/utils/date";
+
+interface Props {
+	content: CollectionEntry<"post">;
+	readingTime: string;
+}
+
+const {
+	content: { data },
+	readingTime,
+} = Astro.props;
+---
+
+{data.draft && <span class="text-sm text-destructive font-['JetBrains_Mono']">[DRAFT]</span>}
+
+<div class="flex flex-wrap items-center gap-3 mb-4 text-sm">
+	<span class="font-['JetBrains_Mono'] text-muted">
+		{getFormattedDate(data.publishDate)}
+	</span>
+	<span class="text-border">•</span>
+	<span class="flex items-center gap-1 text-muted">
+		<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+		{readingTime}
+	</span>
+	{data.updatedDate && (
+		<span class="text-xs px-2 py-0.5 bg-warn/10 border border-warn/30 text-warn rounded font-['JetBrains_Mono']">
+			updated {getFormattedDate(data.updatedDate)}
+		</span>
+	)}
+</div>
+
+<h1 class="text-3xl sm:text-4xl lg:text-5xl mb-6 text-text">
+	{data.title}
+</h1>
+
+{!!data.tags?.length && (
+	<div class="flex flex-wrap gap-2">
+		{data.tags.map((tag) => (
+			<span class="text-xs px-2.5 py-1 bg-card border border-border text-accent rounded font-['JetBrains_Mono']">
+				#{tag}
+			</span>
+		))}
+	</div>
+)}
