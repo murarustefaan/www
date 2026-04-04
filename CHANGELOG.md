@@ -1,5 +1,12 @@
 # Changelog
 
+## [2026.7.0](https://github.com/murarustefaan/www/compare/v2026.6.0...v2026.7.0) (2026-04-04)
+
+
+### Features
+
+* Use self-hosted action runners ([d43be77](https://github.com/murarustefaan/www/commit/d43be7749970583295f3aaf10ba85823a1fcab59))
+
 ## [2026.6.0](https://github.com/murarustefaan/www/compare/v2026.5.0...v2026.6.0) (2026-03-31)
 
 
