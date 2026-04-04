@@ -61,7 +61,7 @@ jobs:
       - name: Update kustomize image tag
         run: |
           cd deploy/overlays/production
-          kustomize edit set image "murarustefaan/www=registry.stefanmuraru.com/www:$VERSION"
+          sed -i "s|newTag:.*|newTag: \"$VERSION\"|" kustomization.yaml
         env:
           VERSION: ${{ inputs.version }}
       - name: Commit and push
