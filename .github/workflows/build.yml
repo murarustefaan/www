@@ -1,17 +1,19 @@
 name: check and build
+
 on:
   workflow_dispatch:
   push:
     branches: [main]
     tags: ["v[0-9]+.[0-9]+.[0-9]+"]
+
 permissions:
   contents: write
   actions: write
-  id-token: write
+
 jobs:
   check:
     name: Check for build and type issues
-    runs-on: depot-ubuntu-latest
+    runs-on: worker
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -41,12 +43,13 @@ jobs:
         run: pnpm astro check
       - name: run build
         run: pnpm build
+
   build:
     needs:
       - check
     if: startsWith(github.ref, 'refs/tags/v')
     name: Build Docker image and push
-    runs-on: depot-ubuntu-latest
+    runs-on: worker
     outputs:
       version: ${{ steps.version.outputs.value }}
     steps:
@@ -55,27 +58,44 @@ jobs:
       - name: Extract version from git tag
         id: version
         run: echo "value=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
-      - name: Setup Depot CLI
-        uses: depot/setup-action@v1
-      - name: Login to DockerHub
+      - name: Set up Buildx (amd64)
+        id: buildx-amd64
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver: remote
+          endpoint: tcp://buildkit-amd64.actions.svc.cluster.local:1234
+          append: ""
+      - name: Append arm64 builder
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver: remote
+          endpoint: tcp://buildkit-arm64.actions.svc.cluster.local:1234
+          append: |
+            - endpoint: tcp://buildkit-arm64.actions.svc.cluster.local:1234
+              platforms: linux/arm64
+      - name: Login to registry
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build image and push to Docker Hub
-        uses: depot/build-push-action@v1
+          registry: registry.stefanmuraru.com
+          username: builder
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - name: Build and push
+        uses: docker/build-push-action@v6
         with:
           context: .
-          tags: |
-            murarustefaan/www:latest
-            murarustefaan/www:${{ steps.version.outputs.value }}
           platforms: linux/amd64,linux/arm64
           push: true
+          tags: |
+            registry.stefanmuraru.com/www:latest
+            registry.stefanmuraru.com/www:${{ steps.version.outputs.value }}
+          cache-from: type=registry,ref=registry.stefanmuraru.com/www:buildcache
+          cache-to: type=registry,ref=registry.stefanmuraru.com/www:buildcache,mode=max
+
   deploy:
     needs:
       - build
     name: Update deployment manifest
-    runs-on: depot-ubuntu-latest
+    runs-on: worker
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -84,7 +104,7 @@ jobs:
       - name: Update kustomize image tag
         run: |
           cd deploy/overlays/production
-          kustomize edit set image "murarustefaan/www=murarustefaan/www:$VERSION"
+          kustomize edit set image "murarustefaan/www=registry.stefanmuraru.com/www:$VERSION"
         env:
           VERSION: ${{ needs.build.outputs.version }}
       - name: Commit and push
