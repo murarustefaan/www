@@ -1,5 +1,62 @@
 # Changelog
 
+## [2026.8.0](https://github.com/murarustefaan/www/compare/v2026.7.1...v2026.8.0) (2026-04-04)
+
+
+### Features
+
+* Add Cmd + K shortcut for searching blog posts ([7676caf](https://github.com/murarustefaan/www/commit/7676caf4c134ba430190b948d6a21b132251e31e))
+* Add decorative terminal background ([581b4f6](https://github.com/murarustefaan/www/commit/581b4f695385f9e90f163137136a5b9d94cee5f6))
+* Add interactive terminal and improve hero layout ([7b033cf](https://github.com/murarustefaan/www/commit/7b033cfa2b1be782a02ef9729ca96a8fcb36a76f))
+* Add JSON-LD structured data ([09f6666](https://github.com/murarustefaan/www/commit/09f6666aa6a0ad5a5cd4a0ae59dbc4c3c3d794fe))
+* Add mermaid for diagram building ([e76f7fa](https://github.com/murarustefaan/www/commit/e76f7fa7075db561ee03cc7c8e903e1cb597ffb3))
+* Add next / previous buttons in blog post ([c09a26a](https://github.com/murarustefaan/www/commit/c09a26a7030815734846c24b1291257092bbf9a9))
+* Add related posts at the end of each blog post ([f20d9dd](https://github.com/murarustefaan/www/commit/f20d9dd56c5ee1a99dda368b313c39b98da30791))
+* Added contact information and links in the footer ([7d53003](https://github.com/murarustefaan/www/commit/7d530038d4d3c37a517c403e346eefc308e6690e))
+* Added TOC progress ([9fe52fe](https://github.com/murarustefaan/www/commit/9fe52fe3ed7e88303f923520e475b055f6448dbf))
+* Blog post on CanisterWorm ([8a205d3](https://github.com/murarustefaan/www/commit/8a205d31ba48a4e94bfcd5bc4f2aeac8715fc3b9))
+* Improve experience cards expansion ([a920382](https://github.com/murarustefaan/www/commit/a9203824615f3f943ca5c53f0b05ede9205f1097))
+* Improve footer ([e4fecc9](https://github.com/murarustefaan/www/commit/e4fecc948939542c1c1c3ceeff45edd8a46ff439))
+* Improve UX and add blog tags to footer ([2d1f452](https://github.com/murarustefaan/www/commit/2d1f452f65bb5ee7e4e47c72b7fb6ddc3ee0931c))
+* Increase the width of TOC container ([0cd29f0](https://github.com/murarustefaan/www/commit/0cd29f034f52f5052cf66f6bb69a87688ca9b610))
+* migrate argocd-image-updater to CRD-based config ([64861df](https://github.com/murarustefaan/www/commit/64861dfd86e748272c9f68cfeb9cb77511c849d4))
+* migrate argocd-image-updater to CRD-based config ([93941d8](https://github.com/murarustefaan/www/commit/93941d8e7d4f36c5193469f47db8b07696b78c73))
+* Migrate build CI to depot ([6b19248](https://github.com/murarustefaan/www/commit/6b19248b887e3ff85248ca7e297015d258698e08))
+* migrate build to depot workflow as well ([e627958](https://github.com/murarustefaan/www/commit/e62795859d0e250d3a528c6299d98b137d488f85))
+* Migrate deployment to tag-based rather than latest ([001e2cb](https://github.com/murarustefaan/www/commit/001e2cb53edc09df1b7220f935107314db9eaf34))
+* Only run build & push on tag updates ([c578a27](https://github.com/murarustefaan/www/commit/c578a27c43560c1a79cc3504829ee577a9275dad))
+* Package upgrades ([4641e8b](https://github.com/murarustefaan/www/commit/4641e8b090ffabe2f5eddd4420428f6510d463f3))
+* remove github ci build ([9911801](https://github.com/murarustefaan/www/commit/99118015eff020ad606f02ce0e3214612be7c138))
+* SEO improvements ([b81fab5](https://github.com/murarustefaan/www/commit/b81fab54e6a7e1987bd1887836dc225b03711154))
+* store cd state in git ([60c3dc0](https://github.com/murarustefaan/www/commit/60c3dc00214745952dca01488d24e081dfb5349f))
+* Update company logos ([d33f9b8](https://github.com/murarustefaan/www/commit/d33f9b874ac9bf701f6a974766f2ce94249a780c))
+* Update dependencies ([c6ec393](https://github.com/murarustefaan/www/commit/c6ec3935312dc1148f31093f8df11bc6ffe8b650))
+* Update navigation links in footer ([c2305ba](https://github.com/murarustefaan/www/commit/c2305ba9b4636cccf696e43dcb3fdc33cb365138))
+* Update nginx version ([937f133](https://github.com/murarustefaan/www/commit/937f133e40563e530ce82a5cf1425a0a6da10017))
+* Update README ([7f4d110](https://github.com/murarustefaan/www/commit/7f4d110955229a044e5507b4ebb08ac6fa4dfad4))
+* Upgrade build dependencies ([bf5a99e](https://github.com/murarustefaan/www/commit/bf5a99e7858a5548840289a40de0f1358622ac92))
+* Use release-please for versioning ([43d1727](https://github.com/murarustefaan/www/commit/43d17274157cdcc0c4a721b948a9df332b1d363b))
+* Use self-hosted action runners ([be1aab1](https://github.com/murarustefaan/www/commit/be1aab1f2d219495179676e4a77aed2ca4ea5c63))
+
+
+### Bug Fixes
+
+* Add back Footer ([5827857](https://github.com/murarustefaan/www/commit/5827857cf36f6ec06ddd240c55a0400445f6bac5))
+* Add back the profile picture ([aaa0244](https://github.com/murarustefaan/www/commit/aaa02443e4f28fc9781ec42f1006cff22c5a4bd4))
+* Ammend description and cards ([5fcb1cf](https://github.com/murarustefaan/www/commit/5fcb1cfe636ade60515c9722878a7b044c7c2d93))
+* Cleanup leftovers & add new mono fonts ([8c92ab8](https://github.com/murarustefaan/www/commit/8c92ab8b6a69ff09e4bceba7defd45c9512be05f))
+* Code review comments ([3e3ef61](https://github.com/murarustefaan/www/commit/3e3ef61f19bb350ffe1b676651936f1cec011746))
+* Fix deprecated action ([f8aa9f6](https://github.com/murarustefaan/www/commit/f8aa9f627174bc42d19e3794a64c29390ec4c587))
+* Fix platform builds ([89f5a2d](https://github.com/murarustefaan/www/commit/89f5a2db3ace903b6febed2629772ea48815c866))
+* Fix tech icons ([39d7488](https://github.com/murarustefaan/www/commit/39d7488659dfae3624af888a1c05e15c74dd0f8e))
+* polish redesigned site with original content, consistent layout, and tech logos ([a9ae895](https://github.com/murarustefaan/www/commit/a9ae89565c06d51014822d10a3a7c4a8b698b204))
+* Remove unused code fragments ([3647435](https://github.com/murarustefaan/www/commit/3647435fb1688771c6ccfa2d955b64c959faf043))
+* squash previous history ([581c5c7](https://github.com/murarustefaan/www/commit/581c5c7a62ef9dc5be45bac5c77f2acc372517c2))
+* Update images ([76f333a](https://github.com/murarustefaan/www/commit/76f333a378946f26edc8fc4481a33cbced1e6ac9))
+* Update post titles ([380fa42](https://github.com/murarustefaan/www/commit/380fa4255cee6fefa666e437ebcb7811106490c6))
+* Update release mode ([c98a287](https://github.com/murarustefaan/www/commit/c98a287c3c87b5596d6fb99c7f85bc6463a77947))
+* Update social images ([d67a5fc](https://github.com/murarustefaan/www/commit/d67a5fc79e44a82ebd8675777c49b8b6eb2c1b3b))
+
 ## [2026.7.1](https://github.com/murarustefaan/www/compare/v2026.7.0...v2026.7.1) (2026-04-04)
 
 
