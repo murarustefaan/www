@@ -1,5 +1,12 @@
 # Changelog
 
+## [2026.7.1](https://github.com/murarustefaan/www/compare/v2026.7.0...v2026.7.1) (2026-04-04)
+
+
+### Bug Fixes
+
+* Fix platform builds ([a40da2b](https://github.com/murarustefaan/www/commit/a40da2b07d122f4609f446bbb09ef3b4f3564f0f))
+
 ## [2026.7.0](https://github.com/murarustefaan/www/compare/v2026.6.0...v2026.7.0) (2026-04-04)
 
 
