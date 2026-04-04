@@ -1,5 +1,18 @@
 # Changelog
 
+## [2026.10.0](https://github.com/murarustefaan/www/compare/v2026.9.0...v2026.10.0) (2026-04-04)
+
+
+### Features
+
+* Update build & release ([b27e363](https://github.com/murarustefaan/www/commit/b27e36305b033909897f5617bf4729bda507a0a8))
+
+
+### Bug Fixes
+
+* add CI as status check ([92c8987](https://github.com/murarustefaan/www/commit/92c8987194196ae28de0e438804499c34ade8a47))
+* Fix deployment mechanism ([461518e](https://github.com/murarustefaan/www/commit/461518e4294589cb400a708f6d6b5d28ebd35c4d))
+
 ## [2026.9.0](https://github.com/murarustefaan/www/compare/v2026.8.0...v2026.9.0) (2026-04-04)
 
 
