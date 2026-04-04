@@ -15,7 +15,7 @@ spec:
         stefanmuraru.com/service: www
     spec:
       imagePullSecrets:
-        - name: docker-io-credentials
+        - name: registry-pull-credentials
       tolerations:
         - key: "node.kubernetes.io/unreachable"
           operator: "Exists"
