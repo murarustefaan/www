@@ -1,0 +1,42 @@
+name: ci
+
+on:
+  workflow_dispatch:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Check for build and type issues
+    runs-on: worker
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: install node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+      - name: get pnpm store directory
+        shell: bash
+        run: |
+          echo "PNPM_CACHE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      - name: setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.PNPM_CACHE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: install dependencies
+        run: pnpm install
+      - name: run check
+        run: pnpm astro check
+      - name: run build
+        run: pnpm build

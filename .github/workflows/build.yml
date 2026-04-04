@@ -1,63 +1,28 @@
-name: check and build
+name: build and deploy
 
 on:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
   workflow_dispatch:
-  push:
-    branches: [main]
-    tags: ["v[0-9]+.[0-9]+.[0-9]+"]
+    inputs:
+      version:
+        required: true
+        type: string
+        description: "Version to build and deploy (e.g. 2026.8.0)"
 
 permissions:
   contents: write
-  actions: write
 
 jobs:
-  check:
-    name: Check for build and type issues
-    runs-on: worker
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-      - name: install node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - name: install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-          run_install: false
-      - name: get pnpm store directory
-        shell: bash
-        run: |
-          echo "PNPM_CACHE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-      - name: setup pnpm cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.PNPM_CACHE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-      - name: install dependencies
-        run: pnpm install
-      - name: run check
-        run: pnpm astro check
-      - name: run build
-        run: pnpm build
-
   build:
-    needs:
-      - check
-    if: startsWith(github.ref, 'refs/tags/v')
     name: Build Docker image and push
     runs-on: worker
-    outputs:
-      version: ${{ steps.version.outputs.value }}
     steps:
       - name: checkout
         uses: actions/checkout@v4
-      - name: Extract version from git tag
-        id: version
-        run: echo "value=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
       - name: Set up Buildx (multi-arch)
         uses: docker/setup-buildx-action@v3
         with:
@@ -80,13 +45,12 @@ jobs:
           push: true
           tags: |
             registry.stefanmuraru.com/www:latest
-            registry.stefanmuraru.com/www:${{ steps.version.outputs.value }}
+            registry.stefanmuraru.com/www:${{ inputs.version }}
           cache-from: type=registry,ref=registry.stefanmuraru.com/www:buildcache
           cache-to: type=registry,ref=registry.stefanmuraru.com/www:buildcache,mode=max
 
   deploy:
-    needs:
-      - build
+    needs: build
     name: Update deployment manifest
     runs-on: worker
     steps:
@@ -99,7 +63,7 @@ jobs:
           cd deploy/overlays/production
           kustomize edit set image "murarustefaan/www=registry.stefanmuraru.com/www:$VERSION"
         env:
-          VERSION: ${{ needs.build.outputs.version }}
+          VERSION: ${{ inputs.version }}
       - name: Commit and push
         run: |
           git config user.name "fram[bot]"
@@ -109,4 +73,4 @@ jobs:
           git commit -m "chore: deploy www $VERSION"
           git push
         env:
-          VERSION: ${{ needs.build.outputs.version }}
+          VERSION: ${{ inputs.version }}
