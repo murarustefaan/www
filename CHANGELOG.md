@@ -1,5 +1,12 @@
 # Changelog
 
+## [2026.9.0](https://github.com/murarustefaan/www/compare/v2026.8.0...v2026.9.0) (2026-04-04)
+
+
+### Features
+
+* revamp CI ([a15f835](https://github.com/murarustefaan/www/commit/a15f8351d065bbc465af0d00aa5e8ca33d70ef91))
+
 ## [2026.8.0](https://github.com/murarustefaan/www/compare/v2026.7.1...v2026.8.0) (2026-04-04)
 
 
