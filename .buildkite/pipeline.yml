@@ -1,0 +1,43 @@
+steps:
+  - label: ":lint: Check"
+    env:
+      BUILDKITE_IMAGE: "node:24-bullseye-slim"
+    command:
+      - corepack enable
+      - pnpm install
+      - pnpm astro check
+      - pnpm build
+
+  - wait
+
+  - label: ":docker: Build and Push"
+    if: build.tag =~ /^v/
+    env:
+      BUILDKITE_IMAGE: "docker:cli"
+    command:
+      - docker buildx create --name multi --driver remote --use tcp://buildkit-amd64.actions.svc.cluster.local:1234
+      - docker buildx create --name multi --append --platform linux/arm64 tcp://buildkit-arm64.actions.svc.cluster.local:1234
+      - docker login -u builder -p "$$REGISTRY_PASSWORD" registry.stefanmuraru.com
+      - >-
+        docker buildx build
+        --platform linux/amd64,linux/arm64
+        --push
+        --tag "registry.stefanmuraru.com/www:$${BUILDKITE_TAG#v}"
+        --tag registry.stefanmuraru.com/www:latest
+        --cache-from type=registry,ref=registry.stefanmuraru.com/www:buildcache
+        --cache-to type=registry,ref=registry.stefanmuraru.com/www:buildcache,mode=max
+        .
+
+  - wait
+
+  - label: ":rocket: Deploy"
+    if: build.tag =~ /^v/
+    command:
+      - cd deploy/overlays/production
+      - sed -i "s|newTag:.*|newTag: \"$${BUILDKITE_TAG#v}\"|" kustomization.yaml
+      - git config user.name "buildkite[bot]"
+      - git config user.email "buildkite[bot]@users.noreply.github.com"
+      - git add kustomization.yaml
+      - git diff --cached --quiet && echo "No changes to commit" && exit 0
+      - git commit -m "chore':' deploy www $${BUILDKITE_TAG#v}"
+      - git push
