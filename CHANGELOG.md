@@ -1,5 +1,12 @@
 # Changelog
 
+## [2026.10.1](https://github.com/murarustefaan/www/compare/v2026.10.0...v2026.10.1) (2026-04-05)
+
+
+### Bug Fixes
+
+* Fix deploy ([ad18521](https://github.com/murarustefaan/www/commit/ad18521f14de74ff9f03d828f2f2f2a39d569a89))
+
 ## [2026.10.0](https://github.com/murarustefaan/www/compare/v2026.9.0...v2026.10.0) (2026-04-04)
 
 
