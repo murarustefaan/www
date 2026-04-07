@@ -30,7 +30,7 @@ steps:
 
   - wait
 
-  - label: ":rocket: Deploy"
+  - label: ":ship: Deploy"
     if: build.tag =~ /^v/
     command:
       - cd deploy/overlays/production
