@@ -1,6 +1,5 @@
 resources:
 - ../../base
-- ingress.yaml
 - httproute.yaml
 - registry-pull-secret.yaml
 images:
