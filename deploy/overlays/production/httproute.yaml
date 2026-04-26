@@ -1,0 +1,54 @@
+# Replaces ingress.yaml on cutover.
+# Add to kustomization.yaml after the public Gateway is up and the
+# wildcard cert has issued. Delete ingress.yaml once the Cloudflare
+# tunnel is repointed at the new public LB.
+#
+# Traffic path: Cloudflare edge -> cloudflared pod -> Gateway (HTTPS)
+# -> www service. TLS terminates at Cloudflare for the public, then
+# again at the Gateway for the in-cluster hop.
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: www
+  namespace: www
+  annotations:
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+    external-dns.alpha.kubernetes.io/hostname: stefanmuraru.com
+    external-dns.alpha.kubernetes.io/target: d473da53-e5a4-4535-b3f0-6e36d165b874.cfargotunnel.com
+spec:
+  parentRefs:
+    - name: public
+      namespace: gateway-system
+      sectionName: https-apex
+  hostnames:
+    - stefanmuraru.com
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: www
+          port: 80
+---
+# Redirect plain HTTP to HTTPS at the gateway (defense in depth;
+# Cloudflare already enforces HTTPS at the edge).
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: www-http-redirect
+  namespace: www
+spec:
+  parentRefs:
+    - name: public
+      namespace: gateway-system
+      sectionName: http-apex
+  hostnames:
+    - stefanmuraru.com
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301
