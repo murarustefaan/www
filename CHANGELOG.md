@@ -1,5 +1,12 @@
 # Changelog
 
+## [2026.12.1](https://github.com/murarustefaan/www/compare/v2026.12.0...v2026.12.1) (2026-04-27)
+
+
+### Bug Fixes
+
+* Use argocd-image-updater for GIT writeback ([2cbef41](https://github.com/murarustefaan/www/commit/2cbef415d385c20ea326aa9e85ae0c8503d51f2b))
+
 ## [2026.12.0](https://github.com/murarustefaan/www/compare/v2026.11.1...v2026.12.0) (2026-04-27)
 
 
