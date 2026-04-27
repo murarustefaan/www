@@ -1,5 +1,19 @@
 # Changelog
 
+## [2026.12.0](https://github.com/murarustefaan/www/compare/v2026.11.1...v2026.12.0) (2026-04-27)
+
+
+### Features
+
+* Remove ingress configuration ([c3e6672](https://github.com/murarustefaan/www/commit/c3e66728c6ebfae2d8c0a3ea971b2664c43a5212))
+* Switch routing trough gateway rather than ingress ([9574183](https://github.com/murarustefaan/www/commit/957418368185702761933d5c568d911d6195d2db))
+
+
+### Bug Fixes
+
+* Stop external-dns fighting over record ([221f134](https://github.com/murarustefaan/www/commit/221f134a5164787afe4297d29a53a9474be8bbd9))
+* Upgrade dependencies ([b3de9cb](https://github.com/murarustefaan/www/commit/b3de9cb48201904ed425a0efd11c625b2d49e363))
+
 ## [2026.11.1](https://github.com/murarustefaan/www/compare/v2026.11.0...v2026.11.1) (2026-04-07)
 
 
