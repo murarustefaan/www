@@ -2,6 +2,7 @@ resources:
 - ../../base
 - httproute.yaml
 - registry-pull-secret.yaml
+- imageupdater.yaml
 images:
 - name: murarustefaan/www
   newName: registry.stefanmuraru.com/www

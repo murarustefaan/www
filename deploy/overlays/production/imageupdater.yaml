@@ -1,0 +1,22 @@
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: www
+  namespace: argocd
+spec:
+  applicationRefs:
+    - namePattern: www
+      images:
+        - alias: www
+          imageName: registry.stefanmuraru.com/www:2026.12.0
+          commonUpdateSettings:
+            allowTags: regexp:^\d{4}\.\d+\.\d+$
+            updateStrategy: newest-build
+          manifestTargets:
+            kustomize:
+              name: murarustefaan/www
+      writeBackConfig:
+        method: git
+        gitConfig:
+          branch: main
+          writeBackTarget: kustomization:.
