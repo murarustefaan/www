@@ -12,8 +12,6 @@ steps:
 
   - label: ":docker: Build and Push"
     if: build.tag =~ /^v/
-    env:
-      BUILDKITE_IMAGE: "docker:cli"
     plugins:
       - docker-login#v3.0.0:
           username: builder
@@ -22,7 +20,8 @@ steps:
       - kubernetes:
           podSpec:
             containers:
-              - env:
+              - image: docker:cli
+                env:
                   - name: REGISTRY_PASSWORD
                     valueFrom:
                       secretKeyRef:
