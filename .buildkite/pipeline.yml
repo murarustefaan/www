@@ -42,6 +42,8 @@ steps:
   - label: ":ship: Deploy"
     if: build.tag =~ /^v/
     command:
+      - git fetch origin main
+      - git checkout -B main origin/main
       - cd deploy/overlays/production
       - >-
         sed -i "s|newTag:.*|newTag: \"$${BUILDKITE_TAG#v}\"|" kustomization.yaml
@@ -51,4 +53,4 @@ steps:
       - git diff --cached --quiet && echo "No changes to commit" && exit 0
       - >-
         git commit -m "chore: deploy www $${BUILDKITE_TAG#v}"
-      - git push
+      - git push origin main
