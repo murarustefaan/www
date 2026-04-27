@@ -43,10 +43,12 @@ steps:
     if: build.tag =~ /^v/
     command:
       - cd deploy/overlays/production
-      - sed -i "s|newTag:.*|newTag: \"$${BUILDKITE_TAG#v}\"|" kustomization.yaml
+      - >-
+        sed -i "s|newTag:.*|newTag: \"$${BUILDKITE_TAG#v}\"|" kustomization.yaml
       - git config user.name "buildkite[bot]"
       - git config user.email "buildkite[bot]@users.noreply.github.com"
       - git add kustomization.yaml
       - git diff --cached --quiet && echo "No changes to commit" && exit 0
-      - git commit -m "chore':' deploy www $${BUILDKITE_TAG#v}"
+      - >-
+        git commit -m "chore: deploy www $${BUILDKITE_TAG#v}"
       - git push
