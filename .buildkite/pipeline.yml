@@ -1,19 +1,26 @@
+env:
+  REGISTRY: "registry.stefanmuraru.com"
+  IMAGE_NAME: "www"
+  NODE_IMAGE: "node:24-bullseye-slim"
+  BUILDX_BUILDER: "multi"
+
 steps:
   - label: ":lint: Check"
+    key: "check"
     env:
-      BUILDKITE_IMAGE: "node:24-bullseye-slim"
-    command:
+      BUILDKITE_IMAGE: "${NODE_IMAGE}"
+    commands:
       - corepack enable
-      - pnpm install
+      - pnpm install --frozen-lockfile
       - pnpm astro check
       - pnpm build
 
-  - wait
-
   - label: ":docker: Build and Push"
+    key: "docker-build"
     if: build.tag =~ /^v/
+    depends_on: "check"
     plugins:
-      - kubernetes:
+      - kubernetes#<PINNED_VERSION>:
           podSpec:
             containers:
               - image: docker:cli
@@ -23,17 +30,17 @@ steps:
                       secretKeyRef:
                         name: registry-auth-registry-stefanmuraru-com
                         key: PASSWORD
-    command:
-      - echo "$$REGISTRY_PASSWORD" | docker login -u builder --password-stdin registry.stefanmuraru.com
-      - docker buildx create --name multi --driver remote --use tcp://buildkit-amd64.actions.svc.cluster.local:1234
-      - docker buildx create --name multi --append --platform linux/arm64 tcp://buildkit-arm64.actions.svc.cluster.local:1234
-      - >-
+    commands:
+      - echo "$$REGISTRY_PASSWORD" | docker login -u builder --password-stdin "${REGISTRY}"
+      - docker buildx inspect "${BUILDX_BUILDER}" >/dev/null 2>&1 || docker buildx create --name "${BUILDX_BUILDER}" --driver remote --use tcp://buildkit-amd64.actions.svc.cluster.local:1234
+      - docker buildx create --name "${BUILDX_BUILDER}" --append --platform linux/arm64 tcp://buildkit-arm64.actions.svc.cluster.local:1234 || true
+      - docker buildx use "${BUILDX_BUILDER}"
+      - >
         docker buildx build
         --platform linux/amd64,linux/arm64
         --push
-        --tag "registry.stefanmuraru.com/www:$${BUILDKITE_TAG#v}"
-        --tag registry.stefanmuraru.com/www:latest
-        --cache-from type=registry,ref=registry.stefanmuraru.com/www:buildcache
-        --cache-to type=registry,ref=registry.stefanmuraru.com/www:buildcache,mode=max
+        --tag "${REGISTRY}/${IMAGE_NAME}:$${BUILDKITE_TAG#v}"
+        --tag "${REGISTRY}/${IMAGE_NAME}:latest"
+        --cache-from type=registry,ref=${REGISTRY}/${IMAGE_NAME}:buildcache
+        --cache-to type=registry,ref=${REGISTRY}/${IMAGE_NAME}:buildcache,mode=max
         .
-
