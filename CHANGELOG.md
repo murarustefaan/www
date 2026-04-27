@@ -1,5 +1,12 @@
 # Changelog
 
+## [2026.12.3](https://github.com/murarustefaan/www/compare/v2026.12.2...v2026.12.3) (2026-04-27)
+
+
+### Bug Fixes
+
+* Fix pipeline k8s plugin version ([85dd9f3](https://github.com/murarustefaan/www/commit/85dd9f3c8c14026b90229fd978ce89b54dfe3425))
+
 ## [2026.12.2](https://github.com/murarustefaan/www/compare/v2026.12.1...v2026.12.2) (2026-04-27)
 
 
