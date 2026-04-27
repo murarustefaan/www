@@ -20,7 +20,7 @@ steps:
     if: build.tag =~ /^v/
     depends_on: "check"
     plugins:
-      - kubernetes#<PINNED_VERSION>:
+      - kubernetes:
           podSpec:
             containers:
               - image: docker:cli
