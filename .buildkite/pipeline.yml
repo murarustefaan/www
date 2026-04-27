@@ -14,10 +14,23 @@ steps:
     if: build.tag =~ /^v/
     env:
       BUILDKITE_IMAGE: "docker:cli"
+    plugins:
+      - docker-login#v3.0.0:
+          username: builder
+          password-env: REGISTRY_PASSWORD
+          server: registry.stefanmuraru.com
+      - kubernetes:
+          podSpec:
+            containers:
+              - env:
+                  - name: REGISTRY_PASSWORD
+                    valueFrom:
+                      secretKeyRef:
+                        name: registry-auth-registry-stefanmuraru-com
+                        key: PASSWORD
     command:
       - docker buildx create --name multi --driver remote --use tcp://buildkit-amd64.actions.svc.cluster.local:1234
       - docker buildx create --name multi --append --platform linux/arm64 tcp://buildkit-arm64.actions.svc.cluster.local:1234
-      - docker login -u builder -p "$$REGISTRY_PASSWORD" registry.stefanmuraru.com
       - >-
         docker buildx build
         --platform linux/amd64,linux/arm64
