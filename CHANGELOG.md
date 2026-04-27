@@ -1,5 +1,12 @@
 # Changelog
 
+## [2026.12.2](https://github.com/murarustefaan/www/compare/v2026.12.1...v2026.12.2) (2026-04-27)
+
+
+### Bug Fixes
+
+* Refactor pipeline file ([de31e31](https://github.com/murarustefaan/www/commit/de31e3158ef2f5dcc2a0bf5d34942a10c47e4730))
+
 ## [2026.12.1](https://github.com/murarustefaan/www/compare/v2026.12.0...v2026.12.1) (2026-04-27)
 
 
