@@ -22,7 +22,7 @@
 		"@tailwindcss/vite": "4.2.4",
 		"astro": "6.1.9",
 		"astro-expressive-code": "^0.41.7",
-		"astro-mermaid": "^2.0.1",
+		"astro-mermaid": "^2.0.2",
 		"astro-robots-txt": "^1.0.0",
 		"cssnano": "^7.1.7",
 		"hastscript": "^9.0.1",
