@@ -1,5 +1,18 @@
 # Changelog
 
+## [2026.13.0](https://github.com/murarustefaan/www/compare/v2026.12.3...v2026.13.0) (2026-06-03)
+
+
+### Features
+
+* Update dependencies ([fad4e49](https://github.com/murarustefaan/www/commit/fad4e498bd53b3327c67dbdefe37499ef889f1aa))
+
+
+### Bug Fixes
+
+* **deps:** pin astro to 6.4.2 to satisfy supply-chain policy ([ba037f4](https://github.com/murarustefaan/www/commit/ba037f48703792079ea198955824b83efac4e1f1))
+* Improve Gateway reliability ([f50236f](https://github.com/murarustefaan/www/commit/f50236feaaf0e1e56c48327d4cd5f6eec6402f26))
+
 ## [2026.12.3](https://github.com/murarustefaan/www/compare/v2026.12.2...v2026.12.3) (2026-04-27)
 
 
