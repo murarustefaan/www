@@ -17,18 +17,20 @@ Personal blog and portfolio built with Astro 5, Tailwind CSS 4, and TypeScript.
 src/
 ├── components/          # Astro UI components
 │   ├── layout/          # Header, Footer
+│   ├── home/            # Home page hero
 │   └── blog/            # Blog-specific (TOC, Masthead)
 ├── content/             # Markdown/MDX content (posts, tags)
 ├── data/                # Data helpers (post.ts)
 ├── layouts/             # Page layouts (Base, BlogPost)
 ├── pages/               # Astro pages/routes
 ├── plugins/             # Remark plugins (admonitions, reading-time, github-card)
+├── scripts/hero/        # three.js day/night scene, loaded lazily by home/Hero.astro
 ├── styles/              # Global CSS and component styles
 │   ├── global.css       # Design tokens + prose utility
 │   └── components/      # Component-specific CSS (admonition, github-card)
 ├── utils/               # Utility functions
 └── assets/              # Fonts (JetBrains Mono TTF for OG images)
-public/                  # Static assets (favicon, images)
+public/                  # Static assets (favicon, images, hero stills, models/*.glb)
 ```
 
 ## Figma MCP Integration Rules
@@ -46,29 +48,34 @@ These rules define how to translate Figma inputs into code for this project and 
 
 ### Design Tokens
 
-All colors are defined via Tailwind 4's `@theme` in `src/styles/global.css`:
+All colors are defined via Tailwind 4's `@theme` in `src/styles/global.css`. Light values are the default; dark values override them under `@media (prefers-color-scheme: dark)`. The palette comes from Romanian embroidery: linen, black thread and crimson thread.
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--color-bg` | `#0d1117` | Page background |
-| `--color-text` | `#c9d1d9` | Primary text |
-| `--color-card` | `#161b22` | Card/surface backgrounds |
-| `--color-border` | `#30363d` | Borders and dividers |
-| `--color-primary` | `#58a6ff` | Links, accents, interactive elements |
-| `--color-accent` | `#00d4aa` | Hover states, highlights |
-| `--color-muted` | `#8b949e` | Secondary/muted text |
-| `--color-secondary` | `#21262d` | Secondary backgrounds |
-| `--color-destructive` | `#f85149` | Error/destructive states |
-| `--color-warn` | `#ffa657` | Warning states |
+| Token | Light | Dark | Usage |
+|-------|-------|------|-------|
+| `--color-bg` | `#eeede8` | `#1d1c1b` | Page background (linen) |
+| `--color-text` | `#1c1b1a` | `#ece8df` | Primary text and links (thread) |
+| `--color-card` | `#e6e4dd` | `#262523` | Card/surface backgrounds |
+| `--color-border` | `#cfccc4` | `#353330` | Borders and dividers |
+| `--color-primary` | `#ab1d2e` | `#e8687a` | Crimson text: role line, link hover, current page |
+| `--color-accent` | `#ab1d2e` | `#e8687a` | Hover states, highlights (same crimson as primary) |
+| `--color-mark` | `#ab1d2e` | `#d4475a` | Non-text marks only: focus ring, wordmark x, selection |
+| `--color-muted` | `#5c5953` | `#9d988e` | Secondary/muted text |
+| `--color-secondary` | `#e2e0d8` | `#2c2b28` | Secondary backgrounds |
+| `--color-destructive` | `#b42318` | `#f85149` | Error/destructive states |
+| `--color-warn` | `#8a4b08` | `#ffa657` | Warning states |
 
 - IMPORTANT: Never hardcode hex colors — always use Tailwind classes referencing these tokens (e.g., `text-primary`, `bg-card`, `border-border`)
-- This is a **dark-only** theme — no light mode variants exist
+- The palette follows `prefers-color-scheme`; there is no in-page theme switch
+- Night crimson `#d4475a` fails text contrast (3.93:1); use it only through `--color-mark`
 
 ### Typography
 
-- **Body font:** Inter (via Google Fonts)
-- **Heading/code font:** JetBrains Mono (via Google Fonts + local TTF for OG images)
-- Headings (h1–h3) use `font-family: "JetBrains Mono"` defined in base layer
+- **Body font:** Hanken Grotesk (`font-sans`, self-hosted via `@fontsource-variable/hanken-grotesk`)
+- **Heading/mono font:** Martian Mono (`font-mono`, self-hosted via `@fontsource-variable/martian-mono`, `wdth` and `wght` axes)
+- JetBrains Mono TTFs in `src/assets/` are only for OG image generation
+- Headings (h1–h3) use the mono font, defined in the base layer
+- Type tokens in `@theme`: `text-name`, `text-section`, `text-lede`, `text-title`, `text-meta` (13px/1.45, for all mono text at 14px or below, weight 400)
+- Links use the `link` utility: thread colour, 1px underline at 35% opacity, crimson on hover, 44px touch target
 - Prose content uses the custom `@utility prose` defined in `global.css`
 
 ### Component Rules
@@ -76,6 +83,7 @@ All colors are defined via Tailwind 4's `@theme` in `src/styles/global.css`:
 - IMPORTANT: All UI components are `.astro` files — do NOT create React/Vue/Svelte components unless there's a specific need for client-side interactivity
 - Components go in `src/components/`, organized by domain:
   - `src/components/layout/` — structural components (Header, Footer)
+  - `src/components/home/` — home page components (Hero)
   - `src/components/blog/` — blog-specific components (TOC, Masthead)
   - `src/components/` — shared components (BaseHead, Paginator, SocialList, etc.)
 - Layouts go in `src/layouts/` (Base.astro, BlogPost.astro)
@@ -113,3 +121,4 @@ All colors are defined via Tailwind 4's `@theme` in `src/styles/global.css`:
 - `pnpm lint` — Lint with Biome
 - `pnpm format` — Format with Biome + Prettier
 - `pnpm check` — Astro type checking
+- `pnpm test` — Vitest unit tests (`src/**/*.test.ts`)

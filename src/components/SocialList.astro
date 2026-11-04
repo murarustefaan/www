@@ -1,19 +1,25 @@
 ---
 import { socialLinks } from "@/data/social";
+
+interface Props {
+	class?: string;
+}
+
+const { class: className } = Astro.props;
 ---
 
-<div class="flex flex-wrap gap-3">
+<ul class:list={["flex flex-wrap gap-x-5 gap-y-2 font-mono text-meta", className]}>
 	{
-		socialLinks.map(({ label, href, icon }) => (
-			<a
-				href={href}
-				target="_blank"
-				rel="noreferrer noopener"
-				class="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded text-text hover:border-primary/50 hover:text-primary transition-colors"
-			>
-				<span class="w-[18px] h-[18px]"><Fragment set:html={icon} /></span>
-				<span class="text-sm">{label}</span>
-			</a>
+		socialLinks.map(({ label, href }) => (
+			<li>
+				<a
+					href={href}
+					class="link"
+					{...(href.startsWith("http") ? { target: "_blank", rel: "noreferrer noopener" } : {})}
+				>
+					{label}
+				</a>
+			</li>
 		))
 	}
-</div>
+</ul>

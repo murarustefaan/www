@@ -3,6 +3,11 @@ import { ClientRouter } from "astro:transitions";
 import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
 import JsonLd from "@/components/JsonLd.astro";
+import hankenLatin from "@fontsource-variable/hanken-grotesk/files/hanken-grotesk-latin-wght-normal.woff2?url";
+import martianLatin from "@fontsource-variable/martian-mono/files/martian-mono-latin-wdth-normal.woff2?url";
+import martianLatinExt from "@fontsource-variable/martian-mono/files/martian-mono-latin-ext-wdth-normal.woff2?url";
+import "@fontsource-variable/hanken-grotesk/wght.css";
+import "@fontsource-variable/martian-mono/wdth.css";
 import "@/styles/global.css";
 
 type Props = SiteMeta;
@@ -35,11 +40,14 @@ const websiteSchema = {
 
 <meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<meta name="color-scheme" content="light dark" />
 <title>{siteTitle}</title>
 
-{/* Font preconnect */}
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+{
+	[hankenLatin, martianLatin, martianLatinExt].map((href) => (
+		<link rel="preload" href={href} as="font" type="font/woff2" crossorigin />
+	))
+}
 
 {/* Icons */}
 <link rel="icon" href="/favicon-32x32.png" type="image/png" />

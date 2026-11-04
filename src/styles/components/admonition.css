@@ -19,7 +19,10 @@
 	}
 
 	&[data-admonition-type="note"] {
-		--admonition-color: var(--color-blue-400);
+		--admonition-color: var(--color-blue-700);
+		@media (prefers-color-scheme: dark) {
+			--admonition-color: var(--color-blue-400);
+		}
 		@apply bg-blue-400/5;
 
 		.admonition-title::before {
@@ -28,7 +31,10 @@
 	}
 
 	&[data-admonition-type="tip"] {
-		--admonition-color: var(--color-lime-500);
+		--admonition-color: var(--color-lime-800);
+		@media (prefers-color-scheme: dark) {
+			--admonition-color: var(--color-lime-500);
+		}
 		@apply bg-lime-500/5;
 
 		.admonition-title::before {
@@ -37,7 +43,10 @@
 	}
 
 	&[data-admonition-type="important"] {
-		--admonition-color: var(--color-purple-400);
+		--admonition-color: var(--color-purple-700);
+		@media (prefers-color-scheme: dark) {
+			--admonition-color: var(--color-purple-400);
+		}
 		@apply bg-purple-400/5;
 
 		.admonition-title::before {
@@ -46,7 +55,10 @@
 	}
 
 	&[data-admonition-type="caution"] {
-		--admonition-color: var(--color-orange-400);
+		--admonition-color: var(--color-orange-800);
+		@media (prefers-color-scheme: dark) {
+			--admonition-color: var(--color-orange-400);
+		}
 		@apply bg-orange-400/5;
 
 		.admonition-title::before {
@@ -55,7 +67,10 @@
 	}
 
 	&[data-admonition-type="warning"] {
-		--admonition-color: var(--color-red-500);
+		--admonition-color: var(--color-red-700);
+		@media (prefers-color-scheme: dark) {
+			--admonition-color: var(--color-red-500);
+		}
 		@apply bg-red-500/5;
 
 		.admonition-title::before {

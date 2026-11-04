@@ -48,7 +48,7 @@ export default defineConfig({
 					tertiaryColor: "#161b22",
 					tertiaryBorderColor: "#58a6ff",
 					// General
-					fontFamily: "JetBrains Mono, monospace",
+					fontFamily: "Martian Mono Variable, monospace",
 					fontSize: "13px",
 					nodePadding: "8",
 				},

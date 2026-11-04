@@ -1,39 +1,78 @@
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap");
 @import "tailwindcss";
 
 @theme {
-	--color-bg: #0d1117;
-	--color-text: #c9d1d9;
-	--color-card: #161b22;
-	--color-border: #30363d;
-	--color-primary: #58a6ff;
-	--color-accent: #00d4aa;
-	--color-muted: #8b949e;
-	--color-secondary: #21262d;
-	--color-destructive: #f85149;
-	--color-warn: #ffa657;
+	--color-bg: #eeede8;
+	--color-text: #1c1b1a;
+	--color-card: #e6e4dd;
+	--color-border: #cfccc4;
+	--color-primary: #ab1d2e;
+	--color-accent: #ab1d2e;
+	--color-mark: #ab1d2e;
+	--color-muted: #5c5953;
+	--color-secondary: #e2e0d8;
+	--color-destructive: #b42318;
+	--color-warn: #8a4b08;
+
+	--font-sans: "Hanken Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+	--font-mono: "Martian Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+	--text-meta: 13px;
+	--text-meta--line-height: 1.45;
+	--text-lede: 18px;
+	--text-lede--line-height: 1.5;
+	--text-title: 18px;
+	--text-title--line-height: 1.35;
+	--text-section: 22px;
+	--text-section--line-height: 1.2;
+	--text-name: clamp(34px, 4vw, 48px);
+	--text-name--line-height: 1.05;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-bg: #1d1c1b;
+		--color-text: #ece8df;
+		--color-card: #262523;
+		--color-border: #353330;
+		--color-primary: #e8687a;
+		--color-accent: #e8687a;
+		--color-mark: #d4475a;
+		--color-muted: #9d988e;
+		--color-secondary: #2c2b28;
+		--color-destructive: #f85149;
+		--color-warn: #ffa657;
+	}
 }
 
 @layer base {
 	html {
-		color-scheme: dark;
-		accent-color: var(--color-accent);
+		color-scheme: light dark;
+		accent-color: var(--color-mark);
 		scrollbar-gutter: stable;
 	}
 
 	body {
-		font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+		font-family: var(--font-sans);
 	}
 
 	h1, h2, h3 {
-		font-family: "JetBrains Mono", ui-monospace, monospace;
+		font-family: var(--font-mono);
 	}
 
 	:target {
 		scroll-margin-block: 5ex;
 	}
 
-	/* Astro image responsive styles */
+	:focus-visible {
+		outline: 2px solid var(--color-mark);
+		outline-offset: 4px;
+		border-radius: 2px;
+	}
+
+	::selection {
+		background: color-mix(in srgb, var(--color-mark) 22%, transparent);
+	}
+
 	:where([data-astro-image]) {
 		object-fit: var(--fit);
 		object-position: var(--pos);
@@ -45,20 +84,19 @@
 		max-width: 100%;
 	}
 
-	/* Custom scrollbar */
 	::-webkit-scrollbar {
 		width: 8px;
 		height: 8px;
 	}
 	::-webkit-scrollbar-track {
-		background: #0d1117;
+		background: var(--color-bg);
 	}
 	::-webkit-scrollbar-thumb {
-		background: #30363d;
+		background: var(--color-border);
 		border-radius: 4px;
 	}
 	::-webkit-scrollbar-thumb:hover {
-		background: #484f58;
+		background: var(--color-muted);
 	}
 }
 
@@ -68,7 +106,21 @@
 	@import "./components/mermaid.css";
 
 	.terminal-prompt {
-		font-family: "JetBrains Mono", ui-monospace, monospace;
+		font-family: var(--font-mono);
+	}
+}
+
+@utility link {
+	color: var(--color-text);
+	text-decoration-line: underline;
+	text-decoration-thickness: 1px;
+	text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+	text-underline-offset: 3px;
+	padding-block: 12px;
+	margin-block: -12px;
+	transition: color 0.15s ease-out;
+	&:hover {
+		color: var(--color-primary);
 	}
 }
 
@@ -80,8 +132,8 @@
 	/* Headings */
 	& :where(h1, h2, h3, h4):not(:where([class~="not-prose"] *)) {
 		color: var(--color-text);
-		font-family: "JetBrains Mono", ui-monospace, monospace;
-		font-weight: 600;
+		font-family: var(--font-mono);
+		font-weight: 400;
 		margin-top: 2em;
 		margin-bottom: 0.75em;
 		line-height: 1.3;
@@ -99,9 +151,10 @@
 
 	/* Links */
 	& :where(a):not(:where([class~="not-prose"] *)) {
-		color: var(--color-primary);
-		text-decoration: none;
-		&:hover { text-decoration: underline; }
+		color: var(--color-text);
+		text-decoration: underline 1px color-mix(in srgb, currentColor 35%, transparent);
+		text-underline-offset: 3px;
+		&:hover { color: var(--color-primary); }
 	}
 
 	/* Bold */
@@ -118,7 +171,7 @@
 		padding: 0.125em 0.375em;
 		border-radius: 0.25rem;
 		font-size: 0.875em;
-		font-family: "JetBrains Mono", ui-monospace, monospace;
+		font-family: var(--font-mono);
 	}
 
 	/* Code blocks (pre) */
@@ -191,7 +244,7 @@
 	& :where(th):not(:where([class~="not-prose"] *)) {
 		color: var(--color-text);
 		font-weight: 600;
-		font-family: "JetBrains Mono", ui-monospace, monospace;
+		font-family: var(--font-mono);
 		padding: 0.75em;
 		border-bottom: 2px solid var(--color-border);
 		text-align: left;
@@ -252,5 +305,5 @@
 }
 .card-hover:hover {
 	transform: translateY(-2px);
-	box-shadow: 0 4px 24px rgba(88, 166, 255, 0.06);
+	box-shadow: 0 4px 24px color-mix(in srgb, var(--color-text) 6%, transparent);
 }

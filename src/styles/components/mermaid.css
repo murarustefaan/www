@@ -9,6 +9,18 @@
 .mermaid .node polygon {
 	rx: 4;
 	ry: 4;
+	fill: var(--color-card) !important;
+	stroke: var(--color-primary) !important;
+}
+
+.mermaid .nodeLabel,
+.mermaid .node .label {
+	color: var(--color-text) !important;
+	fill: var(--color-text) !important;
+}
+
+.mermaid .labelBkg {
+	background: none !important;
 }
 
 .mermaid .edgeLabel {

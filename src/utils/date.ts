@@ -21,14 +21,3 @@ export function collectionDateSort(
 ) {
 	return b.data.publishDate.getTime() - a.data.publishDate.getTime();
 }
-
-export function numberOfWorkingYears() {
-	const start = new Date("04.1.2016");
-	const end = new Date();
-
-	const years = end.getFullYear() - start.getFullYear();
-	const months = end.getMonth() - start.getMonth();
-	const days = end.getDate() - start.getDate();
-
-	return years + (months > 0 || (months === 0 && days >= 0) ? 1 : 0);
-}
