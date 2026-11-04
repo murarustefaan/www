@@ -1,5 +1,20 @@
 # Changelog
 
+## [2026.15.0](https://github.com/murarustefaan/www/compare/v2026.14.0...v2026.15.0) (2026-11-04)
+
+
+### Features
+
+* polish the resume, link previews and accessibility ([f6777a9](https://github.com/murarustefaan/www/commit/f6777a9351282d12fa2daf6e95f0627f73e5c936))
+* Polish the resume, link previews and accessibility ([a4c3cf0](https://github.com/murarustefaan/www/commit/a4c3cf029b4675924a1795f240558d067f039b01))
+
+
+### Bug Fixes
+
+* **deploy:** drop HTTPRoute retry so Argo CD can sync again ([5f12e58](https://github.com/murarustefaan/www/commit/5f12e58a1af4fe7429733ad3932eb79177d1b4df))
+* **deploy:** drop HTTPRoute retry so Argo CD can sync again ([3193de7](https://github.com/murarustefaan/www/commit/3193de7f55a078e9ece4f0a8d6cf1fcd4a12a2c8))
+* stop stating where I'm based ([88dbf1b](https://github.com/murarustefaan/www/commit/88dbf1bc7d9a54a1165a7fd5fd85a9e86b5e6143))
+
 ## [2026.14.0](https://github.com/murarustefaan/www/compare/v2026.13.1...v2026.14.0) (2026-11-04)
 
 
