@@ -72,17 +72,11 @@ const {
 			})();
 		</script>
 	</head>
-	<body class="bg-bg text-text min-h-screen font-['Inter',sans-serif] antialiased relative overflow-x-hidden">
-		{/* Subtle grid background */}
-		<div
-			class="fixed inset-0 opacity-[0.015] pointer-events-none"
-			style="background-image: linear-gradient(var(--color-primary) 1px, transparent 1px), linear-gradient(90deg, var(--color-primary) 1px, transparent 1px); background-size: 40px 40px;"
-			aria-hidden="true"
-		/>
+	<body class="bg-bg text-text min-h-screen font-sans antialiased relative overflow-x-hidden flex flex-col">
 		<SkipLink />
 		<Header />
 		<CommandPalette />
-		<main id="main" transition:animate="fade">
+		<main id="main" class="flex-1" transition:animate="fade">
 			<slot />
 		</main>
 		<Footer />
@@ -99,7 +93,7 @@ const {
 				"prerender": [
 					{
 						"where": {
-							"href_matches": "/*"
+							"and": [{ "href_matches": "/*" }, { "not": { "href_matches": "/" } }]
 						},
 						"eagerness": "moderate"
 					}

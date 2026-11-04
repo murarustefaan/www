@@ -5,9 +5,10 @@ export const siteConfig: SiteConfig = {
 	author: "Ștefan Muraru",
 	title: "Ștefan Muraru",
 	description:
-		"Senior Software Engineer — Cloud Infrastructure. Technical writing on Kubernetes, platform engineering, and observability.",
+		"Team Lead at env zero — Cloud Infrastructure. Technical writing on Kubernetes, platform engineering, and observability.",
 	lang: "en-GB",
 	ogLocale: "en_GB",
+	role: "engineering team lead in Iași, Romania",
 	date: {
 		locale: "en-GB",
 		options: {
@@ -19,19 +20,14 @@ export const siteConfig: SiteConfig = {
 	url: "https://stefanmuraru.com/",
 };
 
-export const menuLinks: Array<{ title: string; path: string; style?: "button" }> = [
+export const menuLinks: Array<{ title: string; path: string }> = [
 	{
-		title: "home",
-		path: "/",
-	},
-	{
-		title: "blog",
+		title: "writing",
 		path: "/blog",
 	},
 	{
-		title: "[resume]",
+		title: "resume",
 		path: "/resume",
-		style: "button",
 	},
 ];
 
@@ -39,16 +35,16 @@ export const expressiveCodeOptions: AstroExpressiveCodeOptions = {
 	styleOverrides: {
 		borderRadius: "8px",
 		codeFontFamily:
-			'"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+			'"Martian Mono Variable", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
 		codeFontSize: "0.875rem",
 		codeLineHeight: "1.7142857rem",
 		codePaddingInline: "1rem",
 		frames: {
 			frameBoxShadowCssValue: "none",
-			tooltipSuccessBackground: "#00d4aa",
+			tooltipSuccessBackground: "var(--color-primary)",
 		},
 		uiLineHeight: "inherit",
 	},
-	themes: ["github-dark"],
+	themes: ["github-light", "github-dark"],
 	useThemedScrollbars: false,
 };

@@ -1,0 +1,336 @@
+---
+import dayStill from "@/assets/hero/day.avif?url";
+import nightDarkStill from "@/assets/hero/night-dark.avif?url";
+import nightLightStill from "@/assets/hero/night-light.avif?url";
+import SocialList from "@/components/SocialList.astro";
+import { LABELS } from "@/scripts/hero/labels";
+import { siteConfig } from "@/site.config";
+import { IASI_TIME_ZONE, NIGHT_FROM, NIGHT_UNTIL } from "@/utils/iasi-time";
+
+const still = { width: 1200, height: 900 };
+const control =
+	"size-11 cursor-pointer items-center justify-center rounded-full text-text transition-colors hover:text-primary";
+const icon = {
+	viewBox: "0 0 24 24",
+	fill: "none",
+	stroke: "currentColor",
+	"stroke-width": "1.5",
+	"stroke-linecap": "round",
+	"stroke-linejoin": "round",
+	"aria-hidden": "true",
+} as const;
+---
+
+<section
+	class="grid items-center gap-x-[clamp(16px,4vw,48px)] gap-y-8 pt-6 min-[720px]:grid-cols-2 min-[720px]:pt-16"
+>
+	<div class="min-w-0">
+		<h1
+			class="font-mono text-name font-[250] tracking-[-0.02em] [font-stretch:87.5%] [word-spacing:-0.25em] min-[1000px]:font-extralight"
+		>
+			Ștefan Muraru
+		</h1>
+		<p class="mt-1.5 font-mono text-meta text-balance text-primary">{siteConfig.role}</p>
+		<p class="mt-5 max-w-[46ch] text-lede font-[350] text-pretty">
+			I lead the Atlas team at env zero and run a homelab out of my office. This is where I
+			write about Kubernetes, security, and whatever broke last weekend.
+		</p>
+		<SocialList class="mt-6" />
+	</div>
+
+	<hero-scene
+		class="group/hero block min-w-0 max-[720px]:max-w-[480px]"
+		data-scene="day"
+		data-clock="day"
+	>
+		<figure>
+			<div class="relative aspect-[4/3]">
+				<div
+					class="absolute inset-0 transition-opacity duration-200 group-data-[live]/hero:opacity-0 motion-reduce:transition-none"
+					data-stills
+				>
+					<img
+						src={dayStill}
+						alt={LABELS.day}
+						{...still}
+						loading="lazy"
+						decoding="async"
+						data-still="day"
+						class="size-full object-contain group-data-[scene=night]/hero:hidden"
+					/>
+					<picture class="hidden group-data-[scene=night]/hero:contents">
+						<source srcset={nightDarkStill} media="(prefers-color-scheme: dark)" />
+						<img
+							src={nightLightStill}
+							alt={LABELS.night}
+							{...still}
+							loading="lazy"
+							decoding="async"
+							data-still="night"
+							class="size-full object-contain"
+						/>
+					</picture>
+				</div>
+				<script
+					is:inline
+					define:vars={{ zone: IASI_TIME_ZONE, from: NIGHT_FROM, until: NIGHT_UNTIL }}
+				>
+					const host = document.currentScript?.closest("hero-scene");
+					const hour = new Intl.DateTimeFormat("en-GB", {
+						timeZone: zone,
+						hour: "numeric",
+						hourCycle: "h23",
+					})
+						.formatToParts(new Date())
+						.find((p) => p.type === "hour");
+					if (host && hour) {
+						const scene = +hour.value >= from || +hour.value < until ? "night" : "day";
+						host.dataset.scene = host.dataset.clock = scene;
+						const img = host.querySelector(`[data-still="${scene}"]`);
+						if (img) {
+							img.fetchPriority = "high";
+							img.loading = "eager";
+						}
+					}
+				</script>
+				<canvas
+					class="absolute inset-0 size-full cursor-grab touch-pan-y opacity-0 transition-opacity duration-200 group-data-[live]/hero:opacity-100 motion-reduce:transition-none [&.grabbing]:cursor-grabbing"
+					role="img"
+					aria-hidden="true"
+					aria-label={LABELS.day}></canvas>
+			</div>
+			<figcaption class="mt-1 flex items-center justify-between gap-4 font-mono text-meta text-muted">
+				<span class="text-balance"
+					><time data-clock></time> in Iași<span
+						class="group-data-[clock=night]/hero:hidden group-data-[scene=night]/hero:hidden"
+						>, so I’m at my desk</span
+					><span class="group-data-[clock=day]/hero:hidden group-data-[scene=day]/hero:hidden"
+						>, so I’m asleep</span
+					><span class="group-data-[clock=night]/hero:hidden group-data-[scene=day]/hero:hidden">
+						(night view)</span
+					><span class="group-data-[clock=day]/hero:hidden group-data-[scene=night]/hero:hidden">
+						(day view)</span
+					></span
+				>
+				<span class="-me-3 flex">
+					<button
+						type="button"
+						class:list={[control, "hidden group-data-[live]/hero:inline-flex"]}
+						data-pause
+						aria-pressed="false"
+						aria-label="Pause animation"
+					>
+						<svg class="size-5 group-data-[paused]/hero:hidden" {...icon}>
+							<rect x="7" y="5.5" width="3" height="13" rx="1"></rect>
+							<rect x="14" y="5.5" width="3" height="13" rx="1"></rect>
+						</svg>
+						<svg class="hidden size-5 group-data-[paused]/hero:block" {...icon}>
+							<path d="M8.5 5.9v12.2a.9.9 0 0 0 1.37.77l9.5-6.1a.9.9 0 0 0 0-1.54l-9.5-6.1a.9.9 0 0 0-1.37.77Z"
+							></path>
+						</svg>
+					</button>
+					<button
+						type="button"
+						class:list={[control, "inline-flex"]}
+						data-toggle
+						aria-label="Show night scene"
+						title="Show night scene"
+					>
+						<svg class="size-5 group-data-[scene=night]/hero:hidden" {...icon}>
+							<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"></path>
+						</svg>
+						<svg class="hidden size-5 group-data-[scene=night]/hero:block" {...icon}>
+							<circle cx="12" cy="12" r="4"></circle>
+							<path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"
+							></path>
+						</svg>
+					</button>
+				</span>
+			</figcaption>
+		</figure>
+	</hero-scene>
+</section>
+
+<script>
+	import me from "@/assets/hero/me.glb?url";
+	import tux from "@/assets/hero/tux.glb?url";
+	import white from "@/assets/hero/white.glb?url";
+	import type { Hero } from "@/scripts/hero/stage";
+	import { iasiTime, msUntilNextMinute, type Scene, sceneAt } from "@/utils/iasi-time";
+
+	const MODELS = { me, white, tux };
+
+	function saveData() {
+		return (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+	}
+
+	function webgl() {
+		try {
+			const gl = document.createElement("canvas").getContext("webgl2");
+			gl?.getExtension("WEBGL_lose_context")?.loseContext();
+			return Boolean(gl);
+		} catch {
+			return false;
+		}
+	}
+
+	function canAnimate() {
+		return !window.matchMedia("(prefers-reduced-motion: reduce)").matches && !saveData() && webgl();
+	}
+
+	function afterLoad(fn: () => void, signal: AbortSignal) {
+		const run = () => {
+			if (!signal.aborted) fn();
+		};
+		const idle = () => {
+			if (typeof window.requestIdleCallback === "function") window.requestIdleCallback(run, { timeout: 2000 });
+			else setTimeout(run, 200);
+		};
+		const ready = () => {
+			if (document.readyState === "complete") idle();
+			else window.addEventListener("load", idle, { once: true, signal });
+		};
+		if ((document as Document & { prerendering?: boolean }).prerendering) {
+			document.addEventListener("prerenderingchange", ready, { once: true, signal });
+		} else ready();
+	}
+
+	class HeroScene extends HTMLElement {
+		private hero: Hero | null = null;
+		private timer = 0;
+		private reveal = 0;
+		private chosen = false;
+		private connection: AbortController | null = null;
+
+		get scene(): Scene {
+			return this.dataset.scene === "night" ? "night" : "day";
+		}
+
+		connectedCallback() {
+			const connection = new AbortController();
+			this.connection = connection;
+			const { signal } = connection;
+			const canvas = this.querySelector("canvas");
+			const toggle = this.querySelector<HTMLButtonElement>("[data-toggle]");
+			const pause = this.querySelector<HTMLButtonElement>("[data-pause]");
+			if (!canvas || !toggle || !pause) return;
+			const listen = (target: EventTarget, type: string, fn: () => void) =>
+				target.addEventListener(type, fn, { signal });
+
+			listen(toggle, "click", () => {
+				this.chosen = true;
+				this.show(this.scene === "night" ? "day" : "night");
+			});
+			listen(pause, "click", () => {
+				const paused = pause.getAttribute("aria-pressed") !== "true";
+				pause.setAttribute("aria-pressed", String(paused));
+				this.toggleAttribute("data-paused", paused);
+				this.hero?.setPaused(paused);
+			});
+			listen(this, "pointerenter", () => this.hero?.wake());
+			const dark = window.matchMedia("(prefers-color-scheme: dark)");
+			listen(dark, "change", () => this.hero?.setPalette(dark.matches));
+			listen(document, "visibilitychange", () => {
+				if (document.visibilityState === "visible") this.tick();
+			});
+			listen(window, "pageshow", () => this.tick());
+			listen(canvas, "webglcontextlost", () => {
+				if (this.hero) this.live(false);
+			});
+			listen(canvas, "webglcontextrestored", () => {
+				if (this.hero) this.live(true);
+			});
+
+			this.show(sceneAt(new Date()));
+			this.tick();
+
+			if (!canAnimate()) {
+				if (!saveData()) afterLoad(() => this.prefetch(), signal);
+				return;
+			}
+			afterLoad(() => {
+				const seen = new IntersectionObserver(
+					(entries) => {
+						if (!entries.some((e) => e.isIntersecting)) return;
+						seen.disconnect();
+						this.start(canvas, dark, signal);
+					},
+					{ rootMargin: "200px" },
+				);
+				seen.observe(this);
+				signal.addEventListener("abort", () => seen.disconnect());
+			}, signal);
+		}
+
+		disconnectedCallback() {
+			this.connection?.abort();
+			this.connection = null;
+			window.clearTimeout(this.timer);
+			window.clearTimeout(this.reveal);
+			this.hero?.dispose();
+			this.hero = null;
+		}
+
+		private show(scene: Scene) {
+			this.dataset.scene = scene;
+			const label = scene === "night" ? "Show day scene" : "Show night scene";
+			const toggle = this.querySelector("[data-toggle]");
+			toggle?.setAttribute("aria-label", label);
+			toggle?.setAttribute("title", label);
+			this.hero?.show(scene);
+		}
+
+		private tick() {
+			window.clearTimeout(this.timer);
+			const now = new Date();
+			const clock = this.querySelector<HTMLTimeElement>("[data-clock]");
+			if (clock) clock.textContent = iasiTime(now).label;
+			const scene = sceneAt(now);
+			this.dataset.clock = scene;
+			if (!this.chosen && scene !== this.scene) this.show(scene);
+			this.timer = window.setTimeout(() => this.tick(), msUntilNextMinute(now));
+		}
+
+		private live(on: boolean) {
+			const canvas = this.querySelector("canvas");
+			const stills = this.querySelector<HTMLElement>("[data-stills]");
+			window.clearTimeout(this.reveal);
+			this.toggleAttribute("data-live", on);
+			if (on) {
+				canvas?.removeAttribute("aria-hidden");
+				this.reveal = window.setTimeout(() => stills?.setAttribute("hidden", ""), 250);
+			} else {
+				canvas?.setAttribute("aria-hidden", "true");
+				stills?.removeAttribute("hidden");
+			}
+		}
+
+		private prefetch() {
+			const other = this.scene === "night" ? "day" : "night";
+			const img = this.querySelector<HTMLImageElement>(`[data-still="${other}"]`);
+			if (img) img.loading = "eager";
+		}
+
+		private async start(canvas: HTMLCanvasElement, dark: MediaQueryList, signal: AbortSignal) {
+			const scene = this.scene;
+			const palette = dark.matches;
+			try {
+				const { createHero } = await import("@/scripts/hero/stage");
+				signal.throwIfAborted();
+				const hero = await createHero({ canvas, scene, dark: palette, models: MODELS, signal });
+				if (signal.aborted) {
+					hero.dispose();
+					return;
+				}
+				this.hero = hero;
+				if (this.scene !== scene) hero.show(this.scene);
+				if (dark.matches !== palette) hero.setPalette(dark.matches);
+				this.live(true);
+			} catch (error) {
+				if (!signal.aborted) console.warn("hero: showing the still instead of the 3D scene", error);
+			}
+		}
+	}
+
+	if (!customElements.get("hero-scene")) customElements.define("hero-scene", HeroScene);
+</script>

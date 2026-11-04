@@ -8,17 +8,19 @@ const personSchema = {
 	"@type": "Person",
 	name: siteConfig.author,
 	url: siteConfig.url,
-	jobTitle: "Senior Software Engineer",
+	jobTitle: "Team Lead",
 	email: "hello@stefanmuraru.com",
 	worksFor: {
 		"@type": "Organization",
-		name: "CloudQuery",
-		url: "https://www.cloudquery.io",
+		name: "env zero",
+		alternateName: "env0",
+		url: "https://www.envzero.com",
 	},
 	knowsAbout: [
 		"Kubernetes",
 		"Go",
 		"TypeScript",
+		"Terraform",
 		"Cloud Infrastructure",
 		"Platform Engineering",
 		"Observability",
@@ -26,9 +28,9 @@ const personSchema = {
 		"AWS",
 		"Google Cloud Platform",
 		"GraphQL",
-		"OAuth2.0",
+		"OAuth 2.0",
 		"OpenID Connect",
-		"ArgoCD",
+		"Argo CD",
 		"Helm",
 		"Kustomize",
 		"GitHub Actions",
@@ -43,114 +45,131 @@ const personSchema = {
 	],
 };
 
-const experiences = [
+interface Role {
+	title: string;
+	period?: string;
+	org?: string;
+	details?: string[];
+}
+
+interface Experience {
+	company: string;
+	note?: string;
+	period: string;
+	catPath: string;
+	description: string;
+	roles: [Role, ...Role[]];
+	details?: string[];
+	logo?: string;
+	monogram?: string;
+}
+
+const experiences: Experience[] = [
 	{
-		company: "CloudQuery",
-		role: "Senior Software Engineer",
-		period: "May 2024 – Present",
-		catPath: "~/experience/cloudquery/team-lead.plugins.txt",
-		description: "Team lead of the Plugins team, responsible with CloudQuery plugin development.",
-		details: [
-			"Leading a team of 4 engineers through the entire development and support lifecycle of different CloudQuery Plugins.",
-		],
-		logoColor: "#00d4aa",
-		logo: "/logos/cloudquery.svg",
-	},
-	{
-		company: "CloudQuery",
-		role: "Senior Software Engineer",
+		company: "env zero (env0)",
+		note: "CloudQuery and env zero merged in Mar 2026",
 		period: "Apr 2024 – Present",
-		catPath: "~/experience/cloudquery/engineer.framework.txt",
+		catPath: "~/experience/envzero/team-lead.atlas.txt",
 		description:
-			"Working on the Framework team, handling the open source software (CLI, SDKs, etc.) as well as the private plugins and internal software components.",
-		details: [
-			"Implemented new source plugins based on demand for platforms like Wiz, Tenable and Plaid.",
-			"Implemented features in the Core SDK like tracking sync usage per-table and adding support for additional types.",
-			"Implemented resources and bugfixes to core plugins like GCP, AWS, Github & Snyk.",
+			"Lead the Atlas team at env zero. Before the merger, led CloudQuery's Integrations team, responsible for the open-source CLI, the plugin SDK and the plugins built on it.",
+		roles: [
+			{
+				title: "Team Lead, Atlas",
+				period: "Mar 2026 – Present",
+				details: [
+					"Lead a team of four engineers. Teams at env zero aren't tied to one area of the product, so Atlas takes on projects anywhere in the codebase.",
+					"Most code is now written with AI coding agents, so a large part of the role is building those agents and reviewing their work.",
+					"Mentor engineers on the team, take part in hiring and share the on-call rotation.",
+				],
+			},
+			{
+				title: "Team Lead, Integrations",
+				org: "CloudQuery",
+				period: "May 2024 – Mar 2026",
+				details: [
+					"Led a team of four engineers responsible for building and supporting CloudQuery's plugins. The team began as Framework and Plugins and was later renamed Integrations.",
+					"Lead maintainer of CloudQuery's open-source CLI, plugin SDK and code generator (6.5k+ GitHub stars).",
+					"Built new source plugins for Wiz, Tenable and Plaid in response to customer demand.",
+					"Extended the core SDK with per-table sync usage tracking and support for additional data types.",
+					"Added resources and fixed bugs across the AWS, GCP, GitHub and Snyk plugins.",
+					"Mentored engineers, took part in hiring and was part of the on-call rotation.",
+				],
+			},
 		],
-		logoColor: "#00d4aa",
-		logo: "/logos/cloudquery.svg",
+		monogram: "e0",
 	},
 	{
-		company: "Monokle/Kubeshop",
-		role: "Senior Cloud Engineer",
+		company: "Kubeshop",
 		period: "Dec 2022 – Mar 2024",
 		catPath: "~/experience/kubeshop/senior-cloud.monokle.txt",
 		description:
-			"Led the infrastructure management as well as end-to-end architecture and development of the authentication framework, microservices and GraphQL APIs for the Monokle Cloud application at Kubeshop.",
+			"Ran the infrastructure for Monokle Cloud and designed and built its authentication, microservices and GraphQL APIs.",
+		roles: [{ title: "Senior Cloud Engineer" }],
 		details: [
-			"Cut existing cloud costs by over 60% while also implementing the industry security and reliability practices.",
-			"Implemented OAuth2.0 + OpenID Connect authentication by deploying and configuring an on-prem Authorization Server as well implementing and testing individual Authorization Code, Client Credentials and Device Code flows.",
-			"Implemented a high-throughput content streaming API for fetching repositories from multiple GIT providers by integrating provider APIs or leveraging SSH / HTTPS git authentication.",
-			"Created and maintained Github Actions configuration files for building and testing as well as Helm Charts & Kustomizations deployed on ArgoCD to sum up for an end-to-end CI/CD process.",
-			"Improved build times by more than 80% while also scaling down image sizes by an entire order of magnitude by leveraging Github Actions concurrency and caching as well as Docker multistage builds and distroless images.",
+			"Cut cloud costs by over 60% while applying standard security and reliability practices.",
+			"Set up OAuth 2.0 and OpenID Connect: deployed and configured a self-hosted authorization server and implemented the Authorization Code, Client Credentials and Device Code flows.",
+			"Built a high-throughput API that streams repositories from multiple Git providers, through their APIs or over SSH / HTTPS.",
+			"Wrote the GitHub Actions workflows, Helm charts and Kustomizations deployed with Argo CD for end-to-end CI/CD.",
+			"Cut build times by more than 80% and image sizes by an order of magnitude with GitHub Actions concurrency and caching, multi-stage Docker builds and distroless images.",
+			"On-call for production.",
 		],
-		logoColor: "#58a6ff",
 		logo: "/logos/kubeshop.png",
 	},
 	{
 		company: "Bitdefender",
-		role: "Senior Cloud Engineer",
 		period: "Oct 2018 – Dec 2022",
-		catPath: "~/experience/bitdefender/senior-cloud.platform.txt",
+		catPath: "~/experience/bitdefender/staff.platform.txt",
 		description:
-			"Worked on building an internal platform that enabled developers and ML researchers to easily manage their code's lifecycle after development, from building, to deploying to multiple testing and staging environments and ultimately going to production.",
-		details: [
-			"Implemented multiple Kubernetes operators for technologies such as RabbitMQ, Prometheus and the Elastic Stack (deep diving into operations like HA clustering, sharding, etc.) in order to be able to ship them as managed services.",
-			"Designed and implemented a hardware and software discovering and inventorying system that in only a couple of months helped the company pass a SOC2 audit while also saving on alternative paid solutions.",
-			"Designed and implemented a highly-available, multi-region mail templating gateway through which the client emails are being sent on behalf of the products.",
-			"Participated in the design and implementation of infrastructure, Kubernetes deployment on public and private cloud providers (Google Cloud Platform, Amazon AWS and on-premise infrastructure) as well as migration (Virtual Machines to Kubernetes), replication, scaling and authentication of services like MongoDB, RabbitMQ, Redis and Elastic Stack components using OAuth2.0 flows.",
+			"Worked on an internal platform that took developers' and ML researchers' code from build through testing and staging environments to production.",
+		roles: [
+			{ title: "Staff Engineer", period: "Apr 2021 – Dec 2022" },
+			{ title: "Senior Cloud Engineer", period: "Oct 2018 – Apr 2021" },
 		],
-		logoColor: "#f85149",
+		details: [
+			"Wrote Kubernetes operators for RabbitMQ, Prometheus and the Elastic Stack, covering HA clustering, sharding and similar operations, so they could be offered as managed services.",
+			"Designed and built a hardware and software inventory system that helped the company pass a SOC 2 audit within a couple of months and replaced a paid alternative.",
+			"Designed and built a highly available, multi-region mail templating gateway that sends customer emails on behalf of Bitdefender products.",
+			"Worked on infrastructure and Kubernetes deployments across GCP, AWS and on-premise, and on migrating MongoDB, RabbitMQ, Redis and Elastic Stack from VMs to Kubernetes, including replication, scaling and OAuth 2.0 authentication.",
+			"Mentoring, hiring and on-call.",
+		],
 		logo: "/logos/bitdefender.jpg",
 	},
 	{
 		company: "Yonder",
-		role: "Software Engineer",
 		period: "Mar 2017 – Oct 2018",
 		catPath: "~/experience/yonder/engineer.gis-warehouse.txt",
-		description:
-			"Worked on a Data Warehouse & GIS mapping project used by government entities.",
+		description: "Worked on a data warehouse and GIS mapping project used by government entities.",
+		roles: [{ title: "Software Engineer" }],
 		details: [
-			"Developed frontend components using Angular, based on specific instructions & designs.",
-			"Mapped GIS, JSON and XML data through .NET and NodeJS APIs.",
-			"Dockerized all the dev and staging environments in order to facilitate local development and shorten build and release times.",
+			"Built Angular frontend components.",
+			"Mapped GIS, JSON and XML data through .NET and Node.js APIs.",
+			"Dockerized the dev and staging environments to simplify local development and shorten build and release times.",
 		],
-		logoColor: "#ffa657",
-		logo: "/logos/yonder.svg",
-	},
-	{
-		company: "Maxcode",
-		role: "Junior Software Developer",
-		period: "Nov 2016 – Mar 2017",
-		catPath: "~/experience/maxcode/junior.internal-tools.txt",
-		description: "Worked on designing and implementing an internal employee management application.",
-		details: [],
-		logoColor: "#8b949e",
-		logo: "/logos/maxcode.svg",
-	},
-	{
-		company: "Yonder",
-		role: "Junior Software Developer",
-		period: "Apr – Jul 2016",
-		catPath: "~/experience/yonder/intern.txt",
-		description: "",
-		details: [],
-		logoColor: "#ffa657",
 		logo: "/logos/yonder.svg",
 	},
 ];
 
+const earlier = [
+	{ company: "Maxcode", role: "Junior Software Developer", period: "Nov 2016 – Mar 2017" },
+	{ company: "Yonder", role: "Junior Software Developer", period: "Apr 2016 – Jul 2016" },
+];
+
 ---
 
-<PageLayout meta={{ title: "Resume" }}>
+<PageLayout
+	meta={{
+		title: "Resume",
+		description:
+			"Ștefan Muraru's resume: team lead at env zero, previously CloudQuery, Kubeshop, Bitdefender and Yonder.",
+	}}
+>
 	<JsonLd schema={personSchema} />
 
 	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
 		{/* Header */}
 		<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4">
 			<div>
-				<div class="font-['JetBrains_Mono'] text-sm text-muted mb-2">
+				<div class="font-mono text-sm text-muted mb-2">
 					$ ls ~/experience
 				</div>
 				<h1 class="text-3xl sm:text-4xl text-text">Career Timeline</h1>
@@ -158,7 +177,7 @@ const experiences = [
 
 			<a
 				href="/resume.pdf"
-				class="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded text-accent hover:border-accent/50 transition-colors font-['JetBrains_Mono'] text-sm"
+				class="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded text-accent hover:border-accent/50 transition-colors font-mono text-sm"
 			>
 				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
 				<span>$ wget resume.pdf</span>
@@ -171,7 +190,16 @@ const experiences = [
 			<div class="absolute left-0 sm:left-4 top-0 bottom-0 w-px bg-border" />
 
 			<div class="space-y-8 sm:space-y-12">
-				{experiences.map((exp, index) => (
+				{experiences.map((exp, index) => {
+					const sections = [
+						...(exp.details ? [{ heading: undefined, items: exp.details }] : []),
+						...exp.roles
+							.filter((role) => role.details)
+							.map((role) => ({ heading: role, items: role.details! })),
+					];
+					const expandable = sections.length > 0;
+
+					return (
 						<div class="relative pl-8 sm:pl-16">
 							{/* Dot marker */}
 							<div class="absolute left-0 sm:left-4 top-1 -translate-x-1/2 w-3 h-3 rounded-full bg-bg border-2 border-primary" />
@@ -180,10 +208,10 @@ const experiences = [
 								<div
 									class="group bg-card border border-border rounded-lg p-6 hover:border-primary/30 transition-all"
 									data-index={index}
-									role={exp.details.length > 0 ? "button" : undefined}
-									tabindex={exp.details.length > 0 ? 0 : undefined}
-									aria-expanded={exp.details.length > 0 ? "false" : undefined}
-									class:list={[exp.details.length > 0 && "cursor-pointer select-none"]}
+									role={expandable ? "button" : undefined}
+									tabindex={expandable ? 0 : undefined}
+									aria-expanded={expandable ? "false" : undefined}
+									class:list={[expandable && "cursor-pointer select-none"]}
 								>
 									<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 gap-2">
 										<div class="flex items-center gap-3">
@@ -191,23 +219,28 @@ const experiences = [
 											<div
 												class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 p-1.5 overflow-hidden"
 											>
-												<img src={exp.logo} alt={`${exp.company} logo`} class="w-full h-full object-contain" />
+												{exp.logo ? (
+													<img src={exp.logo} alt={`${exp.company} logo`} class="w-full h-full object-contain" />
+												) : (
+													<span class="font-mono text-sm text-primary" aria-hidden="true">{exp.monogram}</span>
+												)}
 											</div>
 
 											<div>
 												<h3 class="text-lg text-text">
 													<span class="text-primary">{exp.company}</span>
 													<span class="text-muted"> · </span>
-													<span class="text-text">{exp.role}</span>
+													<span class="text-text">{exp.roles[0].title}</span>
 												</h3>
+												{exp.note && <p class="font-mono text-meta text-muted">{exp.note}</p>}
 											</div>
 										</div>
 
 										<div class="flex items-center gap-2">
-											<div class="font-['JetBrains_Mono'] text-xs sm:text-sm text-muted whitespace-nowrap">
+											<div class="font-mono text-xs sm:text-sm text-muted whitespace-nowrap">
 												{exp.period}
 											</div>
-											{exp.details.length > 0 && <svg class="chevron-icon text-muted w-[18px] h-[18px] transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>}
+											{expandable && <svg class="chevron-icon text-muted w-[18px] h-[18px] transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>}
 										</div>
 									</div>
 
@@ -215,39 +248,75 @@ const experiences = [
 										{exp.description}
 									</p>}
 
+									{/* Titles held, newest first */}
+									{exp.roles.length > 1 && (
+										<ol class="mt-4 space-y-1.5 font-mono text-meta">
+											{exp.roles.map((role, i) => (
+												<li class="flex flex-col sm:flex-row sm:justify-between gap-x-4">
+													<span class:list={[i === 0 ? "text-text" : "text-muted"]}>
+														<span class="text-primary" aria-hidden="true">{i === 0 ? "● " : "○ "}</span>
+														{role.title}
+														{role.org && <span class="text-muted"> · {role.org}</span>}
+													</span>
+													<span class="text-muted whitespace-nowrap">{role.period}</span>
+												</li>
+											))}
+										</ol>
+									)}
+
 									{/* Expand hint */}
-									{exp.details.length > 0 && (
-										<div class="expand-hint mt-6 flex items-center gap-2 font-['JetBrains_Mono'] text-xs text-muted/70 group-hover:text-muted transition-colors">
-											<span>$ cat {exp.catPath}</span>
+									{expandable && (
+										<div class="expand-hint mt-6 flex items-center gap-2 font-mono text-xs text-muted/70 group-hover:text-muted transition-colors">
+											<span class="min-w-0 break-all">$ cat {exp.catPath}</span>
 											<span class="px-1.5 py-0.5 bg-secondary border border-border rounded text-[10px] text-muted leading-none group-hover:border-primary/30 group-hover:text-text transition-colors">enter</span>
 										</div>
 									)}
 
 									{/* Expandable details */}
-									{exp.details.length > 0 && (
+									{expandable && (
 										<div class="details hidden mt-3 pt-3 border-t border-border">
-											<div class="font-['JetBrains_Mono'] text-xs text-accent mb-3">
+											<div class="font-mono text-xs text-accent mb-3 break-all">
 												$ cat {exp.catPath}
 											</div>
-											<ul class="space-y-2">
-												{exp.details.map((detail) => (
-													<li class="text-muted leading-relaxed flex gap-2">
-														<span class="text-primary flex-shrink-0">›</span>
-														<span>{detail}</span>
-													</li>
+											<div class="space-y-5">
+												{sections.map((section) => (
+													<div>
+														{section.heading && exp.roles.length > 1 && (
+															<h4 class="font-mono text-meta text-text mb-2">
+																{section.heading.title}
+																<span class="text-muted"> · {section.heading.period}</span>
+															</h4>
+														)}
+														<ul class="space-y-2">
+															{section.items.map((detail) => (
+																<li class="text-muted leading-relaxed flex gap-2">
+																	<span class="text-primary flex-shrink-0">›</span>
+																	<span>{detail}</span>
+																</li>
+															))}
+														</ul>
+													</div>
 												))}
-											</ul>
+											</div>
 										</div>
 									)}
 								</div>
 							</resume-card>
 						</div>
-					)
-				)}
+					);
+				})}
+
+				{/* Pre-2017 roles, folded into one line */}
+				<div class="relative pl-8 sm:pl-16">
+					<div class="absolute left-0 sm:left-4 top-1.5 -translate-x-1/2 w-2 h-2 rounded-full bg-border" />
+					<p class="font-mono text-meta text-muted">
+						Earlier: {earlier.map((job) => `${job.role}, ${job.company} (${job.period})`).join(" · ")}
+					</p>
+				</div>
 			</div>
 
 			{/* Terminal end marker */}
-			<div class="mt-12 pl-8 sm:pl-16 font-['JetBrains_Mono'] text-sm text-muted">
+			<div class="mt-12 pl-8 sm:pl-16 font-mono text-sm text-muted">
 				$ # End of timeline
 			</div>
 		</div>

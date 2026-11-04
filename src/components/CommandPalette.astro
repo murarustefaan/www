@@ -31,18 +31,18 @@ const searchData = allPosts.map((post) => ({
 					id="cmd-input"
 					type="text"
 					placeholder="Search posts..."
-					class="w-full py-3.5 bg-transparent text-text placeholder:text-muted outline-none font-['JetBrains_Mono'] text-sm"
+					class="w-full py-3.5 bg-transparent text-text placeholder:text-muted outline-none font-mono text-sm"
 					autocomplete="off"
 					spellcheck="false"
 				/>
-				<kbd class="hidden sm:inline-flex items-center px-1.5 py-0.5 text-xs text-muted bg-bg border border-border rounded font-['JetBrains_Mono']">esc</kbd>
+				<kbd class="hidden sm:inline-flex items-center px-1.5 py-0.5 text-xs text-muted bg-bg border border-border rounded font-mono">esc</kbd>
 			</div>
 
 			{/* Results */}
 			<div id="cmd-results" class="max-h-80 overflow-y-auto" />
 
 			{/* Footer */}
-			<div class="px-4 py-2 border-t border-border flex items-center gap-4 text-xs text-muted font-['JetBrains_Mono']">
+			<div class="px-4 py-2 border-t border-border flex items-center gap-4 text-xs text-muted font-mono">
 				<span class="flex items-center gap-1">
 					<kbd class="px-1 py-0.5 bg-bg border border-border rounded">↑↓</kbd>
 					navigate
@@ -93,7 +93,7 @@ const searchData = allPosts.map((post) => ({
 			link.dataset.index = String(index);
 
 			const titleDiv = document.createElement("div");
-			titleDiv.className = "text-sm text-text font-['JetBrains_Mono'] mb-1";
+			titleDiv.className = "text-sm text-text font-mono mb-1";
 
 			// Safe highlight: use text nodes + span for match
 			const q = query.toLowerCase();
@@ -120,7 +120,7 @@ const searchData = allPosts.map((post) => ({
 			tagsDiv.className = "flex gap-1.5 mt-1.5";
 			for (const t of post.tags) {
 				const tag = document.createElement("span");
-				tag.className = "text-xs px-1.5 py-0.5 bg-bg border border-border text-accent rounded font-['JetBrains_Mono']";
+				tag.className = "text-xs px-1.5 py-0.5 bg-bg border border-border text-accent rounded font-mono";
 				tag.textContent = "#" + t;
 				tagsDiv.appendChild(tag);
 			}
@@ -145,8 +145,8 @@ const searchData = allPosts.map((post) => ({
 
 			if (filtered.length === 0) {
 				const empty = document.createElement("div");
-				empty.className = "px-4 py-8 text-center text-muted font-['JetBrains_Mono'] text-sm";
-				empty.textContent = "$ # No results found";
+				empty.className = "px-4 py-8 text-center text-muted font-mono text-sm";
+				empty.textContent = "No results.";
 				resultsContainer.appendChild(empty);
 				return;
 			}

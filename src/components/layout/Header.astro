@@ -2,134 +2,43 @@
 import { menuLinks } from "@/site.config";
 
 const currentPath = Astro.url.pathname;
+const isCurrent = (path: string) =>
+	!path.includes("?") && (currentPath === path || currentPath.startsWith(`${path}/`));
 ---
 
-<nav class="sticky top-0 z-50 bg-bg/95 backdrop-blur-sm border-b border-border" transition:persist>
-	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-		<div class="flex items-center justify-between h-14">
-			{/* Logo */}
-			<a
-				href="/"
-				class="font-['JetBrains_Mono'] text-sm text-accent hover:text-[#00ffcc] transition-colors"
-			>
-				~/stefan
-			</a>
-
-			{/* Desktop Navigation */}
-			<div class="hidden md:flex items-center gap-4 text-sm">
-				{menuLinks.map((link) => (
-					link.style === "button" ? (
-						<a
-							href={link.path}
-							class:list={[
-								"font-['JetBrains_Mono'] px-3 py-1 rounded transition-colors",
-								currentPath === link.path
-									? "bg-secondary text-primary border border-primary/50"
-									: "bg-card text-muted border border-border hover:border-primary/30 hover:text-text",
-							]}
-						>
-							{link.title}
-						</a>
-					) : (
-						<a
-							href={link.path}
-							class:list={[
-								"transition-colors",
-								currentPath === link.path || (link.path !== "/" && currentPath.startsWith(link.path))
-									? "text-text"
-									: "text-muted hover:text-text",
-							]}
-						>
-							{link.title}
-						</a>
-					)
-				))}
-				<button
-					type="button"
-					id="search-trigger"
-					class="flex items-center gap-2 px-2.5 py-1 bg-card border border-border rounded text-xs text-muted font-['JetBrains_Mono'] cursor-pointer hover:border-primary/30 hover:text-text transition-colors"
-					aria-label="Search posts (⌘K)"
-				>
-					<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-					<kbd class="px-1 py-0.5 bg-bg border border-border rounded text-[10px]">⌘K</kbd>
-				</button>
-			</div>
-
-			{/* Mobile hamburger */}
-			<mobile-button class="md:hidden">
-				<button
-					aria-expanded="false"
-					aria-haspopup="menu"
-					aria-controls="mobile-menu"
-					aria-label="Open main menu"
-					class="p-2 text-muted hover:text-text transition-colors"
-					id="toggle-nav"
-					type="button"
-				>
-					<svg class="hamburger-icon w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-						<path d="M3.75 9h16.5m-16.5 6.75h16.5" stroke-linecap="round" stroke-linejoin="round" />
-					</svg>
-					<svg class="close-icon hidden w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-						<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
-					</svg>
-				</button>
-			</mobile-button>
-		</div>
-
-		{/* Mobile Navigation (hidden by default, toggled via script) */}
-		<div id="mobile-menu" class="hidden md:hidden pb-4 pt-2 border-t border-border mt-2">
-			<div class="flex flex-col gap-3 text-sm">
-				{menuLinks.map((link) => (
-					link.style === "button" ? (
-						<a
-							href={link.path}
-							class:list={[
-								"font-['JetBrains_Mono'] px-3 py-1 rounded transition-colors inline-block w-fit",
-								currentPath === link.path
-									? "bg-secondary text-primary border border-primary/50"
-									: "bg-card text-muted border border-border hover:border-primary/30 hover:text-text",
-							]}
-						>
-							{link.title}
-						</a>
-					) : (
-						<a
-							href={link.path}
-							class:list={[
-								"transition-colors",
-								currentPath === link.path || (link.path !== "/" && currentPath.startsWith(link.path))
-									? "text-text"
-									: "text-muted hover:text-text",
-							]}
-						>
-							{link.title}
-						</a>
-					)
-				))}
-			</div>
-		</div>
+<header>
+	<div
+		class="mx-auto flex max-w-6xl flex-wrap items-baseline justify-between gap-x-5 gap-y-7 px-4 sm:gap-y-1 py-6 font-mono text-meta sm:px-6 lg:px-8"
+	>
+		<a href="/" class="-my-3 py-3 transition-colors hover:text-primary">
+			<span class="text-mark" aria-hidden="true">x</span> ștefan muraru
+		</a>
+		<nav aria-label="Main">
+			<ul class="flex flex-wrap items-baseline gap-x-5">
+				{
+					menuLinks.map((link) => (
+						<li>
+							<a
+								href={link.path}
+								class="link aria-[current=page]:text-primary"
+								aria-current={isCurrent(link.path) ? "page" : undefined}
+							>
+								{link.title}
+							</a>
+						</li>
+					))
+				}
+				<li>
+					<button
+						type="button"
+						id="search-trigger"
+						class="link cursor-pointer"
+						aria-label="Search posts (⌘K)"
+					>
+						search
+					</button>
+				</li>
+			</ul>
+		</nav>
 	</div>
-</nav>
-
-<script>
-	class MobileNavBtn extends HTMLElement {
-		connectedCallback() {
-			const btn = this.querySelector<HTMLButtonElement>("button")!;
-			const menu = document.getElementById("mobile-menu")!;
-			const hamburger = btn.querySelector(".hamburger-icon")!;
-			const close = btn.querySelector(".close-icon")!;
-
-			btn.addEventListener("click", () => {
-				const isOpen = menu.classList.toggle("hidden");
-				// isOpen is true when "hidden" was added (= menu closed)
-				const expanded = !isOpen;
-				btn.setAttribute("aria-expanded", expanded.toString());
-				btn.setAttribute("aria-label", expanded ? "Close main menu" : "Open main menu");
-				hamburger.classList.toggle("hidden");
-				close.classList.toggle("hidden");
-			});
-		}
-	}
-
-	customElements.define("mobile-button", MobileNavBtn);
-</script>
+</header>

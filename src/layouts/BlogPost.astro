@@ -73,10 +73,10 @@ const blogPostingSchema = {
 		{/* Back link */}
 		<a
 			href="/blog/"
-			class="inline-flex items-center gap-2 text-muted hover:text-primary transition-colors mb-8 font-['JetBrains_Mono'] text-sm"
+			class="inline-flex items-center gap-2 text-muted hover:text-primary transition-colors mb-8 font-mono text-sm"
 		>
 			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-			<span>$ cd ../blog</span>
+			<span>All writing</span>
 		</a>
 
 		<article class="grow break-words">
@@ -103,7 +103,7 @@ const blogPostingSchema = {
 						href={`/blog/${prevPost.id}/`}
 						class="group p-4 bg-card border border-border rounded-lg hover:border-primary/30 transition-all card-hover"
 					>
-						<div class="font-['JetBrains_Mono'] text-xs text-muted mb-2">$ cd ../prev</div>
+						<div class="font-mono text-xs text-muted mb-2">Previous</div>
 						<div class="text-text group-hover:text-primary transition-colors">{prevPost.data.title}</div>
 					</a>
 				) : <div />}
@@ -112,17 +112,17 @@ const blogPostingSchema = {
 						href={`/blog/${nextPost.id}/`}
 						class="group p-4 bg-card border border-border rounded-lg hover:border-primary/30 transition-all card-hover sm:text-right"
 					>
-						<div class="font-['JetBrains_Mono'] text-xs text-muted mb-2">$ cd ../next</div>
+						<div class="font-mono text-xs text-muted mb-2">Next</div>
 						<div class="text-text group-hover:text-primary transition-colors">{nextPost.data.title}</div>
 					</a>
 				)}
 			</div>
 			<a
 				href="/blog/"
-				class="inline-flex items-center gap-2 text-muted hover:text-primary transition-colors font-['JetBrains_Mono'] text-sm mt-6"
+				class="inline-flex items-center gap-2 text-muted hover:text-primary transition-colors font-mono text-sm mt-6"
 			>
 				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-				<span>$ cd ../blog</span>
+				<span>All writing</span>
 			</a>
 		</nav>
 	</div>

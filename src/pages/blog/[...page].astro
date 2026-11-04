@@ -24,24 +24,19 @@ interface Props {
 const { page, uniqueTags } = Astro.props;
 ---
 
-<PageLayout meta={{ title: "Blog", description: "Technical writing on infrastructure, DevOps, and cloud-native engineering." }}>
+<PageLayout meta={{ title: "Writing", description: "Technical writing on infrastructure, DevOps, and cloud-native engineering." }}>
 	<div class="max-w-6xl mx-auto py-12 sm:py-20">
 		{/* Header */}
 		<div class="mb-12 px-4 sm:px-6 lg:px-8">
-			<div class="font-['JetBrains_Mono'] text-sm text-muted mb-2">
-				$ ls ~/blog
-			</div>
-			<h1 class="text-3xl sm:text-4xl text-text mb-4">Blog Posts</h1>
-			<p class="text-muted">
-				Technical writing on infrastructure, DevOps, and cloud-native engineering.
-			</p>
+			<h1 class="text-3xl sm:text-4xl text-text mb-4">Writing</h1>
+			<p class="text-muted">Notes on Kubernetes, security and my homelab.</p>
 		</div>
 
 		{/* Tag Filter */}
 		<blog-filter>
 			<div class="mb-8 px-4 sm:px-6 lg:px-8">
-				<div class="font-['JetBrains_Mono'] text-sm text-muted mb-3 flex items-center gap-2">
-					<span class="text-accent">$</span> grep --tags
+				<div class="font-mono text-sm text-muted mb-3 flex items-center gap-2">
+					Filter by tag
 					<button
 						class="clear-btn ml-2 text-xs px-2 py-0.5 bg-card border border-border text-muted rounded hover:border-primary/50 hover:text-text transition-colors items-center gap-1 hidden"
 						type="button"
@@ -53,7 +48,7 @@ const { page, uniqueTags } = Astro.props;
 				<div class="flex flex-wrap gap-2">
 					{uniqueTags.sort().map((tag) => (
 						<button
-							class="tag-btn text-xs px-3 py-1.5 rounded font-['JetBrains_Mono'] border transition-all bg-card border-border text-muted hover:border-primary/50 hover:text-text"
+							class="tag-btn text-xs px-3 py-1.5 rounded font-mono border transition-all bg-card border-border text-muted hover:border-primary/50 hover:text-text"
 							data-tag={tag}
 							type="button"
 							aria-pressed="false"
@@ -73,15 +68,15 @@ const { page, uniqueTags } = Astro.props;
 						data-tags={post.data.tags.join(",")}
 					>
 						<article class="p-6 bg-card border border-border rounded-lg hover:border-primary/50 transition-all card-hover">
-							<div class="text-xs text-muted mb-2 font-['JetBrains_Mono']">
+							<div class="text-xs text-muted mb-2 font-mono">
 								{getFormattedDate(post.data.publishDate)}
 							</div>
-							<h2 class="text-xl mb-3 text-text group-hover:text-primary transition-colors font-['JetBrains_Mono']">
+							<h2 class="text-xl mb-3 text-text group-hover:text-primary transition-colors font-mono">
 								{post.data.title}
 							</h2>
 							<div class="flex flex-wrap gap-2 mb-3">
 								{post.data.tags.map((tag) => (
-									<span class="text-xs px-2 py-0.5 bg-bg border border-border text-accent rounded font-['JetBrains_Mono']">
+									<span class="text-xs px-2 py-0.5 bg-bg border border-border text-accent rounded font-mono">
 										#{tag}
 									</span>
 								))}
@@ -96,15 +91,14 @@ const { page, uniqueTags } = Astro.props;
 
 			{/* Empty state */}
 			<div id="empty-state" class="hidden text-center py-12 px-4">
-				<p class="text-muted font-['JetBrains_Mono']">
-					$ # No posts found matching the selected tags
+				<p class="text-muted font-mono">
+					No posts with these tags.
 				</p>
 			</div>
 
 			{/* Post count */}
-			<div class="mt-12 px-4 sm:px-6 lg:px-8 font-['JetBrains_Mono'] text-sm text-muted">
-				$ wc -l ~/blog/*.md
-				<div class="text-accent ml-4" id="post-count" aria-live="polite">
+			<div class="mt-12 px-4 sm:px-6 lg:px-8 font-mono text-sm text-muted">
+				<div id="post-count" aria-live="polite">
 					{page.data.length} {page.data.length === 1 ? "post" : "posts"}
 				</div>
 			</div>
