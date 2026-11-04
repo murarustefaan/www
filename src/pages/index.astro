@@ -30,23 +30,24 @@ const profilePageSchema = {
 		name: siteConfig.author,
 		url: siteConfig.url,
 		email: "hello@stefanmuraru.com",
-		jobTitle: "Senior Software Engineer",
+		jobTitle: "Team Lead",
 		image: `${siteConfig.url}me.jpg`,
 		sameAs: [
 			"https://github.com/murarustefaan",
 			"https://www.linkedin.com/in/murarustefan/",
 		],
-		affiliation: {
+		worksFor: {
 			"@type": "Organization",
-			name: "CloudQuery",
-			url: "https://www.cloudquery.io",
+			name: "env zero",
+			alternateName: "env0",
+			url: "https://www.envzero.com",
 		},
-		knowsAbout: ["Kubernetes", "Go", "TypeScript", "Cloud Infrastructure", "Platform Engineering", "Observability", "Docker", "AWS", "Google Cloud Platform"],
+		knowsAbout: ["Kubernetes", "Go", "TypeScript", "Terraform", "Cloud Infrastructure", "Platform Engineering", "Observability", "Docker", "AWS", "Google Cloud Platform"],
 	},
 };
 ---
 
-<PageLayout meta={{ title: siteConfig.title, description: "Ștefan Muraru — Senior Software Engineer at CloudQuery. Technical writing on Kubernetes, Go, cloud infrastructure, and platform engineering." }}>
+<PageLayout meta={{ title: siteConfig.title, description: "Ștefan Muraru — Team Lead at env zero. Technical writing on Kubernetes, Go, Terraform, cloud infrastructure, and platform engineering." }}>
 	<JsonLd schema={profilePageSchema} />
 	<div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 		<Hero />
