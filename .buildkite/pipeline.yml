@@ -12,6 +12,7 @@ steps:
     commands:
       - corepack enable
       - pnpm install --frozen-lockfile
+      - pnpm lint
       - pnpm astro check
       - pnpm build
 

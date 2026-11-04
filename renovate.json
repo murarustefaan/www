@@ -1,0 +1,8 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["config:recommended", "group:all", "schedule:weekly", "helpers:pinGitHubActionDigests"],
+	"timezone": "Europe/Bucharest",
+	"minimumReleaseAge": "7 days",
+	"osvVulnerabilityAlerts": true,
+	"ignoreDeps": ["registry.stefanmuraru.com/www"]
+}
