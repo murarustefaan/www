@@ -1,10 +1,10 @@
 # Project: stefanmuraru.com
 
-Personal blog and portfolio built with Astro 5, Tailwind CSS 4, and TypeScript.
+Personal blog and portfolio built with Astro 7, Tailwind CSS 4, and TypeScript.
 
 ## Tech Stack
 
-- **Framework:** Astro 5.x (static site generation)
+- **Framework:** Astro 7.x (static site generation)
 - **Styling:** Tailwind CSS 4.2 with `@theme` directive + custom `@utility prose`
 - **Language:** TypeScript
 - **Package Manager:** pnpm

@@ -57,6 +57,14 @@
 		}
 	}
 
+	&.gh-error {
+		.gh-avatar,
+		.gh-description,
+		.gh-chips {
+			@apply hidden;
+		}
+	}
+
 	&.gh-loading {
 		.gh-title .gh-avatar,
 		.gh-description,
@@ -65,14 +73,6 @@
 		}
 		.gh-chips span:before {
 			@apply bg-transparent;
-		}
-	}
-
-	&.gh-error {
-		.gh-avatar,
-		.gh-description,
-		.gh-chips {
-			@apply hidden;
 		}
 	}
 }

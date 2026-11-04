@@ -1,6 +1,7 @@
 import { h as _h, type Properties } from "hastscript";
 import type { Node, Paragraph as P } from "mdast";
 import type { Directives } from "mdast-util-directive";
+import type {} from "mdast-util-to-hast";
 
 /** Checks if a node is a directive. */
 export function isNodeDirective(node: Node): node is Directives {
