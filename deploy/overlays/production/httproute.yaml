@@ -21,13 +21,6 @@ spec:
       timeouts:
         request: 30s
         backendRequest: 10s
-      retry:
-        attempts: 2
-        backoff: 100ms
-        codes:
-          - 502
-          - 503
-          - 504
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
