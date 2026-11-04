@@ -13,4 +13,4 @@ const postDate = getFormattedDate(date, dateTimeOptions);
 const ISO = date.toISOString();
 ---
 
-<time datetime={ISO} title={ISO} {...attrs}>{postDate}</time>
+<time datetime={ISO} title={ISO} {...attrs} set:text={postDate} />
