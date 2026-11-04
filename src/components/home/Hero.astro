@@ -9,7 +9,7 @@ import { IASI_TIME_ZONE, NIGHT_FROM, NIGHT_UNTIL } from "@/utils/iasi-time";
 
 const still = { width: 1200, height: 900 };
 const control =
-	"inline-flex size-11 cursor-pointer items-center justify-center rounded-full text-text transition-colors hover:text-primary";
+	"size-11 cursor-pointer items-center justify-center rounded-full text-text transition-colors hover:text-primary";
 const icon = {
 	viewBox: "0 0 24 24",
 	fill: "none",
@@ -131,7 +131,7 @@ const icon = {
 					</button>
 					<button
 						type="button"
-						class={control}
+						class:list={[control, "inline-flex"]}
 						data-toggle
 						aria-label="Show night scene"
 						title="Show night scene"
