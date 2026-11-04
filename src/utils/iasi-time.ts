@@ -4,14 +4,15 @@ export const IASI_TIME_ZONE = "Europe/Bucharest";
 export const NIGHT_FROM = 20;
 export const NIGHT_UNTIL = 7;
 
-const clock = new Intl.DateTimeFormat("en-GB", {
-	timeZone: IASI_TIME_ZONE,
-	hour: "2-digit",
-	minute: "2-digit",
-	hourCycle: "h23",
-});
+let clock: Intl.DateTimeFormat | undefined;
 
 export function iasiTime(date: Date): { hour: number; minute: number; label: string } {
+	clock ??= new Intl.DateTimeFormat("en-GB", {
+		timeZone: IASI_TIME_ZONE,
+		hour: "2-digit",
+		minute: "2-digit",
+		hourCycle: "h23",
+	});
 	const parts = clock.formatToParts(date);
 	const part = (type: Intl.DateTimeFormatPartTypes) =>
 		Number(parts.find((p) => p.type === type)?.value ?? 0);

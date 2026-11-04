@@ -72,11 +72,11 @@ const {
 			})();
 		</script>
 	</head>
-	<body class="bg-bg text-text min-h-screen font-sans antialiased relative overflow-x-hidden">
+	<body class="bg-bg text-text min-h-screen font-sans antialiased relative overflow-x-hidden flex flex-col">
 		<SkipLink />
 		<Header />
 		<CommandPalette />
-		<main id="main" transition:animate="fade">
+		<main id="main" class="flex-1" transition:animate="fade">
 			<slot />
 		</main>
 		<Footer />

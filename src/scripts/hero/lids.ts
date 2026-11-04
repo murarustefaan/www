@@ -120,22 +120,29 @@ export function paintLids(
 			const den = (by - cy) * (ax - cxp) + (cxp - bx) * (ay - cy);
 			if (Math.abs(den) < 1e-9) continue;
 			for (let y = Math.floor(Math.min(ay, by, cy)); y <= Math.ceil(Math.max(ay, by, cy)); y++) {
-				for (let x = Math.floor(Math.min(ax, bx, cxp)); x <= Math.ceil(Math.max(ax, bx, cxp)); x++) {
+				for (
+					let x = Math.floor(Math.min(ax, bx, cxp));
+					x <= Math.ceil(Math.max(ax, bx, cxp));
+					x++
+				) {
 					const l1 = ((by - cy) * (x + 0.5 - cxp) + (cxp - bx) * (y + 0.5 - cy)) / den;
 					const l2 = ((cy - ay) * (x + 0.5 - cxp) + (ax - cxp) * (y + 0.5 - cy)) / den;
 					const l3 = 1 - l1 - l2;
-					if (l1 < -0.02 || l2 < -0.02 || l3 < -0.02 || x < 0 || y < 0 || x >= W || y >= H) continue;
+					if (l1 < -0.02 || l2 < -0.02 || l3 < -0.02 || x < 0 || y < 0 || x >= W || y >= H)
+						continue;
 					const u = (l1 * X(a) + l2 * X(b) + l3 * X(c) - e.x) / e.w;
 					const v = (l1 * Y(a) + l2 * Y(b) + l3 * Y(c) - e.y) / e.h;
 					const r2 = u * u + v * v;
 					const fill = 1 - smooth(1.05, 1.35, r2);
 					if (fill <= 0) continue;
 					const arc = -0.18 - 0.42 * (1 - Math.min(1, u * u));
-					const line = (1 - smooth(0.12, 0.26, Math.abs(v - arc))) * (1 - smooth(0.8, 1.1, Math.abs(u)));
+					const line =
+						(1 - smooth(0.12, 0.26, Math.abs(v - arc))) * (1 - smooth(0.8, 1.1, Math.abs(u)));
 					const k = (y * W + x) * 4;
 					for (let ch = 0; ch < 3; ch++) {
 						const shade = (lid[ch] ?? 0) * (0.96 + 0.04 * v);
-						d[k + ch] = (d[k + ch] ?? 0) * (1 - fill) + (shade * (1 - line) + (lash[ch] ?? 0) * line) * fill;
+						d[k + ch] =
+							(d[k + ch] ?? 0) * (1 - fill) + (shade * (1 - line) + (lash[ch] ?? 0) * line) * fill;
 					}
 				}
 			}

@@ -21,7 +21,17 @@ import {
 	TubeGeometry,
 	type Vector3,
 } from "three";
-import { type Cat, type CatName, hideCat, placeCat, poseCat, fadeCat, type Spot, spotCorners } from "./cats";
+import {
+	CAT_ORDER,
+	type Cat,
+	type CatName,
+	hideCat,
+	placeCat,
+	poseCat,
+	fadeCat,
+	type Spot,
+	spotCorners,
+} from "./cats";
 import { drawStitches, TOOTH } from "./embroidery";
 import { DOWN, type Rig, SIDES, UP } from "./figure";
 import {
@@ -41,6 +51,7 @@ import {
 	V,
 	xf,
 } from "./kit";
+import { LABELS } from "./labels";
 import { boxPts, makeView, type Stage, type View } from "./view";
 
 const MATTRESS = 13;
@@ -51,7 +62,6 @@ const STITCH = 0.34;
 const BAND_AT = 0.22;
 const PX = 50;
 const SKY = { dark: { color: "#f1ead6", alpha: 1 }, light: { color: PAL.K, alpha: 0.6 } };
-const CAT_ORDER: Record<CatName, number> = { white: 0, tux: 1 };
 
 function radial() {
 	return canvasTexture(64, 64, (x) => {
@@ -67,7 +77,7 @@ function glowTexture() {
 	return canvasTexture(64, 64, (x) => {
 		const g = x.createRadialGradient(32, 32, 0, 32, 32, 32);
 		g.addColorStop(0, "rgba(255,196,120,0.55)");
-		g.addColorStop(1, "rgba(0,0,0,0)");
+		g.addColorStop(1, "rgba(255,196,120,0)");
 		x.fillStyle = g;
 		x.fillRect(0, 0, 64, 64);
 	});
@@ -127,7 +137,11 @@ export function buildBed(rig: Rig, stage: Stage): View {
 	const { B } = rig;
 	const view = makeView(1.3, 0.6, V(0, 14, 0));
 	const NIGHT_CAM = V(Math.sin(1.3), 0, Math.cos(1.3));
-	const CAM_DIR = V(Math.sin(1.66) * Math.cos(0.34), Math.sin(0.34), Math.cos(1.66) * Math.cos(0.34));
+	const CAM_DIR = V(
+		Math.sin(1.66) * Math.cos(0.34),
+		Math.sin(0.34),
+		Math.cos(1.66) * Math.cos(0.34),
+	);
 	const TO_CAM = V(CAM_DIR.x, 0, CAM_DIR.z).normalize();
 	const FQ = new Quaternion().setFromRotationMatrix(
 		new Matrix4().makeBasis(V(0, -1, 0), V(0, 0, -1), V(1, 0, 0)),
@@ -261,7 +275,9 @@ export function buildBed(rig: Rig, stage: Stage): View {
 		const h =
 			(at(ix, iz) * (1 - fx) + at(ix + 1, iz) * fx) * (1 - fz) +
 			(at(ix, iz + 1) * (1 - fx) + at(ix + 1, iz + 1) * fx) * fz;
-		return Math.max(MATTRESS + 0.8, h + 1.1) + 0.14 * Math.sin(x * 0.42 + z * 0.13) * Math.sin(z * 0.31);
+		return (
+			Math.max(MATTRESS + 0.8, h + 1.1) + 0.14 * Math.sin(x * 0.42 + z * 0.13) * Math.sin(z * 0.31)
+		);
 	}
 	CHEST = rig.posOf(B.Spine01);
 	function drape(a: number, lo: number, hi: number): [number, number] {
@@ -327,11 +343,17 @@ export function buildBed(rig: Rig, stage: Stage): View {
 	}
 	{
 		const S = rig.posOf(B.RightArm);
-		const wrist = rig.posOf(B.Spine01).addScaledVector(L(0, 0, 1), 6.5).addScaledVector(L(0, 1, 0), -1.5);
+		const wrist = rig
+			.posOf(B.Spine01)
+			.addScaledVector(L(0, 0, 1), 6.5)
+			.addScaledVector(L(0, 1, 0), -1.5);
 		wrist.y = clothTop(wrist.x, wrist.z) + 0.75;
 		TOP = {
 			wrist,
-			pole: V(0, 1, 0).addScaledVector(L(0, -1, 0), 0.4).addScaledVector(TO_CAM, 0.3).normalize(),
+			pole: V(0, 1, 0)
+				.addScaledVector(L(0, -1, 0), 0.4)
+				.addScaledVector(TO_CAM, 0.3)
+				.normalize(),
 			hand: L(0.15, -0.35, 0.9).setY(-0.25).normalize(),
 		};
 		if (S.distanceTo(wrist) > (rig.arm.Right.a + rig.arm.Right.b) * 0.98) TOP.wrist.lerp(S, 0.1);
@@ -346,6 +368,7 @@ export function buildBed(rig: Rig, stage: Stage): View {
 	const sky: Sprite[] = [];
 	let skyAlpha = 1;
 	let phone: MeshBasicMaterial | null = null;
+	let glow: Sprite | null = null;
 	{
 		const scene = view.scene;
 		const duvetMat = new MeshToonMaterial({ color: 0xffffff, map: duvet.t, gradientMap: ramp });
@@ -368,7 +391,9 @@ export function buildBed(rig: Rig, stage: Stage): View {
 		const czB = (BED.z0 + BED.z1) / 2;
 		const wB = BED.x1 - BED.x0;
 		add(scene, rbox(wB, 5.5, BED.len, 1.1), "s", { at: [cxB, MATTRESS - 2.75, czB], line: 0.08 });
-		add(scene, rbox(wB + 1.6, 2.6, BED.len + 1.2, 0.5), "w", { at: [cxB, MATTRESS - 6.6, czB + 0.3] });
+		add(scene, rbox(wB + 1.6, 2.6, BED.len + 1.2, 0.5), "w", {
+			at: [cxB, MATTRESS - 6.6, czB + 0.3],
+		});
 		add(
 			scene,
 			merge(
@@ -383,12 +408,18 @@ export function buildBed(rig: Rig, stage: Stage): View {
 			),
 			"v",
 		);
-		add(scene, rbox(wB + 2, MATTRESS + 9, 1.8, 0.7), "w", { at: [cxB, (MATTRESS + 9) / 2, BED.z0 - 0.9] });
+		add(scene, rbox(wB + 2, MATTRESS + 9, 1.8, 0.7), "w", {
+			at: [cxB, (MATTRESS + 9) / 2, BED.z0 - 0.9],
+		});
 		const ns = joint(scene, [BED.x0 - 7.4, 0, BED.z0 + 5.5]);
 		const nsH = MATTRESS + 1;
 		add(ns, rbox(10, nsH, 9, 0.5), "v", { at: [0, nsH / 2, 0] });
 		add(ns, rbox(9, 0.25, 0.25, 0.1), "g", { at: [0, nsH * 0.55, 4.5], line: 0 });
-		add(ns, rbox(4.4, 0.9, 6, 0.2), "G", { at: [1.6, nsH + 0.45, 0.8], rot: [0, 0.2, 0], line: 0.05 });
+		add(ns, rbox(4.4, 0.9, 6, 0.2), "G", {
+			at: [1.6, nsH + 0.45, 0.8],
+			rot: [0, 0.2, 0],
+			line: 0.05,
+		});
 		add(
 			ns,
 			lathe(
@@ -420,7 +451,7 @@ export function buildBed(rig: Rig, stage: Stage): View {
 		const bulb = new PointLight(0xffb066, 340, 70, 1.6);
 		bulb.position.set(-2, nsH + 6.6, -1.2);
 		ns.add(bulb);
-		const glow = new Sprite(
+		glow = new Sprite(
 			new SpriteMaterial({
 				map: glowTexture(),
 				blending: AdditiveBlending,
@@ -428,11 +459,15 @@ export function buildBed(rig: Rig, stage: Stage): View {
 				transparent: true,
 			}),
 		);
-		glow.scale.setScalar(16);
+		glow.scale.setScalar(10);
 		glow.position.copy(bulb.position);
 		glow.userData.sky = true;
 		ns.add(glow);
-		add(ns, rbox(2.0, 0.25, 4.0, 0.2), "K", { at: [-1.2, nsH + 0.13, 2.6], rot: [0, 0.4, 0], line: 0.04 });
+		add(ns, rbox(2.0, 0.25, 4.0, 0.2), "K", {
+			at: [-1.2, nsH + 0.13, 2.6],
+			rot: [0, 0.4, 0],
+			line: 0.04,
+		});
 		phone = new MeshBasicMaterial({ color: 0x23262b });
 		add(ns, new PlaneGeometry(1.7, 3.6), phone, {
 			at: [-1.2, nsH + 0.27, 2.6],
@@ -447,7 +482,10 @@ export function buildBed(rig: Rig, stage: Stage): View {
 			const sl = joint(scene, [BED.x1 + 5 + dx, 0, czB + 4]);
 			sl.rotation.y = r;
 			add(sl, ell(1.25, 0.45, 3.4, 18, 10), "p", { at: [0, 0.45, 0], line: 0.05 });
-			add(sl, ell(1.2, 0.65, 1.6, 18, 10).translate(0, 0, 1.5), "R", { at: [0, 0.55, 0], line: 0.05 });
+			add(sl, ell(1.2, 0.65, 1.6, 18, 10).translate(0, 0, 1.5), "R", {
+				at: [0, 0.55, 0],
+				line: 0.05,
+			});
 		}
 		base(scene, {
 			x: (BED.x0 - 13 + BED.x1 + 6) / 2,
@@ -463,9 +501,22 @@ export function buildBed(rig: Rig, stage: Stage): View {
 		moon.target.position.copy(aimAt);
 		scene.add(moon, moon.target);
 		moon.castShadow = true;
-		Object.assign(moon.shadow.camera, { left: -45, right: 45, top: 45, bottom: -45, near: 20, far: 180 });
+		Object.assign(moon.shadow.camera, {
+			left: -45,
+			right: 45,
+			top: 45,
+			bottom: -45,
+			near: 20,
+			far: 180,
+		});
 		moon.shadow.mapSize.set(1024, 1024);
-		Object.assign(moon.shadow, { radius: 5, blurSamples: 12, bias: -0.0004, normalBias: 0.06, intensity: 0.75 });
+		Object.assign(moon.shadow, {
+			radius: 5,
+			blurSamples: 12,
+			bias: -0.0004,
+			normalBias: 0.06,
+			intensity: 0.75,
+		});
 		const z = letter("z");
 		for (let i = 0; i < 3; i++) {
 			const s = new Sprite(new SpriteMaterial({ map: z, transparent: true, depthWrite: false }));
@@ -473,7 +524,9 @@ export function buildBed(rig: Rig, stage: Stage): View {
 			scene.add(s);
 			zs.push(s);
 		}
-		const moonS = new Sprite(new SpriteMaterial({ map: crescent(), transparent: true, depthWrite: false }));
+		const moonS = new Sprite(
+			new SpriteMaterial({ map: crescent(), transparent: true, depthWrite: false }),
+		);
 		moonS.userData.sky = "moon";
 		scene.add(moonS);
 		sky.push(moonS);
@@ -502,7 +555,10 @@ export function buildBed(rig: Rig, stage: Stage): View {
 	const twinkle = (t: number) => {
 		for (const s of sky) {
 			const m = s.material;
-			m.opacity = s.userData.sky === "moon" ? skyAlpha : (0.55 + 0.45 * Math.sin(t * 1.7 + s.userData.tw)) * skyAlpha;
+			m.opacity =
+				s.userData.sky === "moon"
+					? skyAlpha
+					: (0.55 + 0.45 * Math.sin(t * 1.7 + s.userData.tw)) * skyAlpha;
 		}
 	};
 	let poked = false;
@@ -512,7 +568,7 @@ export function buildBed(rig: Rig, stage: Stage): View {
 	return {
 		...view,
 		name: "night",
-		label: "Ștefan asleep in bed with his two cats curled up on the red duvet.",
+		label: LABELS.night,
 		pose,
 		still() {
 			Object.assign(zz, { breath: 0, stir: 0 });
@@ -520,7 +576,10 @@ export function buildBed(rig: Rig, stage: Stage): View {
 			pose();
 			zs.forEach((s, i) => {
 				s.visible = i === 0;
-				s.position.copy(headAt).addScaledVector(NIGHT_CAM, 2.4).add(V(0, 4.6, 0));
+				s.position
+					.copy(headAt)
+					.addScaledVector(NIGHT_CAM, 2.4)
+					.add(V(0, 4.6, 0));
 				s.scale.setScalar(2.2);
 				s.material.opacity = 0.85;
 			});
@@ -561,6 +620,7 @@ export function buildBed(rig: Rig, stage: Stage): View {
 			const tone = dark ? SKY.dark : SKY.light;
 			skyAlpha = tone.alpha;
 			for (const s of sky) s.material.color = new Color(tone.color);
+			if (glow) glow.visible = dark;
 			twinkle(0);
 		},
 		step(t, dt) {

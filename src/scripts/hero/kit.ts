@@ -153,7 +153,9 @@ export function merge(parts: ReadonlyArray<readonly [BufferGeometry, Matrix4]>):
 			pos.push(p[i] ?? 0);
 			nrm.push(n[i] ?? 0);
 		}
-		const ix = g.index ? Array.from(g.index.array) : Array.from({ length: p.length / 3 }, (_, i) => i);
+		const ix = g.index
+			? Array.from(g.index.array)
+			: Array.from({ length: p.length / 3 }, (_, i) => i);
 		for (const i of ix) idx.push(i + base);
 		base += p.length / 3;
 	}
@@ -221,7 +223,10 @@ export function base(parent: Object3D, b: Oval): Mesh {
 	});
 	m.userData.fit = Array.from({ length: 48 }, (_, i) => {
 		const a = (i / 48) * Math.PI * 2;
-		return [V(Math.sin(a) * b.rx, 0, Math.cos(a) * b.rz), V(Math.sin(a) * b.rx, -2 * b.rim, Math.cos(a) * b.rz)];
+		return [
+			V(Math.sin(a) * b.rx, 0, Math.cos(a) * b.rz),
+			V(Math.sin(a) * b.rx, -2 * b.rim, Math.cos(a) * b.rz),
+		];
 	}).flat();
 	return m;
 }

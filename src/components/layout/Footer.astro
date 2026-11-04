@@ -3,6 +3,7 @@ import SocialList from "@/components/SocialList.astro";
 import { menuLinks, siteConfig } from "@/site.config";
 
 const year = new Date().getFullYear();
+const isHome = Astro.url.pathname === "/";
 ---
 
 <footer class="mt-24 border-t border-border">
@@ -23,7 +24,7 @@ const year = new Date().getFullYear();
 				}
 				<li><a href="/rss.xml" class="link">rss</a></li>
 			</ul>
-			<SocialList />
+			{!isHome && <SocialList />}
 		</div>
 	</div>
 </footer>

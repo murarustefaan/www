@@ -28,17 +28,14 @@ const ogOptions: SatoriOptions = {
 };
 
 const markup = (title: string, pubDate: string) =>
-	html`<div tw="flex flex-col w-full h-full bg-[#0d1117] text-[#c9d1d9]">
-		<div tw="flex flex-col flex-1 w-full p-10 justify-center">
-			<p tw="text-2xl mb-6 text-[#8b949e]">${pubDate}</p>
-			<h1 tw="text-6xl font-bold leading-snug text-[#c9d1d9]">${title}</h1>
+	html`<div tw="flex flex-col w-full h-full bg-[#eeede8] text-[#1c1b1a]">
+		<div tw="flex flex-col flex-1 w-full px-16 justify-center">
+			<p tw="text-2xl mb-6 text-[#5c5953]">${pubDate}</p>
+			<h1 tw="text-6xl font-normal leading-snug">${title}</h1>
 		</div>
-		<div tw="flex items-center justify-between w-full p-10 border-t border-[#00d4aa] text-xl">
-			<div tw="flex items-center">
-				<p tw="text-[#00d4aa] font-semibold text-2xl">~/stefan</p>
-				<p tw="ml-6 text-[#8b949e]">${siteConfig.title}</p>
-			</div>
-			<p tw="text-[#58a6ff]">by ${siteConfig.author}</p>
+		<div tw="flex items-center justify-between w-full px-16 py-10 border-t-2 border-[#ab1d2e] text-2xl">
+			<p tw="flex"><span tw="text-[#ab1d2e] mr-4">x</span>${siteConfig.author.toLowerCase()}</p>
+			<p tw="text-[#5c5953]">stefanmuraru.com</p>
 		</div>
 	</div>`;
 

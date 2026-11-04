@@ -116,8 +116,8 @@
 	text-decoration-thickness: 1px;
 	text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
 	text-underline-offset: 3px;
-	padding-block: 12px;
-	margin-block: -12px;
+	padding-block: 14px;
+	margin-block: -14px;
 	transition: color 0.15s ease-out;
 	&:hover {
 		color: var(--color-primary);
@@ -235,7 +235,9 @@
 
 	/* Tables */
 	& :where(table):not(:where([class~="not-prose"] *)) {
-		width: 100%;
+		display: block;
+		max-width: 100%;
+		overflow-x: auto;
 		border-collapse: collapse;
 		margin-top: 1.5em;
 		margin-bottom: 1.5em;

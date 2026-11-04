@@ -23,6 +23,11 @@ describe("iasiTime", () => {
 		expect(iasiTime(new Date("2026-03-29T00:59:00Z")).label).toBe("02:59");
 		expect(iasiTime(new Date("2026-03-29T01:00:00Z")).label).toBe("04:00");
 	});
+
+	it("follows the autumn clock change", () => {
+		expect(iasiTime(new Date("2026-10-25T00:59:00Z")).label).toBe("03:59");
+		expect(iasiTime(new Date("2026-10-25T01:00:00Z")).label).toBe("03:00");
+	});
 });
 
 describe("isNightHour", () => {

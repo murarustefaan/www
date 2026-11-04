@@ -41,6 +41,7 @@ export const CATS: Record<CatName, CatSpec> = {
 	},
 };
 
+export const CAT_ORDER: Record<CatName, number> = { white: 0, tux: 1 };
 export const CAT_YAW = 0.5;
 export const CAT_UP = 0.25;
 export const CAT_DOWN = 0.3;
@@ -144,7 +145,8 @@ export function spotCorners(name: CatName, spot: Spot): Vector3[] {
 	const m = spotFrame(spot);
 	const out: Vector3[] = [];
 	for (const x of [-sx / 2, sx / 2])
-		for (const y of [0, sy]) for (const z of [-sz / 2, sz / 2]) out.push(V(x, y, z).applyMatrix4(m));
+		for (const y of [0, sy])
+			for (const z of [-sz / 2, sz / 2]) out.push(V(x, y, z).applyMatrix4(m));
 	return out;
 }
 
@@ -165,7 +167,10 @@ export function catAim(cat: Cat, target: Vector3): [number, number] {
 		.clone()
 		.sub(cat.head.getWorldPosition(V()))
 		.applyQuaternion(cat.group.quaternion.clone().invert());
-	return [Math.atan2(d.x, d.z) * Math.sign(cat.group.scale.x), -Math.atan2(d.y, Math.hypot(d.x, d.z))];
+	return [
+		Math.atan2(d.x, d.z) * Math.sign(cat.group.scale.x),
+		-Math.atan2(d.y, Math.hypot(d.x, d.z)),
+	];
 }
 
 export function fadeCat(cat: Cat, dt: number) {

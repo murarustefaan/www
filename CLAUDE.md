@@ -29,8 +29,8 @@ src/
 │   ├── global.css       # Design tokens + prose utility
 │   └── components/      # Component-specific CSS (admonition, github-card)
 ├── utils/               # Utility functions
-└── assets/              # Fonts (JetBrains Mono TTF for OG images)
-public/                  # Static assets (favicon, images, hero stills, models/*.glb)
+└── assets/              # JetBrains Mono TTFs for OG images; hero/ holds the .glb models and AVIF stills (imported with ?url so they get hashed names)
+public/                  # Static assets (favicon, social card, images)
 ```
 
 ## Figma MCP Integration Rules

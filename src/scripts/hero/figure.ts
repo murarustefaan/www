@@ -75,10 +75,11 @@ export function silhouette(skin: SkinnedMesh, metres: number, height: number): S
 		polygonOffsetUnits: 6,
 	});
 	mat.onBeforeCompile = (sh) => {
-		sh.vertexShader = sh.vertexShader.replace(
+		sh.uniforms.lineWidth = { value: width };
+		sh.vertexShader = `uniform float lineWidth;\n${sh.vertexShader.replace(
 			"#include <begin_vertex>",
-			`#include <begin_vertex>\ntransformed += normalize(normal) * ${width.toFixed(6)};`,
-		);
+			"#include <begin_vertex>\ntransformed += normalize(normal) * lineWidth;",
+		)}`;
 	};
 	const line = new SkinnedMesh(skin.geometry, mat);
 	line.bind(skin.skeleton, skin.bindMatrix);
@@ -129,7 +130,8 @@ export class Rig {
 		if (!map) throw new Error("model has no texture");
 		this.open = map;
 		this.shut =
-			paintLids(map, this.skin.geometry, modelPoints(this.skin.geometry, this.skin.matrix), EYES) ?? map;
+			paintLids(map, this.skin.geometry, modelPoints(this.skin.geometry, this.skin.matrix), EYES) ??
+			map;
 		this.material = new MeshLambertMaterial({ map, side: DoubleSide });
 		this.skin.material = this.material;
 		this.skin.castShadow = this.skin.receiveShadow = true;
@@ -160,7 +162,9 @@ export class Rig {
 				y: this.posOf(B[`${side}ToeBase`]).y,
 			};
 			const hand = B[`${side}Hand`];
-			const pv = V().crossVectors(this.dirOf(hand), V(0, 0, 1)).normalize();
+			const pv = V()
+				.crossVectors(this.dirOf(hand), V(0, 0, 1))
+				.normalize();
 			if (pv.dot(V(-s, -1, 0)) < 0) pv.negate();
 			palm[side] = pv.applyQuaternion(hand.getWorldQuaternion(new Quaternion()).invert());
 			const S = this.posOf(B[`${side}Arm`]);
@@ -222,7 +226,11 @@ export class Rig {
 		const fore = this.B[`${side}ForeArm`];
 		const hand = this.B[`${side}Hand`];
 		this.aim(hand, H);
-		this.spin(fore, this.dirOf(fore), 0.5 * this.twistTo(this.palmOf(side), palm, this.dirOf(hand)));
+		this.spin(
+			fore,
+			this.dirOf(fore),
+			0.5 * this.twistTo(this.palmOf(side), palm, this.dirOf(hand)),
+		);
 		this.aim(hand, H);
 		this.spin(hand, this.dirOf(hand), this.twistTo(this.palmOf(side), palm, this.dirOf(hand)));
 	}
@@ -235,7 +243,9 @@ export class Rig {
 		n.normalize();
 		const x = (a * a - b * b + d * d) / (2 * d);
 		const h = Math.sqrt(Math.max(0, a * a - x * x));
-		const E = S.clone().addScaledVector(n, x).addScaledVector(pole.clone().projectOnPlane(n).normalize(), h);
+		const E = S.clone()
+			.addScaledVector(n, x)
+			.addScaledVector(pole.clone().projectOnPlane(n).normalize(), h);
 		this.aim(this.B[`${side}Arm`], V().subVectors(E, S));
 		this.aim(this.B[`${side}ForeArm`], V().subVectors(T, E));
 	}

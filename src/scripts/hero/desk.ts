@@ -14,6 +14,7 @@ import {
 } from "three";
 import {
 	CAT_DOWN,
+	CAT_ORDER,
 	CAT_UP,
 	CAT_YAW,
 	type Cat,
@@ -46,6 +47,7 @@ import {
 	V,
 	xf,
 } from "./kit";
+import { LABELS } from "./labels";
 import { boxPts, type Look, makeView, type Stage, type View } from "./view";
 
 const COLS = 23;
@@ -92,7 +94,6 @@ function expand([ind, toks]: readonly [number, string]): Cell[] {
 }
 
 const LINES = CODE.map(expand);
-const CAT_ORDER: Record<CatName, number> = { white: 0, tux: 1 };
 
 interface Hand {
 	off: Vector3;
@@ -165,8 +166,14 @@ export function buildDesk(rig: Rig, stage: Stage): View {
 			}
 			const h = hands[side];
 			const home = HOME[side];
-			const T = home.wrist.clone().add(h.off).addScaledVector(UP, -0.16 * h.dip);
-			const H = home.hand.clone().addScaledVector(UP, -0.1 * h.dip).normalize();
+			const T = home.wrist
+				.clone()
+				.add(h.off)
+				.addScaledVector(UP, -0.16 * h.dip);
+			const H = home.hand
+				.clone()
+				.addScaledVector(UP, -0.1 * h.dip)
+				.normalize();
 			rig.reach(side, T, home.pole);
 			rig.handTo(side, H, DOWN);
 		}
@@ -313,19 +320,33 @@ export function buildDesk(rig: Rig, stage: Stage): View {
 		);
 		add(
 			chair,
-			merge(star.map((a) => [ell(0.6, 0.6, 0.6, 12, 8), xf([Math.sin(a) * 4.9, 0.6, Math.cos(a) * 4.9])])),
+			merge(
+				star.map((a) => [
+					ell(0.6, 0.6, 0.6, 12, 8),
+					xf([Math.sin(a) * 4.9, 0.6, Math.cos(a) * 4.9]),
+				]),
+			),
 			"K",
 			{ line: 0 },
 		);
 		const tree = joint(scene, [TREE.x, 0, TREE.z]);
 		add(tree, rbox(14, 1.1, 14, 0.4), "f", { at: [0, 0.55, 0] });
-		add(tree, limb(1.7, 1.7, TREE.top - 1.3 - 1.1), "h", { at: [0, TREE.top - 1.3, 0], line: 0.06 });
+		add(tree, limb(1.7, 1.7, TREE.top - 1.3 - 1.1), "h", {
+			at: [0, TREE.top - 1.3, 0],
+			line: 0.06,
+		});
 		add(tree, rbox(15, 1.3, 12.5, 0.55), "f", { at: [0, TREE.top - 0.65, 0] });
 		const x0 = TREE.x - 9;
 		const x1 = 18.5;
 		const z0 = Math.min(ROOM.seatZ - 6, TREE.z - 9);
 		const z1 = dz + 10;
-		const rug = { x: (x0 + x1) / 2, z: (z0 + z1) / 2, rx: (x1 - x0) / 2, rz: (z1 - z0) / 2 + 5, rim: 0.35 };
+		const rug = {
+			x: (x0 + x1) / 2,
+			z: (z0 + z1) / 2,
+			rx: (x1 - x0) / 2,
+			rz: (z1 - z0) / 2 + 5,
+			rim: 0.35,
+		};
 		base(scene, rug);
 		rugBorder(scene, rug, 1.2, 2.4);
 		const aimAt = V(0, 16, 8);
@@ -335,9 +356,22 @@ export function buildDesk(rig: Rig, stage: Stage): View {
 		sun.target.position.copy(aimAt);
 		scene.add(sun, sun.target);
 		sun.castShadow = true;
-		Object.assign(sun.shadow.camera, { left: -34, right: 34, top: 34, bottom: -34, near: 20, far: 150 });
+		Object.assign(sun.shadow.camera, {
+			left: -34,
+			right: 34,
+			top: 34,
+			bottom: -34,
+			near: 20,
+			far: 150,
+		});
 		sun.shadow.mapSize.set(1024, 1024);
-		Object.assign(sun.shadow, { radius: 5, blurSamples: 12, bias: -0.0004, normalBias: 0.06, intensity: 0.7 });
+		Object.assign(sun.shadow, {
+			radius: 5,
+			blurSamples: 12,
+			bias: -0.0004,
+			normalBias: 0.06,
+			intensity: 0.7,
+		});
 	}
 
 	const done = LINES.slice(0, 11);
@@ -463,8 +497,7 @@ export function buildDesk(rig: Rig, stage: Stage): View {
 	return {
 		...view,
 		name: "day",
-		label:
-			"Ștefan typing at his desk; his white cat watches from the desk and his tuxedo cat from a cat tree.",
+		label: LABELS.day,
 		pose,
 		still() {
 			Object.assign(st, { yaw: 0.75, pitch: 0.02, head: 0, breath: 0 });
@@ -542,7 +575,10 @@ export function buildDesk(rig: Rig, stage: Stage): View {
 				if (!c) return;
 				fadeCat(c, dt);
 				const lookHands = t > handsAt + i * 0.4 && t < handsAt + 1.6;
-				const [yaw, pitch] = catAim(c, lookHands ? rig.posOf(B.LeftHand) : rig.posOf(B.Head).add(V(0, 2, 0)));
+				const [yaw, pitch] = catAim(
+					c,
+					lookHands ? rig.posOf(B.LeftHand) : rig.posOf(B.Head).add(V(0, 2, 0)),
+				);
 				c.yaw += (clamp(yaw, -CAT_YAW, CAT_YAW) - c.yaw) * kc;
 				c.pitch += (clamp(pitch, -CAT_UP, CAT_DOWN) - c.pitch) * kc;
 				if (t > c.blinkAt) {

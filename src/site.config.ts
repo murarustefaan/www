@@ -8,6 +8,7 @@ export const siteConfig: SiteConfig = {
 		"Senior Software Engineer — Cloud Infrastructure. Technical writing on Kubernetes, platform engineering, and observability.",
 	lang: "en-GB",
 	ogLocale: "en_GB",
+	role: "senior software engineer in Iași, Romania",
 	date: {
 		locale: "en-GB",
 		options: {
@@ -23,10 +24,6 @@ export const menuLinks: Array<{ title: string; path: string }> = [
 	{
 		title: "writing",
 		path: "/blog",
-	},
-	{
-		title: "homelab",
-		path: "/blog/?tag=homelab",
 	},
 	{
 		title: "resume",

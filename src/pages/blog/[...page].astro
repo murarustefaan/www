@@ -24,24 +24,19 @@ interface Props {
 const { page, uniqueTags } = Astro.props;
 ---
 
-<PageLayout meta={{ title: "Blog", description: "Technical writing on infrastructure, DevOps, and cloud-native engineering." }}>
+<PageLayout meta={{ title: "Writing", description: "Technical writing on infrastructure, DevOps, and cloud-native engineering." }}>
 	<div class="max-w-6xl mx-auto py-12 sm:py-20">
 		{/* Header */}
 		<div class="mb-12 px-4 sm:px-6 lg:px-8">
-			<div class="font-mono text-sm text-muted mb-2">
-				$ ls ~/blog
-			</div>
-			<h1 class="text-3xl sm:text-4xl text-text mb-4">Blog Posts</h1>
-			<p class="text-muted">
-				Technical writing on infrastructure, DevOps, and cloud-native engineering.
-			</p>
+			<h1 class="text-3xl sm:text-4xl text-text mb-4">Writing</h1>
+			<p class="text-muted">Notes on Kubernetes, security and my homelab.</p>
 		</div>
 
 		{/* Tag Filter */}
 		<blog-filter>
 			<div class="mb-8 px-4 sm:px-6 lg:px-8">
 				<div class="font-mono text-sm text-muted mb-3 flex items-center gap-2">
-					<span class="text-accent">$</span> grep --tags
+					Filter by tag
 					<button
 						class="clear-btn ml-2 text-xs px-2 py-0.5 bg-card border border-border text-muted rounded hover:border-primary/50 hover:text-text transition-colors items-center gap-1 hidden"
 						type="button"
@@ -97,14 +92,13 @@ const { page, uniqueTags } = Astro.props;
 			{/* Empty state */}
 			<div id="empty-state" class="hidden text-center py-12 px-4">
 				<p class="text-muted font-mono">
-					$ # No posts found matching the selected tags
+					No posts with these tags.
 				</p>
 			</div>
 
 			{/* Post count */}
 			<div class="mt-12 px-4 sm:px-6 lg:px-8 font-mono text-sm text-muted">
-				$ wc -l ~/blog/*.md
-				<div class="text-accent ml-4" id="post-count" aria-live="polite">
+				<div id="post-count" aria-live="polite">
 					{page.data.length} {page.data.length === 1 ? "post" : "posts"}
 				</div>
 			</div>

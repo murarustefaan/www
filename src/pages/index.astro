@@ -46,7 +46,7 @@ const profilePageSchema = {
 };
 ---
 
-<PageLayout meta={{ title: "Home", description: "Ștefan Muraru — Senior Software Engineer at CloudQuery. Technical writing on Kubernetes, Go, cloud infrastructure, and platform engineering." }}>
+<PageLayout meta={{ title: siteConfig.title, description: "Ștefan Muraru — Senior Software Engineer at CloudQuery. Technical writing on Kubernetes, Go, cloud infrastructure, and platform engineering." }}>
 	<JsonLd schema={profilePageSchema} />
 	<div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 		<Hero />
@@ -58,7 +58,7 @@ const profilePageSchema = {
 						<li>
 							<a
 								href={`/blog/${post.id}/`}
-								class="-my-1 block max-w-[36em] py-1 text-title font-[450] decoration-1 underline-offset-3 transition-colors hover:text-primary hover:underline hover:decoration-current/35"
+								class="-my-2.5 block max-w-[36em] py-2.5 text-title text-pretty font-[450] decoration-1 underline-offset-3 transition-colors hover:text-primary hover:underline hover:decoration-current/35"
 							>
 								{post.data.title}
 							</a>

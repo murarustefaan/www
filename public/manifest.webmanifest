@@ -1,7 +1,7 @@
 {
-	"name": "Ștefan MURARU - Engineering Blog",
-	"short_name": "Ștefan MURARU",
-	"description": "Senior Cloud Engineer specializing in Go, NodeJS, Kubernetes and cloud-native architectures. Technical insights and engineering experiences.",
+	"name": "Ștefan Muraru",
+	"short_name": "Ștefan Muraru",
+	"description": "Senior Software Engineer — Cloud Infrastructure. Technical writing on Kubernetes, platform engineering, and observability.",
 	"icons": [
 		{
 			"src": "/favicon.ico",
@@ -20,8 +20,8 @@
 		}
 	],
 	"start_url": "/",
-	"background_color": "#1d1f21",
-	"theme_color": "#2bbc8a",
+	"background_color": "#eeede8",
+	"theme_color": "#eeede8",
 	"display": "standalone",
 	"categories": ["technology", "engineering", "blog"],
 	"lang": "en-GB"

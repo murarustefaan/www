@@ -52,7 +52,8 @@ function teeth() {
 export function rugBorder(parent: Object3D, b: Oval, inset: number, width: number): Mesh {
 	const seg = 384;
 	const rows = width / ROWS;
-	const perimeter = Math.PI * (3 * (b.rx + b.rz) - Math.sqrt((3 * b.rx + b.rz) * (b.rx + 3 * b.rz)));
+	const perimeter =
+		Math.PI * (3 * (b.rx + b.rz) - Math.sqrt((3 * b.rx + b.rz) * (b.rx + 3 * b.rz)));
 	const repeats = Math.round(perimeter / (rows * TOOTH));
 	const pos: number[] = [];
 	const nrm: number[] = [];

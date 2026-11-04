@@ -146,7 +146,7 @@ const searchData = allPosts.map((post) => ({
 			if (filtered.length === 0) {
 				const empty = document.createElement("div");
 				empty.className = "px-4 py-8 text-center text-muted font-mono text-sm";
-				empty.textContent = "$ # No results found";
+				empty.textContent = "No results.";
 				resultsContainer.appendChild(empty);
 				return;
 			}
