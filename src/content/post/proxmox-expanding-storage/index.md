@@ -1,6 +1,6 @@
 ---
 title: "Proxmox cheatsheet: expanding storage"
-description: "This post covers the steps to expand storage by adding an addition disk to a Ubuntu VM in a Proxmox VE server"
+description: "Adding a new disk to an Ubuntu VM on a Proxmox VE server and making it usable inside the VM."
 publishDate: "29 Nov 2023"
 tags: ["homelab", "infrastructure"]
 draft: false
@@ -8,7 +8,7 @@ draft: false
 
 ![Expanding storage](./datacenter.jpeg)
 
-Almost my entire homelab being ran on Proxmox VE, I often run into VMs either requiring persistent storage or, worse, more disk space.
+With almost my entire homelab running on Proxmox VE, I often run into VMs either requiring persistent storage or, worse, more disk space.
 Therefore, in this article we'll explore the process of adding a new disk to a Proxmox virtual machine and making it accessible within the VM.
 
 > The following steps assume that you

@@ -3,21 +3,25 @@ import { ClientRouter } from "astro:transitions";
 import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
 import JsonLd from "@/components/JsonLd.astro";
+import { personRef } from "@/data/person";
 import hankenLatin from "@fontsource-variable/hanken-grotesk/files/hanken-grotesk-latin-wght-normal.woff2?url";
 import martianLatin from "@fontsource-variable/martian-mono/files/martian-mono-latin-wdth-normal.woff2?url";
 import martianLatinExt from "@fontsource-variable/martian-mono/files/martian-mono-latin-ext-wdth-normal.woff2?url";
 import "@fontsource-variable/hanken-grotesk/wght.css";
 import "@fontsource-variable/martian-mono/wdth.css";
 import "@/styles/global.css";
+import pkg from "../../package.json";
 
 type Props = SiteMeta;
 
-const { articleDate, description, ogImage, title } = Astro.props;
+const { articleDate, articleModified, description, imageAlt, noindex, ogImage, readingTime, title } = Astro.props;
 
 const titleSeparator = "•";
 const siteTitle = `${title} ${titleSeparator} ${title === siteConfig.title ? siteConfig.role : siteConfig.title}`;
+const socialTitle = articleDate ? title : siteTitle;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const socialImageURL = new URL(ogImage ? ogImage : "/social-card.png", Astro.url).href;
+const socialImageURL = new URL(`${ogImage ?? "/social-card.png"}?v=${pkg.version}`, Astro.url).href;
+const socialImageAlt = imageAlt ?? `${siteConfig.author}, ${siteConfig.role}`;
 
 const websiteSchema = {
 	"@context": "https://schema.org",
@@ -26,15 +30,7 @@ const websiteSchema = {
 	url: siteConfig.url,
 	description: siteConfig.description,
 	inLanguage: siteConfig.lang,
-	author: {
-		"@type": "Person",
-		name: siteConfig.author,
-		url: siteConfig.url,
-		sameAs: [
-			"https://github.com/murarustefaan",
-			"https://www.linkedin.com/in/murarustefan/",
-		],
-	},
+	author: personRef,
 };
 ---
 
@@ -52,46 +48,56 @@ const websiteSchema = {
 {/* Icons */}
 <link rel="icon" href="/favicon-32x32.png" type="image/png" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/manifest.webmanifest" />
 
-{/* Canonical URL */}
-<link href={canonicalURL} rel="canonical" />
+{noindex ? <meta content="noindex" name="robots" /> : <link href={canonicalURL} rel="canonical" />}
 
 {/* Primary Meta Tags */}
-<meta content={siteTitle} name="title" />
 <meta content={description} name="description" />
 <meta content={siteConfig.author} name="author" />
 
 {/* Open Graph / Facebook */}
 <meta content={articleDate ? "article" : "website"} property="og:type" />
-<meta content={title} property="og:title" />
+<meta content={socialTitle} property="og:title" />
 <meta content={description} property="og:description" />
-<meta content={canonicalURL} property="og:url" />
+{!noindex && <meta content={canonicalURL} property="og:url" />}
 <meta content={siteConfig.title} property="og:site_name" />
 <meta content={siteConfig.ogLocale} property="og:locale" />
 <meta content={socialImageURL} property="og:image" />
+<meta content="image/png" property="og:image:type" />
 <meta content="1200" property="og:image:width" />
 <meta content="630" property="og:image:height" />
+<meta content={socialImageAlt} property="og:image:alt" />
 {
 	articleDate && (
 		<>
-			<meta content={siteConfig.author} property="article:author" />
+			<meta content={siteConfig.url} property="article:author" />
 			<meta content={articleDate} property="article:published_time" />
+			{articleModified && <meta content={articleModified} property="article:modified_time" />}
 		</>
 	)
 }
 
 {/* Twitter */}
-<meta content="summary_large_image" property="twitter:card" />
-<meta content={canonicalURL} property="twitter:url" />
-<meta content={title} property="twitter:title" />
-<meta content={description} property="twitter:description" />
-<meta content={socialImageURL} property="twitter:image" />
+<meta content="summary_large_image" name="twitter:card" />
+<meta content={socialTitle} name="twitter:title" />
+<meta content={description} name="twitter:description" />
+<meta content={socialImageURL} name="twitter:image" />
+<meta content={socialImageAlt} name="twitter:image:alt" />
+{
+	readingTime && (
+		<>
+			<meta content="Reading time" name="twitter:label1" />
+			<meta content={readingTime} name="twitter:data1" />
+		</>
+	)
+}
 
 {/* Sitemap */}
 <link href="/sitemap-index.xml" rel="sitemap" />
 
 {/* RSS auto-discovery */}
-<link href="/rss.xml" title="Blog" rel="alternate" type="application/rss+xml" />
+<link href="/rss.xml" title={siteConfig.title} rel="alternate" type="application/rss+xml" />
 
 <meta content={Astro.generator} name="generator" />
 

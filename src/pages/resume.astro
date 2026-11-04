@@ -1,49 +1,24 @@
 ---
-import PageLayout from "@/layouts/Base.astro";
+import { statSync } from "node:fs";
+import { join } from "node:path";
 import JsonLd from "@/components/JsonLd.astro";
+import SocialList from "@/components/SocialList.astro";
+import { profilePage, resumeKnowsAbout } from "@/data/person";
+import { socialLinks } from "@/data/social";
+import PageLayout from "@/layouts/Base.astro";
 import { siteConfig } from "@/site.config";
 
-const personSchema = {
-	"@context": "https://schema.org",
-	"@type": "Person",
-	name: siteConfig.author,
-	url: siteConfig.url,
-	jobTitle: "Team Lead",
-	email: "hello@stefanmuraru.com",
-	worksFor: {
-		"@type": "Organization",
-		name: "env zero",
-		alternateName: "env0",
-		url: "https://www.envzero.com",
-	},
-	knowsAbout: [
-		"Kubernetes",
-		"Go",
-		"TypeScript",
-		"Terraform",
-		"Cloud Infrastructure",
-		"Platform Engineering",
-		"Observability",
-		"Docker",
-		"AWS",
-		"Google Cloud Platform",
-		"GraphQL",
-		"OAuth 2.0",
-		"OpenID Connect",
-		"Argo CD",
-		"Helm",
-		"Kustomize",
-		"GitHub Actions",
-		"CI/CD",
-		"Kubernetes Operators",
-		"RabbitMQ",
-		"Prometheus",
-		"Elastic Stack",
-		"MongoDB",
-		"Redis",
-		"Node.js",
-	],
-};
+const resumeSchema = profilePage(new URL("/resume/", siteConfig.url).href, resumeKnowsAbout);
+const pdfSize = Math.round(statSync(join(process.cwd(), "public/resume.pdf")).size / 1024);
+
+const socialHref = (label: string) => socialLinks.find((link) => link.label === label)?.href ?? siteConfig.url;
+const printContacts: Array<{ label: string; href?: string }> = [
+	{ label: siteConfig.role.charAt(0).toUpperCase() + siteConfig.role.slice(1) },
+	...[socialHref("email"), siteConfig.url, socialHref("github"), socialHref("linkedin")].map((href) => ({
+		href,
+		label: href.replace(/^(mailto:|https?:\/\/(www\.)?)/, "").replace(/\/$/, ""),
+	})),
+];
 
 interface Role {
 	title: string;
@@ -56,7 +31,6 @@ interface Experience {
 	company: string;
 	note?: string;
 	period: string;
-	catPath: string;
 	description: string;
 	roles: [Role, ...Role[]];
 	details?: string[];
@@ -69,16 +43,15 @@ const experiences: Experience[] = [
 		company: "env zero (env0)",
 		note: "CloudQuery and env zero merged in Mar 2026",
 		period: "Apr 2024 – Present",
-		catPath: "~/experience/envzero/team-lead.atlas.txt",
 		description:
-			"Lead the Atlas team at env zero. Before the merger, led CloudQuery's Integrations team, responsible for the open-source CLI, the plugin SDK and the plugins built on it.",
+			"Lead the Atlas team at env zero. Before the merger, led CloudQuery’s Integrations team, responsible for the open-source CLI, the plugin SDK and the plugins built on it.",
 		roles: [
 			{
 				title: "Team Lead, Atlas",
 				period: "Mar 2026 – Present",
 				details: [
-					"Lead a team of four engineers. Teams at env zero aren't tied to one area of the product, so Atlas takes on projects anywhere in the codebase.",
-					"Most code is now written with AI coding agents, so a large part of the role is building those agents and reviewing their work.",
+					"Lead a team of four engineers that takes on projects across the whole env zero codebase rather than owning one area of the product.",
+					"Build and tune the AI coding agents the team uses day to day, and review the code they produce.",
 					"Mentor engineers on the team, take part in hiring and share the on-call rotation.",
 				],
 			},
@@ -87,12 +60,16 @@ const experiences: Experience[] = [
 				org: "CloudQuery",
 				period: "May 2024 – Mar 2026",
 				details: [
-					"Led a team of four engineers responsible for building and supporting CloudQuery's plugins. The team began as Framework and Plugins and was later renamed Integrations.",
-					"Lead maintainer of CloudQuery's open-source CLI, plugin SDK and code generator (6.5k+ GitHub stars).",
+					"Joined in Apr 2024 as a Senior Software Engineer on the Framework and Plugins team and took over as team lead in May 2024. The team was later renamed Integrations.",
+					"Led a team of four engineers responsible for building and supporting CloudQuery’s plugins.",
+					"Mentored engineers, took part in hiring and shared the on-call rotation.",
+					"The team owned its features from idea through implementation to monitoring and worked closely with the solutions team.",
+					"Lead maintainer of CloudQuery’s open-source CLI, plugin SDK and code generator (6.5k+ GitHub stars).",
 					"Built new source plugins for Wiz, Tenable and Plaid in response to customer demand.",
+					"The team’s partner validation with Wiz, Tenable and Snowflake led to listings on their marketplaces.",
+					"The team ran an in-house Kubernetes operator that schedules syncs and manages their lifecycle.",
 					"Extended the core SDK with per-table sync usage tracking and support for additional data types.",
 					"Added resources and fixed bugs across the AWS, GCP, GitHub and Snyk plugins.",
-					"Mentored engineers, took part in hiring and was part of the on-call rotation.",
 				],
 			},
 		],
@@ -101,26 +78,24 @@ const experiences: Experience[] = [
 	{
 		company: "Kubeshop",
 		period: "Dec 2022 – Mar 2024",
-		catPath: "~/experience/kubeshop/senior-cloud.monokle.txt",
 		description:
-			"Ran the infrastructure for Monokle Cloud and designed and built its authentication, microservices and GraphQL APIs.",
+			"Ran the infrastructure for Monokle Cloud, and designed and built its authentication, microservices and GraphQL APIs.",
 		roles: [{ title: "Senior Cloud Engineer" }],
 		details: [
-			"Cut cloud costs by over 60% while applying standard security and reliability practices.",
+			"Cut cloud costs by more than 60% while applying standard security and reliability practices.",
 			"Set up OAuth 2.0 and OpenID Connect: deployed and configured a self-hosted authorization server and implemented the Authorization Code, Client Credentials and Device Code flows.",
-			"Built a high-throughput API that streams repositories from multiple Git providers, through their APIs or over SSH / HTTPS.",
+			"Built a high-throughput API that streams repositories from GitHub, GitLab and Bitbucket, through their APIs or over SSH or HTTPS.",
 			"Wrote the GitHub Actions workflows, Helm charts and Kustomizations deployed with Argo CD for end-to-end CI/CD.",
 			"Cut build times by more than 80% and image sizes by an order of magnitude with GitHub Actions concurrency and caching, multi-stage Docker builds and distroless images.",
-			"On-call for production.",
+			"Was on call for production.",
 		],
 		logo: "/logos/kubeshop.png",
 	},
 	{
 		company: "Bitdefender",
 		period: "Oct 2018 – Dec 2022",
-		catPath: "~/experience/bitdefender/staff.platform.txt",
 		description:
-			"Worked on an internal platform that took developers' and ML researchers' code from build through testing and staging environments to production.",
+			"Worked on Console, an internal platform that took developers’ and ML researchers’ code from build through testing and staging environments to production, across multiple Kubernetes clusters on public and private clouds.",
 		roles: [
 			{ title: "Staff Engineer", period: "Apr 2021 – Dec 2022" },
 			{ title: "Senior Cloud Engineer", period: "Oct 2018 – Apr 2021" },
@@ -128,16 +103,15 @@ const experiences: Experience[] = [
 		details: [
 			"Wrote Kubernetes operators for RabbitMQ, Prometheus and the Elastic Stack, covering HA clustering, sharding and similar operations, so they could be offered as managed services.",
 			"Designed and built a hardware and software inventory system that helped the company pass a SOC 2 audit within a couple of months and replaced a paid alternative.",
-			"Designed and built a highly available, multi-region mail templating gateway that sends customer emails on behalf of Bitdefender products.",
-			"Worked on infrastructure and Kubernetes deployments across GCP, AWS and on-premise, and on migrating MongoDB, RabbitMQ, Redis and Elastic Stack from VMs to Kubernetes, including replication, scaling and OAuth 2.0 authentication.",
-			"Mentoring, hiring and on-call.",
+			"Designed and built a highly available mail templating gateway that sends customer emails on behalf of Bitdefender products from 7 regional data centres on 4 continents.",
+			"Worked on infrastructure and Kubernetes deployments across GCP, AWS and on-premises, and on migrating MongoDB, RabbitMQ, Redis and the Elastic Stack from VMs to Kubernetes, including replication, scaling and OAuth 2.0 authentication.",
+			"Mentored engineers, took part in hiring and shared the on-call rotation.",
 		],
 		logo: "/logos/bitdefender.jpg",
 	},
 	{
 		company: "Yonder",
 		period: "Mar 2017 – Oct 2018",
-		catPath: "~/experience/yonder/engineer.gis-warehouse.txt",
 		description: "Worked on a data warehouse and GIS mapping project used by government entities.",
 		roles: [{ title: "Software Engineer" }],
 		details: [
@@ -154,42 +128,59 @@ const earlier = [
 	{ company: "Yonder", role: "Junior Software Developer", period: "Apr 2016 – Jul 2016" },
 ];
 
+const education =
+	"Master’s in Distributed Systems (2018 – 2020) and Bachelor’s in Information Technology (2014 – 2018), “Gheorghe Asachi” Technical University of Iași";
+
+const technologies =
+	"Go, TypeScript, Node.js · Kubernetes, Docker, Terraform, Helm, Kustomize, Argo CD, GitHub Actions · AWS, GCP, Cloudflare · MongoDB, PostgreSQL, Redis, Elasticsearch, RabbitMQ · Prometheus, Loki, Grafana";
 ---
 
 <PageLayout
 	meta={{
 		title: "Resume",
 		description:
-			"Ștefan Muraru's resume: team lead at env zero, previously CloudQuery, Kubeshop, Bitdefender and Yonder.",
+			"Ștefan Muraru’s resume: engineering team lead at env zero, previously at CloudQuery, Kubeshop, Bitdefender and Yonder.",
 	}}
 >
-	<JsonLd schema={personSchema} />
+	<JsonLd schema={resumeSchema} />
 
-	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
-		{/* Header */}
-		<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4">
+	<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 print:max-w-none print:p-0 print:text-[13px]">
+		<div class="hidden print:block mb-8">
+			<p class="font-mono text-section">{siteConfig.author}</p>
+			<p class="mt-2 font-mono text-meta text-muted">
+				{
+					printContacts.map(({ label, href }, i) => (
+						<>
+							{i > 0 && " · "}
+							{href ? <a href={href}>{label}</a> : label}
+						</>
+					))
+				}
+			</p>
+		</div>
+
+		<div class="print:hidden flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-6">
 			<div>
-				<div class="font-mono text-sm text-muted mb-2">
-					$ ls ~/experience
-				</div>
-				<h1 class="text-3xl sm:text-4xl text-text">Career Timeline</h1>
+				<h1 class="text-3xl sm:text-4xl text-text">Resume</h1>
+				<SocialList class="mt-4" />
 			</div>
 
 			<a
 				href="/resume.pdf"
-				class="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded text-accent hover:border-accent/50 transition-colors font-mono text-sm"
+				download="Stefan-Muraru-Resume.pdf"
+				type="application/pdf"
+				class="inline-flex min-h-11 items-center gap-2 px-4 py-2 bg-card border border-border rounded text-accent hover:border-accent/50 transition-colors font-mono text-sm"
 			>
-				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-				<span>$ wget resume.pdf</span>
+				<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+				<span>Download PDF</span>
+				<span class="text-muted">PDF, {pdfSize} KB</span>
 			</a>
 		</div>
 
-		{/* Timeline */}
 		<div class="relative">
-			{/* Vertical line */}
-			<div class="absolute left-0 sm:left-4 top-0 bottom-0 w-px bg-border" />
+			<div class="absolute left-0 sm:left-4 top-0 bottom-0 w-px bg-border print:hidden" />
 
-			<div class="space-y-8 sm:space-y-12">
+			<div class="space-y-8 sm:space-y-12 print:space-y-6">
 				{experiences.map((exp, index) => {
 					const sections = [
 						...(exp.details ? [{ heading: undefined, items: exp.details }] : []),
@@ -198,99 +189,105 @@ const earlier = [
 							.map((role) => ({ heading: role, items: role.details! })),
 					];
 					const expandable = sections.length > 0;
+					const roleSections = exp.roles.some((role) => role.details);
+					const detailsId = `resume-details-${index}`;
+					const heading = (
+						<>
+							<span class="text-primary">{exp.company}</span>
+							<span class="text-muted"> · </span>
+							<span class="text-text">{exp.roles[0].title}</span>
+						</>
+					);
 
 					return (
-						<div class="relative pl-8 sm:pl-16">
-							{/* Dot marker */}
-							<div class="absolute left-0 sm:left-4 top-1 -translate-x-1/2 w-3 h-3 rounded-full bg-bg border-2 border-primary" />
+						<div class="relative pl-6 sm:pl-16 print:pl-0 print:break-inside-avoid">
+							<div class="absolute left-0 sm:left-4 top-1 -translate-x-1/2 w-3 h-3 rounded-full bg-bg border-2 border-primary print:hidden" />
 
-							<resume-card>
-								<div
-									class="group bg-card border border-border rounded-lg p-6 hover:border-primary/30 transition-all"
-									data-index={index}
-									role={expandable ? "button" : undefined}
-									tabindex={expandable ? 0 : undefined}
-									aria-expanded={expandable ? "false" : undefined}
-									class:list={[expandable && "cursor-pointer select-none"]}
-								>
-									<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 gap-2">
-										<div class="flex items-center gap-3">
-											{/* Company logo */}
-											<div
-												class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 p-1.5 overflow-hidden"
-											>
+							<resume-card class="block">
+								<div class="group relative bg-card border border-border rounded-lg p-4 sm:p-6 hover:border-primary/30 transition-colors print:p-0 print:border-0 print:bg-transparent">
+									<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 gap-2 print:flex-row print:justify-between">
+										<div class="flex items-start gap-3">
+											<div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 p-1.5 overflow-hidden print:hidden">
 												{exp.logo ? (
-													<img src={exp.logo} alt={`${exp.company} logo`} class="w-full h-full object-contain" />
+													<img src={exp.logo} alt="" class="w-full h-full object-contain" />
 												) : (
 													<span class="font-mono text-sm text-primary" aria-hidden="true">{exp.monogram}</span>
 												)}
 											</div>
 
 											<div>
-												<h3 class="text-lg text-text">
-													<span class="text-primary">{exp.company}</span>
-													<span class="text-muted"> · </span>
-													<span class="text-text">{exp.roles[0].title}</span>
-												</h3>
+												<h2 class="text-lg text-text">
+													{expandable ? (
+														<button
+															type="button"
+															aria-expanded="false"
+															aria-controls={detailsId}
+															class="cursor-pointer text-left after:absolute after:inset-0 after:rounded-lg focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-4 focus-visible:after:outline-mark"
+														>
+															{heading}
+														</button>
+													) : (
+														heading
+													)}
+												</h2>
 												{exp.note && <p class="font-mono text-meta text-muted">{exp.note}</p>}
 											</div>
 										</div>
 
-										<div class="flex items-center gap-2">
-											<div class="font-mono text-xs sm:text-sm text-muted whitespace-nowrap">
-												{exp.period}
-											</div>
-											{expandable && <svg class="chevron-icon text-muted w-[18px] h-[18px] transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>}
+										<div class="font-mono text-xs sm:text-sm text-muted sm:text-right print:text-right">
+											<div class="whitespace-nowrap">{exp.period}</div>
 										</div>
 									</div>
 
-									{exp.description && <p class="text-muted leading-relaxed">
+									{exp.description && <p class="text-muted leading-relaxed print:leading-snug">
 										{exp.description}
 									</p>}
 
-									{/* Titles held, newest first */}
 									{exp.roles.length > 1 && (
-										<ol class="mt-4 space-y-1.5 font-mono text-meta">
+										<ol class:list={["mt-4 space-y-1.5 font-mono text-meta", roleSections && "print:hidden"]}>
 											{exp.roles.map((role, i) => (
-												<li class="flex flex-col sm:flex-row sm:justify-between gap-x-4">
+												<li class="flex flex-col sm:flex-row sm:justify-between gap-x-4 print:block">
 													<span class:list={[i === 0 ? "text-text" : "text-muted"]}>
 														<span class="text-primary" aria-hidden="true">{i === 0 ? "● " : "○ "}</span>
 														{role.title}
 														{role.org && <span class="text-muted"> · {role.org}</span>}
 													</span>
-													<span class="text-muted whitespace-nowrap">{role.period}</span>
+													<span class="text-muted whitespace-nowrap">
+														<span class="hidden print:inline"> · </span>
+														{role.period}
+													</span>
 												</li>
 											))}
 										</ol>
 									)}
 
-									{/* Expand hint */}
 									{expandable && (
-										<div class="expand-hint mt-6 flex items-center gap-2 font-mono text-xs text-muted/70 group-hover:text-muted transition-colors">
-											<span class="min-w-0 break-all">$ cat {exp.catPath}</span>
-											<span class="px-1.5 py-0.5 bg-secondary border border-border rounded text-[10px] text-muted leading-none group-hover:border-primary/30 group-hover:text-text transition-colors">enter</span>
+										<div
+											class="mt-6 flex items-center gap-2 font-mono text-xs text-muted group-hover:text-text transition-colors print:hidden"
+											aria-hidden="true"
+										>
+											<span class="group-has-[[aria-expanded=true]]:hidden">Show details</span>
+											<span class="hidden group-has-[[aria-expanded=true]]:inline">Hide details</span>
+											<svg class="w-[18px] h-[18px] transition-transform group-has-[[aria-expanded=true]]:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
 										</div>
 									)}
 
-									{/* Expandable details */}
 									{expandable && (
-										<div class="details hidden mt-3 pt-3 border-t border-border">
-											<div class="font-mono text-xs text-accent mb-3 break-all">
-												$ cat {exp.catPath}
-											</div>
-											<div class="space-y-5">
+										<div id={detailsId} class="details hidden relative z-10 mt-3 pt-3 border-t border-border print:block print:mt-2 print:pt-0 print:border-0">
+											<div class="space-y-5 print:space-y-3">
 												{sections.map((section) => (
 													<div>
 														{section.heading && exp.roles.length > 1 && (
-															<h4 class="font-mono text-meta text-text mb-2">
+															<h3 class="font-mono text-meta text-text mb-2">
 																{section.heading.title}
+																{section.heading.org && <span class="text-muted"> · {section.heading.org}</span>}
 																<span class="text-muted"> · {section.heading.period}</span>
-															</h4>
+															</h3>
 														)}
-														<ul class="space-y-2">
+														<ul class="space-y-2 print:space-y-1">
 															{section.items.map((detail) => (
-																<li class="text-muted leading-relaxed flex gap-2">
-																	<span class="text-primary flex-shrink-0">›</span>
+																<li class="text-muted leading-relaxed flex gap-2 print:leading-snug">
+																	<span class="text-primary flex-shrink-0" aria-hidden="true">›</span>
 																	<span>{detail}</span>
 																</li>
 															))}
@@ -306,19 +303,18 @@ const earlier = [
 					);
 				})}
 
-				{/* Pre-2017 roles, folded into one line */}
-				<div class="relative pl-8 sm:pl-16">
-					<div class="absolute left-0 sm:left-4 top-1.5 -translate-x-1/2 w-2 h-2 rounded-full bg-border" />
+				<div class="relative pl-6 sm:pl-16 print:pl-0">
+					<div class="absolute left-0 sm:left-4 top-1.5 -translate-x-1/2 w-2 h-2 rounded-full bg-border print:hidden" />
 					<p class="font-mono text-meta text-muted">
 						Earlier: {earlier.map((job) => `${job.role}, ${job.company} (${job.period})`).join(" · ")}
 					</p>
 				</div>
 			</div>
+		</div>
 
-			{/* Terminal end marker */}
-			<div class="mt-12 pl-8 sm:pl-16 font-mono text-sm text-muted">
-				$ # End of timeline
-			</div>
+		<div class="mt-12 pl-6 sm:pl-16 space-y-2 font-mono text-meta text-muted print:mt-6 print:pl-0 print:break-inside-avoid">
+			<p>Education: {education}</p>
+			<p>Technologies: {technologies}</p>
 		</div>
 	</div>
 </PageLayout>
@@ -326,26 +322,15 @@ const earlier = [
 <script>
 	class ResumeCard extends HTMLElement {
 		connectedCallback() {
-			const card = this.querySelector<HTMLDivElement>("[data-index]")!;
-			const details = this.querySelector<HTMLDivElement>(".details");
-			const chevron = this.querySelector<SVGElement>(".chevron-icon");
-			const hint = this.querySelector<HTMLDivElement>(".expand-hint");
+			const button = this.querySelector<HTMLButtonElement>("button[aria-controls]");
+			const details = button && this.querySelector<HTMLElement>(`#${button.getAttribute("aria-controls")}`);
 
-			if (!details || !chevron) return;
+			if (!button || !details) return;
 
-			const toggle = () => {
-				const isHidden = details.classList.toggle("hidden");
-				chevron.style.transform = isHidden ? "" : "rotate(180deg)";
-				card.setAttribute("aria-expanded", String(!isHidden));
-				if (hint) hint.classList.toggle("hidden", !isHidden);
-			};
-
-			card.addEventListener("click", toggle);
-			card.addEventListener("keydown", (e) => {
-				if (e.key === "Enter" || e.key === " ") {
-					e.preventDefault();
-					toggle();
-				}
+			button.addEventListener("click", () => {
+				const expanded = button.getAttribute("aria-expanded") !== "true";
+				button.setAttribute("aria-expanded", String(expanded));
+				details.classList.toggle("hidden", !expanded);
 			});
 		}
 	}

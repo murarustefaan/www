@@ -12,10 +12,10 @@ const toc = generateToc(headings);
 ---
 
 <details open class="lg:sticky lg:top-20 lg:order-2 lg:-me-32 lg:basis-72 lg:shrink-0">
-	<summary class="cursor-pointer text-sm font-mono text-muted hover:text-text transition-colors">
+	<summary class="-my-3 cursor-pointer py-3 text-sm font-mono text-muted hover:text-text transition-colors">
 		Contents
 	</summary>
-	<nav class="ms-4 mt-3 relative pl-4" id="toc-nav">
+	<nav class="ms-4 mt-3 relative pl-4" id="toc-nav" aria-label="Table of contents">
 		{/* Static border */}
 		<div class="absolute left-0 top-0 bottom-0 w-px bg-border" aria-hidden="true" />
 		{/* Sliding active indicator */}

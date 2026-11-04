@@ -5,10 +5,10 @@ export const siteConfig: SiteConfig = {
 	author: "Ștefan Muraru",
 	title: "Ștefan Muraru",
 	description:
-		"Team Lead at env zero — Cloud Infrastructure. Technical writing on Kubernetes, platform engineering, and observability.",
+		"Ștefan Muraru, engineering team lead at env zero. Notes on Kubernetes, security and running a homelab.",
 	lang: "en-GB",
 	ogLocale: "en_GB",
-	role: "engineering team lead in Iași, Romania",
+	role: "engineering team lead",
 	date: {
 		locale: "en-GB",
 		options: {
@@ -23,11 +23,11 @@ export const siteConfig: SiteConfig = {
 export const menuLinks: Array<{ title: string; path: string }> = [
 	{
 		title: "writing",
-		path: "/blog",
+		path: "/blog/",
 	},
 	{
 		title: "resume",
-		path: "/resume",
+		path: "/resume/",
 	},
 ];
 

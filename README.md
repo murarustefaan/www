@@ -1,12 +1,12 @@
 # stefanmuraru.com
 
-Personal website and blog built with [Astro](https://astro.build), featuring a terminal/CLI-inspired dark theme.
+Personal website and blog of Ștefan Muraru, built with [Astro](https://astro.build).
 
 ## Stack
 
-- **Framework** — [Astro 5](https://astro.build) (SSG, zero client JS where possible)
+- **Framework** — [Astro 7](https://astro.build) (SSG, zero client JS where possible)
 - **Styling** — [Tailwind CSS 4](https://tailwindcss.com)
-- **Typography** — JetBrains Mono (headings, code) · Inter (body)
+- **Typography** — Martian Mono (headings, code) · Hanken Grotesk (body)
 - **Content** — Markdown & [MDX](https://mdxjs.com) via Astro Content Collections
 - **Code blocks** — [Expressive Code](https://expressive-code.com)
 - **Deployment** — Docker (nginx) / any static host
@@ -15,7 +15,7 @@ Personal website and blog built with [Astro](https://astro.build), featuring a t
 
 | Route | Description |
 | :--- | :--- |
-| `/` | Home — intro, recent posts, decorative terminal block |
+| `/` | Home: intro, 3D desk scene, recent posts |
 | `/resume` | Career timeline with expandable details |
 | `/blog` | Blog listing |
 | `/blog/[slug]` | Individual post |

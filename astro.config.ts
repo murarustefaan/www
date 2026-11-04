@@ -18,11 +18,6 @@ import { expressiveCodeOptions, siteConfig } from "./src/site.config";
 export default defineConfig({
 	site: siteConfig.url,
 	compressHTML: true,
-	redirects: {
-		"/about": "/resume",
-		"/posts": "/blog",
-		"/posts/[...slug]": "/blog/[...slug]",
-	},
 	integrations: [
 		expressiveCode(expressiveCodeOptions),
 		sitemap(),

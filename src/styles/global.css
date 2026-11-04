@@ -44,6 +44,53 @@
 	}
 }
 
+@media print {
+	:root {
+		--color-bg: #ffffff;
+		--color-text: #1c1b1a;
+		--color-card: #ffffff;
+		--color-border: #cfccc4;
+		--color-primary: #ab1d2e;
+		--color-accent: #ab1d2e;
+		--color-mark: #ab1d2e;
+		--color-muted: #5c5953;
+		--color-secondary: #e2e0d8;
+		--color-destructive: #b42318;
+		--color-warn: #8a4b08;
+		color-scheme: light;
+	}
+
+	@page {
+		size: A4;
+		margin: 14mm 16mm;
+	}
+
+	body > header,
+	body > footer,
+	#to-top-btn,
+	a[href="#main"],
+	dialog {
+		display: none;
+	}
+
+	h1,
+	h2,
+	h3 {
+		break-after: avoid;
+	}
+
+	li,
+	p {
+		break-inside: avoid;
+		orphans: 3;
+		widows: 3;
+	}
+
+	a {
+		text-decoration: none;
+	}
+}
+
 @layer base {
 	html {
 		color-scheme: light dark;
