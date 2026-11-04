@@ -1,5 +1,13 @@
 # Changelog
 
+## [2026.13.1](https://github.com/murarustefaan/www/compare/v2026.13.0...v2026.13.1) (2026-11-04)
+
+
+### Bug Fixes
+
+* **docker:** copy pnpm-workspace.yaml into the image build ([6d93b54](https://github.com/murarustefaan/www/commit/6d93b548c9a92203367b640422c8b2b69bd256da))
+* Repair image build and tidy CI ([ba8a3c4](https://github.com/murarustefaan/www/commit/ba8a3c456c6840176018992dad846ab8a796a827))
+
 ## [2026.13.0](https://github.com/murarustefaan/www/compare/v2026.12.3...v2026.13.0) (2026-06-03)
 
 
