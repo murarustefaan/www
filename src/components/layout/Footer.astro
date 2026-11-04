@@ -6,7 +6,7 @@ const year = new Date().getFullYear();
 const isHome = Astro.url.pathname === "/";
 ---
 
-<footer class="mt-24 border-t border-border">
+<footer class="mt-24 border-t border-border print:hidden">
 	<div
 		class="mx-auto flex max-w-6xl flex-wrap items-baseline justify-between gap-x-8 gap-y-4 px-4 py-10 font-mono text-meta text-muted sm:px-6 lg:px-8"
 	>
@@ -22,7 +22,7 @@ const isHome = Astro.url.pathname === "/";
 						</li>
 					))
 				}
-				<li><a href="/rss.xml" class="link">rss</a></li>
+				<li><a href="/rss.xml" class="link -mx-2 px-2">rss</a></li>
 			</ul>
 			{!isHome && <SocialList />}
 		</div>

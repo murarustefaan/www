@@ -3,14 +3,14 @@ import { menuLinks } from "@/site.config";
 
 const currentPath = Astro.url.pathname;
 const isCurrent = (path: string) =>
-	!path.includes("?") && (currentPath === path || currentPath.startsWith(`${path}/`));
+	!path.includes("?") && currentPath.startsWith(path);
 ---
 
-<header>
+<header class="print:hidden">
 	<div
 		class="mx-auto flex max-w-6xl flex-wrap items-baseline justify-between gap-x-5 gap-y-7 px-4 sm:gap-y-1 py-6 font-mono text-meta sm:px-6 lg:px-8"
 	>
-		<a href="/" class="-my-3 py-3 transition-colors hover:text-primary">
+		<a href="/" class="-my-3.5 py-3.5 transition-colors hover:text-primary">
 			<span class="text-mark" aria-hidden="true">x</span> ștefan muraru
 		</a>
 		<nav aria-label="Main">

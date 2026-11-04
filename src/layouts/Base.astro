@@ -26,13 +26,13 @@ const faroConfig = {
 };
 
 const {
-	meta: { articleDate, description = siteConfig.description, ogImage, title },
+	meta: { description = siteConfig.description, ...rest },
 } = Astro.props;
 ---
 
-<html class="scroll-smooth" lang={siteConfig.lang}>
+<html class="motion-safe:scroll-smooth" lang={siteConfig.lang}>
 	<head>
-		<BaseHead title={title} description={description} ogImage={ogImage} articleDate={articleDate} />
+		<BaseHead {...rest} description={description} />
 
 		<script
 			defer

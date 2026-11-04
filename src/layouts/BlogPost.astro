@@ -5,7 +5,7 @@ import Masthead from "@/components/blog/Masthead.astro";
 import RelatedPosts from "@/components/blog/RelatedPosts.astro";
 import TOC from "@/components/blog/TOC.astro";
 import JsonLd from "@/components/JsonLd.astro";
-import { siteConfig } from "@/site.config";
+import { personRef } from "@/data/person";
 
 import BaseLayout from "./Base.astro";
 
@@ -18,13 +18,13 @@ interface Props {
 const { post, prevPost, nextPost } = Astro.props;
 const { ogImage, title, description, updatedDate, publishDate, tags } = post.data;
 const socialImage = ogImage ?? `/og-image/${post.id}.png`;
-const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
+const articleDate = publishDate.toISOString();
+const articleModified = updatedDate?.toISOString();
 const { headings, remarkPluginFrontmatter } = await render(post);
 const readingTime: string = remarkPluginFrontmatter.readingTime;
+const wordCount: number | undefined = remarkPluginFrontmatter.wordCount;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
 const socialImageURL = new URL(socialImage, Astro.url).href;
-
-const wordCount = readingTime.match(/(\d+)/)?.[1];
 
 const blogPostingSchema = {
 	"@context": "https://schema.org",
@@ -33,19 +33,11 @@ const blogPostingSchema = {
 	description,
 	url: canonicalURL,
 	image: socialImageURL,
-	datePublished: publishDate.toISOString(),
-	...(updatedDate && { dateModified: updatedDate.toISOString() }),
-	...(wordCount && { wordCount: Number(wordCount) }),
-	author: {
-		"@type": "Person",
-		name: siteConfig.author,
-		url: siteConfig.url,
-	},
-	publisher: {
-		"@type": "Person",
-		name: siteConfig.author,
-		url: siteConfig.url,
-	},
+	datePublished: articleDate,
+	dateModified: articleModified ?? articleDate,
+	...(wordCount && { wordCount }),
+	author: personRef,
+	publisher: personRef,
 	...(tags?.length && { keywords: tags.join(", ") }),
 	mainEntityOfPage: {
 		"@type": "WebPage",
@@ -57,8 +49,11 @@ const blogPostingSchema = {
 <BaseLayout
 	meta={{
 		articleDate,
+		articleModified,
 		description,
+		imageAlt: title,
 		ogImage: socialImage,
+		readingTime,
 		title,
 	}}
 >
@@ -73,10 +68,10 @@ const blogPostingSchema = {
 		{/* Back link */}
 		<a
 			href="/blog/"
-			class="inline-flex items-center gap-2 text-muted hover:text-primary transition-colors mb-8 font-mono text-sm"
+			class="inline-flex min-h-11 items-center gap-2 text-muted hover:text-primary transition-colors mb-8 font-mono text-sm"
 		>
 			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-			<span>All writing</span>
+			<span>all writing</span>
 		</a>
 
 		<article class="grow break-words">
@@ -96,7 +91,7 @@ const blogPostingSchema = {
 		<RelatedPosts currentPost={post} />
 
 		{/* Post navigation */}
-		<nav class="mt-16 pt-8 border-t border-border">
+		<nav aria-label="Post navigation" class="mt-16 pt-8 border-t border-border">
 			<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 				{prevPost ? (
 					<a
@@ -119,17 +114,17 @@ const blogPostingSchema = {
 			</div>
 			<a
 				href="/blog/"
-				class="inline-flex items-center gap-2 text-muted hover:text-primary transition-colors font-mono text-sm mt-6"
+				class="inline-flex min-h-11 items-center gap-2 text-muted hover:text-primary transition-colors font-mono text-sm mt-6"
 			>
 				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-				<span>All writing</span>
+				<span>all writing</span>
 			</a>
 		</nav>
 	</div>
 
 	{/* Scroll to top */}
 	<button
-		class="z-90 fixed bottom-8 end-4 flex h-10 w-10 translate-y-28 cursor-pointer items-center justify-center rounded-full border border-border bg-card text-muted opacity-0 transition-all duration-300 hover:border-primary hover:text-primary data-[show=true]:translate-y-0 data-[show=true]:opacity-100 sm:end-8 sm:h-12 sm:w-12"
+		class="print:hidden z-90 fixed bottom-8 end-4 flex h-10 w-10 translate-y-28 cursor-pointer items-center justify-center rounded-full border border-border bg-card text-muted opacity-0 transition-all duration-300 hover:border-primary hover:text-primary data-[show=true]:translate-y-0 data-[show=true]:opacity-100 sm:end-8 sm:h-12 sm:w-12"
 		data-show="false"
 		id="to-top-btn"
 	>

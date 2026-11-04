@@ -1,21 +1,16 @@
 {
 	"name": "Ștefan Muraru",
 	"short_name": "Ștefan Muraru",
-	"description": "Senior Software Engineer — Cloud Infrastructure. Technical writing on Kubernetes, platform engineering, and observability.",
+	"description": "Ștefan Muraru, engineering team lead at env zero in Iași, Romania. Notes on Kubernetes, security and running a homelab.",
 	"icons": [
 		{
-			"src": "/favicon.ico",
-			"sizes": "any",
-			"type": "image/x-icon"
+			"src": "/192x192.png",
+			"sizes": "192x192",
+			"type": "image/png"
 		},
 		{
-			"src": "/icon.svg",
-			"sizes": "any",
-			"type": "image/svg+xml"
-		},
-		{
-			"src": "/apple-touch-icon.png",
-			"sizes": "180x180",
+			"src": "/512x512.png",
+			"sizes": "512x512",
 			"type": "image/png"
 		}
 	],

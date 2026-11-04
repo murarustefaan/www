@@ -9,6 +9,7 @@
 		"start": "astro dev",
 		"build": "astro build",
 		"preview": "astro preview",
+		"resume:pdf": "astro build && node scripts/resume-pdf.mjs",
 		"lint": "biome lint .",
 		"format": "pnpm run format:code && pnpm run format:imports",
 		"format:code": "biome format . --write && prettier -w \"**/*\" \"!**/*.{md,mdx}\" --ignore-unknown --cache",

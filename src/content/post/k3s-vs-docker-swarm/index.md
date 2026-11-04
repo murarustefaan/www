@@ -1,5 +1,5 @@
 ---
-title: "I Almost Ditched k3s for Docker Swarm (And Why I Didn't)"
+title: "I almost ditched k3s for Docker Swarm (and why I didn't)"
 description: "After two years of k8s complexity, I seriously evaluated switching to Docker Swarm. Here's what I learned about the trade-offs and why I ultimately stayed."
 publishDate: "26 Oct 2025"
 tags: ["kubernetes", "docker", "homelab", "infrastructure"]
