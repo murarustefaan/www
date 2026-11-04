@@ -1,5 +1,12 @@
 # Changelog
 
+## [2026.14.0](https://github.com/murarustefaan/www/compare/v2026.13.1...v2026.14.0) (2026-11-04)
+
+
+### Features
+
+* Rebuild the home page around a 3D day/night hero ([c4f912f](https://github.com/murarustefaan/www/commit/c4f912fc98803b7fd6785bf3a2fe7c2fb5a9b4c1))
+
 ## [2026.13.1](https://github.com/murarustefaan/www/compare/v2026.13.0...v2026.13.1) (2026-11-04)
 
 
