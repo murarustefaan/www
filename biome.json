@@ -3,7 +3,6 @@
 	"files": {
 		"includes": [
 			"**",
-			"!**/build",
 			"!**/dist",
 			"!**/node_modules",
 			"!**/.vercel",
