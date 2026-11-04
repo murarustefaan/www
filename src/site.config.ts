@@ -5,10 +5,10 @@ export const siteConfig: SiteConfig = {
 	author: "Ștefan Muraru",
 	title: "Ștefan Muraru",
 	description:
-		"Ștefan Muraru, engineering team lead at env zero in Iași, Romania. Notes on Kubernetes, security and running a homelab.",
+		"Ștefan Muraru, engineering team lead at env zero. Notes on Kubernetes, security and running a homelab.",
 	lang: "en-GB",
 	ogLocale: "en_GB",
-	role: "engineering team lead in Iași, Romania",
+	role: "engineering team lead",
 	date: {
 		locale: "en-GB",
 		options: {

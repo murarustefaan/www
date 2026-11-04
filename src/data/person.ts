@@ -51,7 +51,7 @@ export function person(knowsAbout: string[] = homeKnowsAbout) {
 		...personRef,
 		image: `${siteConfig.url}me.jpg`,
 		jobTitle: "Team Lead",
-		description: "Engineering team lead at env zero in Iași, Romania.",
+		description: "Engineering team lead at env zero.",
 		worksFor: {
 			"@type": "Organization",
 			name: "env zero",

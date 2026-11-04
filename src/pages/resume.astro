@@ -31,7 +31,6 @@ interface Experience {
 	company: string;
 	note?: string;
 	period: string;
-	location?: string;
 	description: string;
 	roles: [Role, ...Role[]];
 	details?: string[];
@@ -44,7 +43,6 @@ const experiences: Experience[] = [
 		company: "env zero (env0)",
 		note: "CloudQuery and env zero merged in Mar 2026",
 		period: "Apr 2024 – Present",
-		location: "Remote",
 		description:
 			"Lead the Atlas team at env zero. Before the merger, led CloudQuery’s Integrations team, responsible for the open-source CLI, the plugin SDK and the plugins built on it.",
 		roles: [
@@ -80,7 +78,6 @@ const experiences: Experience[] = [
 	{
 		company: "Kubeshop",
 		period: "Dec 2022 – Mar 2024",
-		location: "Remote",
 		description:
 			"Ran the infrastructure for Monokle Cloud, and designed and built its authentication, microservices and GraphQL APIs.",
 		roles: [{ title: "Senior Cloud Engineer" }],
@@ -97,7 +94,6 @@ const experiences: Experience[] = [
 	{
 		company: "Bitdefender",
 		period: "Oct 2018 – Dec 2022",
-		location: "Iași, Romania",
 		description:
 			"Worked on Console, an internal platform that took developers’ and ML researchers’ code from build through testing and staging environments to production, across multiple Kubernetes clusters on public and private clouds.",
 		roles: [
@@ -116,7 +112,6 @@ const experiences: Experience[] = [
 	{
 		company: "Yonder",
 		period: "Mar 2017 – Oct 2018",
-		location: "Iași, Romania",
 		description: "Worked on a data warehouse and GIS mapping project used by government entities.",
 		roles: [{ title: "Software Engineer" }],
 		details: [
@@ -241,7 +236,6 @@ const technologies =
 
 										<div class="font-mono text-xs sm:text-sm text-muted sm:text-right print:text-right">
 											<div class="whitespace-nowrap">{exp.period}</div>
-											{exp.location && <div class="text-meta">{exp.location}</div>}
 										</div>
 									</div>
 

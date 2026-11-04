@@ -1,7 +1,7 @@
 {
 	"name": "Ștefan Muraru",
 	"short_name": "Ștefan Muraru",
-	"description": "Ștefan Muraru, engineering team lead at env zero in Iași, Romania. Notes on Kubernetes, security and running a homelab.",
+	"description": "Ștefan Muraru, engineering team lead at env zero. Notes on Kubernetes, security and running a homelab.",
 	"icons": [
 		{
 			"src": "/192x192.png",
